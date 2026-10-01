@@ -20,6 +20,12 @@ export function signToken(payload: object): string {
 
 export function verifyToken<T extends object>(token: string | undefined | null): T | null {
   if (!token) return null;
+  // APP_SECRET 미설정 시 페이지 전체가 깨지지 않도록 '세션 없음'으로 처리
+  try {
+    hmac("");
+  } catch {
+    return null;
+  }
   const [body, sig] = token.split(".");
   if (!body || !sig || !safeEqual(sig, hmac(body))) return null;
   try {
