@@ -32,6 +32,15 @@ export const isMockPayment =
   !isPayAppLive && (process.env.NODE_ENV !== "production" || process.env.ENABLE_MOCK_PAYMENT === "true");
 export const paymentsEnabled = isPayAppLive || isMockPayment;
 
+export function hasAppSecret(): boolean {
+  try {
+    appSecret();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function appSecret(): string {
   const s = process.env.APP_SECRET;
   if (s && s.length >= 16) return s;
