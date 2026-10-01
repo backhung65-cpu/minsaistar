@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { isPayAppLive } from "@/lib/config";
+import { isMockPayment } from "@/lib/config";
 import { getOrderByNumber, getProduct } from "@/lib/repo";
 import { won } from "@/lib/format";
 import { mockPay } from "../actions";
@@ -7,7 +7,7 @@ import { mockPay } from "../actions";
 export const dynamic = "force-dynamic";
 
 export default async function MockPay({ searchParams }: { searchParams: Promise<{ order?: string }> }) {
-  if (isPayAppLive) notFound();
+  if (!isMockPayment) notFound();
   const { order: num } = await searchParams;
   const order = num ? await getOrderByNumber(num) : null;
   if (!order) notFound();

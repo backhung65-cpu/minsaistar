@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getProductBySlug } from "@/lib/repo";
-import { isPayAppLive, MEMBERSHIP_PRICE } from "@/lib/config";
+import { isMockPayment, MEMBERSHIP_PRICE, paymentsEnabled } from "@/lib/config";
 import { getSession } from "@/lib/session";
 import { canAccess, getAccess } from "@/lib/access";
 import { won } from "@/lib/format";
@@ -38,9 +38,14 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
     <section className="container-x py-12 md:py-16">
       <div className="eyebrow">CHECKOUT</div>
       <h1 className="h2 mt-3 text-navy">결제하기</h1>
-      {!isPayAppLive && (
+      {isMockPayment && (
         <p className="mt-4 rounded-xl border border-gold/40 bg-gold-soft px-4 py-3 text-[13.5px] text-gold-2">
           데모 모드: PayApp 환경변수가 설정되지 않아 모의 결제로 진행됩니다.
+        </p>
+      )}
+      {!paymentsEnabled && (
+        <p className="mt-4 rounded-xl border border-line bg-white px-4 py-3 text-[14px] font-semibold text-navy">
+          결제 준비 중입니다. 곧 결제를 오픈합니다.
         </p>
       )}
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_420px]">
@@ -51,6 +56,7 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
             <CheckoutForm
               plan={isMembership ? "membership" : undefined}
               product={isMembership ? undefined : slug}
+              disabled={!paymentsEnabled}
               cta={isMembership ? `월 ${won(amount)} 멤버십 결제하기` : `${won(amount)} 결제하기`}
             />
           </div>

@@ -56,6 +56,9 @@ npm run dev
 | `APP_SECRET` | 세션·다운로드 토큰 서명키 (16자 이상, 운영 필수) |
 | `ADMIN_PASSWORD` | `/admin` 로그인 비밀번호 (운영 필수) |
 | `RESEND_API_KEY`, `MAIL_FROM` | 재접속 인증코드 메일 발송 ([Resend](https://resend.com)) |
+| `ENABLE_MOCK_PAYMENT` | `true`면 PayApp 미설정 상태의 운영 빌드에서도 모의 결제 허용 (공개 사이트 사용 금지) |
+
+> **PayApp 연결 전 배포:** 운영 빌드(`NODE_ENV=production`)에서 PayApp 환경변수가 없으면 결제가 **비활성화**됩니다. 사이트는 정상 노출되고 결제 버튼만 "결제 준비 중"으로 표시되므로, 콘텐츠가 무료로 열리지 않습니다. 데모 비밀번호(`admin`)와 화면 인증코드 표시도 개발 환경에서만 동작합니다.
 
 `.env.example`을 참고하세요.
 

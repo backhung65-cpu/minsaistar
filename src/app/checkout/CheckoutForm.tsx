@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { startCheckout, type CheckoutState } from "./actions";
 
-export function CheckoutForm({ plan, product, cta }: { plan?: string; product?: string; cta: string }) {
+export function CheckoutForm({ plan, product, cta, disabled = false }: { plan?: string; product?: string; cta: string; disabled?: boolean }) {
   const [state, action, pending] = useActionState<CheckoutState, FormData>(startCheckout, {});
   return (
     <form action={action} className="space-y-5">
@@ -33,8 +33,8 @@ export function CheckoutForm({ plan, product, cta }: { plan?: string; product?: 
         </span>
       </label>
       {state.error && <p className="rounded-xl bg-red-50 px-4 py-3 text-[14px] font-medium text-red-700">{state.error}</p>}
-      <button type="submit" disabled={pending} className="btn-primary w-full py-4 text-[16px]">
-        {pending ? "결제창으로 이동 중..." : cta}
+      <button type="submit" disabled={pending || disabled} className="btn-primary w-full py-4 text-[16px]">
+        {disabled ? "결제 준비 중" : pending ? "결제창으로 이동 중..." : cta}
       </button>
     </form>
   );
