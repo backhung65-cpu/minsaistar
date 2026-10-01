@@ -1,0 +1,80 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { getProductBySlug } from "@/lib/repo";
+import { isPayAppLive, MEMBERSHIP_PRICE } from "@/lib/config";
+import { getSession } from "@/lib/session";
+import { canAccess, getAccess } from "@/lib/access";
+import { won } from "@/lib/format";
+import { LicenseNotice } from "@/components/Sections";
+import { CheckoutForm } from "./CheckoutForm";
+
+export const dynamic = "force-dynamic";
+export const metadata: Metadata = { title: "결제하기", robots: { index: false } };
+
+export default async function Checkout({ searchParams }: { searchParams: Promise<{ product?: string; plan?: string }> }) {
+  const { product: slug, plan } = await searchParams;
+  const isMembership = plan === "membership";
+  const access = await getAccess(await getSession());
+
+  let title: string;
+  let amount: number;
+  let lines: string[];
+  if (isMembership) {
+    if (access.membershipActive) redirect("/library");
+    title = "MIRACLE MEMBERSHIP";
+    amount = MEMBERSHIP_PRICE;
+    lines = ["멤버십 포함 전체 프롬프트", "전체 ZIP · PDF · MD · TXT 자료", "템플릿 · 실전 예제", "신규 · 업데이트 콘텐츠", "매월 자동 결제 · 언제든 해지"];
+  } else {
+    const product = slug ? await getProductBySlug(slug) : null;
+    if (!product || product.status !== "PUBLISHED") notFound();
+    if (canAccess(access, product)) redirect(`/viewer/${product.slug}`);
+    title = product.title;
+    amount = product.sale_price;
+    lines = ["프롬프트 전체 · 원클릭 복사", "사용 방법 · 입력 예제 · 결과 예제", "관련 PDF · MD · TXT · ZIP 자료", "해당 상품 업데이트"];
+  }
+
+  return (
+    <section className="container-x py-12 md:py-16">
+      <div className="eyebrow">CHECKOUT</div>
+      <h1 className="h2 mt-3 text-navy">결제하기</h1>
+      {!isPayAppLive && (
+        <p className="mt-4 rounded-xl border border-gold/40 bg-gold-soft px-4 py-3 text-[13.5px] text-gold-2">
+          데모 모드: PayApp 환경변수가 설정되지 않아 모의 결제로 진행됩니다.
+        </p>
+      )}
+      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_420px]">
+        <div className="card order-2 lg:order-1">
+          <h2 className="text-[18px] font-bold text-navy">구매자 정보</h2>
+          <p className="mt-1 text-[13.5px] text-sub">회원가입 없이 구매할 수 있습니다.</p>
+          <div className="mt-6">
+            <CheckoutForm
+              plan={isMembership ? "membership" : undefined}
+              product={isMembership ? undefined : slug}
+              cta={isMembership ? `월 ${won(amount)} 멤버십 결제하기` : `${won(amount)} 결제하기`}
+            />
+          </div>
+        </div>
+        <aside className="order-1 space-y-4 lg:order-2">
+          <div className={`rounded-[22px] p-6 md:p-8 ${isMembership ? "bg-navy text-white" : "card"}`}>
+            <div className={`text-[12px] font-bold tracking-[0.18em] ${isMembership ? "text-gold" : "text-sub"}`}>{isMembership ? "MEMBERSHIP" : "SINGLE"}</div>
+            <div className={`mt-2 text-[20px] font-bold ${isMembership ? "" : "text-navy"}`}>{title}</div>
+            <ul className={`mt-5 space-y-2 text-[14px] ${isMembership ? "text-white/75" : "text-sub"}`}>
+              {lines.map((l) => <li key={l}>· {l}</li>)}
+            </ul>
+            <div className={`mt-6 flex items-end justify-between border-t pt-5 ${isMembership ? "border-white/10" : "border-line"}`}>
+              <span className="text-[14px]">결제 금액</span>
+              <span className="text-[28px] font-extrabold">{isMembership ? "월 " : ""}{won(amount)}</span>
+            </div>
+          </div>
+          {!isMembership && (
+            <Link href="/checkout?plan=membership" className="block rounded-2xl border border-gold/50 bg-gold-soft p-5 text-[14px] text-navy">
+              <b>월 50,000원</b>이면 이 프롬프트를 포함한 <b>모든 자료</b>를 이용할 수 있습니다. <span className="font-bold underline">멤버십으로 변경 →</span>
+            </Link>
+          )}
+          <LicenseNotice compact />
+        </aside>
+      </div>
+    </section>
+  );
+}
