@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { isPayAppLive, MEMBERSHIP_NAME, MEMBERSHIP_PRICE } from "@/lib/config";
+import { isMockPayment, isPayAppLive, MEMBERSHIP_NAME, MEMBERSHIP_PRICE, paymentsEnabled } from "@/lib/config";
 import { registerRebill, requestPayment } from "@/lib/payapp";
 import { processPayAppFeedback } from "@/lib/payments";
 import { createOrder, getOrderByNumber, getProductBySlug, updateOrder, upsertUser } from "@/lib/repo";
@@ -17,6 +17,7 @@ export async function startCheckout(_: CheckoutState, form: FormData): Promise<C
   const plan = String(form.get("plan") ?? "");
   const slug = String(form.get("product") ?? "");
 
+  if (!paymentsEnabled) return { error: "결제 준비 중입니다. 잠시 후 다시 이용해 주세요." };
   if (!name) return { error: "이름을 입력해 주세요." };
   if (!/^01\d{8,9}$/.test(phone)) return { error: "휴대전화 번호를 정확히 입력해 주세요." };
   if (!EMAIL_RE.test(email)) return { error: "이메일 주소를 정확히 입력해 주세요." };
@@ -43,7 +44,7 @@ export async function startCheckout(_: CheckoutState, form: FormData): Promise<C
   const order = await createOrder({ user_id: user.id, product_id: productId, order_type: isMembership ? "MEMBERSHIP" : "SINGLE", amount });
   await addPendingOrder(order.id);
 
-  if (!isPayAppLive) redirect(`/checkout/mock?order=${order.order_number}`);
+  if (isMockPayment) redirect(`/checkout/mock?order=${order.order_number}`);
 
   let payUrl: string;
   try {
@@ -66,7 +67,7 @@ export async function startCheckout(_: CheckoutState, form: FormData): Promise<C
 
 /** 데모 모드 전용: PayApp 서버 통보를 모의 실행 */
 export async function mockPay(form: FormData) {
-  if (isPayAppLive) throw new Error("not available");
+  if (!isMockPayment) throw new Error("not available");
   const orderNumber = String(form.get("order") ?? "");
   const order = await getOrderByNumber(orderNumber);
   if (!order || !(await getPendingOrders()).includes(order.id)) redirect("/");

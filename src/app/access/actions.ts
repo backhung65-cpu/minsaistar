@@ -2,7 +2,6 @@
 import { randomUUID } from "node:crypto";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db/adapter";
-import { isDemo } from "@/lib/config";
 import { hmac, randomCode, safeEqual } from "@/lib/crypto";
 import { accessCodeMail, canSendMail, sendMail } from "@/lib/mail";
 import { getUserByEmail, normalizeEmail } from "@/lib/repo";
@@ -33,7 +32,7 @@ export async function requestCode(_: AccessState, form: FormData): Promise<Acces
     await sendMail(email, "[MIRACLE PROMPT] 구매 자료 접근 인증코드", accessCodeMail(code));
     return { step: "code", email, info: "구매 내역이 있는 이메일이라면 인증코드가 발송됩니다." };
   }
-  if (isDemo || process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     return { step: "code", email, info: "데모 모드: 메일 발송이 설정되지 않아 인증코드를 화면에 표시합니다.", devCode: code };
   }
   return { step: "email", error: "메일 발송이 설정되지 않았습니다. 관리자에게 문의해 주세요." };

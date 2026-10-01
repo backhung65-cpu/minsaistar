@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isAdmin } from "@/lib/session";
-import { isDemo, isPayAppLive } from "@/lib/config";
+import { isDemo, isMockPayment, isPayAppLive } from "@/lib/config";
 import { Logo } from "@/components/Header";
 import { logoutAdmin } from "../login/actions";
 
@@ -31,7 +31,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <form action={logoutAdmin} className="mt-6 hidden md:block"><button className="text-[12.5px] text-white/50 underline">로그아웃</button></form>
         <div className="mt-8 hidden space-y-1 text-[11.5px] text-white/40 md:block">
           <div>DB: {isDemo ? "로컬 데모(.data)" : "Supabase"}</div>
-          <div>결제: {isPayAppLive ? "PayApp 운영" : "모의 결제"}</div>
+          <div>결제: {isPayAppLive ? "PayApp 운영" : isMockPayment ? "모의 결제" : "비활성 (PayApp 미설정)"}</div>
         </div>
       </aside>
       <div className="min-w-0 p-5 md:p-10">{children}</div>
