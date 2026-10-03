@@ -19,7 +19,7 @@ export default async function Complete({ searchParams }: { searchParams: Promise
   if (!order || !mine) {
     return (
       <Shell>
-        <h1 className="text-[22px] font-bold text-navy">주문 정보를 확인할 수 없습니다.</h1>
+        <h1 className="text-[22px] font-semibold text-ink">주문 정보를 확인할 수 없습니다.</h1>
         <p className="mt-3 text-sub">결제하신 브라우저가 아니라면 이메일 인증 후 구매 자료를 열 수 있습니다.</p>
         <Link href="/access" className="btn-primary mt-8">구매 자료 다시 열기</Link>
       </Shell>
@@ -33,13 +33,13 @@ export default async function Complete({ searchParams }: { searchParams: Promise
       <Shell>
         {failed ? (
           <>
-            <h1 className="text-[22px] font-bold text-navy">결제가 완료되지 않았습니다.</h1>
+            <h1 className="text-[22px] font-semibold text-ink">결제가 완료되지 않았습니다.</h1>
             <p className="mt-3 text-sub">결제가 취소되었거나 실패했습니다. 다시 시도해 주세요.</p>
             <Link href="/prompts" className="btn-primary mt-8">스토어로 돌아가기</Link>
           </>
         ) : (
           <>
-            <h1 className="text-[22px] font-bold text-navy">결제를 확인하고 있습니다</h1>
+            <h1 className="text-[22px] font-semibold text-ink">결제를 확인하고 있습니다</h1>
             <ClaimOrder orderNumber={order.order_number} waiting />
             <p className="text-[13px] text-sub">주문번호 {order.order_number}</p>
           </>
@@ -55,15 +55,15 @@ export default async function Complete({ searchParams }: { searchParams: Promise
   return (
     <section className="container-x max-w-2xl py-14 md:py-20">
       <div className="card text-center md:p-12">
-        <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-navy text-[28px] text-gold">✓</div>
-        <h1 className="mt-6 text-[26px] md:text-[30px] font-extrabold text-navy">결제가 완료되었습니다.</h1>
-        <p className="mt-3 text-[16px] text-sub">구매하신 콘텐츠가 준비되었습니다.<br /><b className="text-navy">이제 바로 사용해 보세요.</b></p>
+        <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-accent text-[28px] text-white">✓</div>
+        <h1 className="mt-6 text-[26px] md:text-[30px] font-semibold text-ink">결제가 완료되었습니다.</h1>
+        <p className="mt-3 text-[16px] text-sub">구매하신 콘텐츠가 준비되었습니다.<br /><b className="text-ink">이제 바로 사용해 보세요.</b></p>
 
-        <div className="mt-8 rounded-2xl bg-ivory p-6">
-          <div className="text-[12px] font-bold tracking-[0.18em] text-gold-2">{isMembership ? "MIRACLE MEMBERSHIP" : "MIRACLE PROMPT"}</div>
-          <div className="mt-2 text-[20px] font-bold text-navy">{isMembership ? "민진홍의 마케팅 프롬프트 라이브러리" : product?.title}</div>
+        <div className="mt-8 rounded-2xl bg-parchment p-6">
+          <div className="text-[14px] font-semibold text-sub">{isMembership ? "MIRACLE MEMBERSHIP" : "MIRACLE PROMPT"}</div>
+          <div className="mt-2 text-[20px] font-semibold text-ink">{isMembership ? "민진홍의 마케팅 프롬프트 라이브러리" : product?.title}</div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link href={openHref} className="btn-primary px-10 py-4 text-[16px]">{isMembership ? "지금 라이브러리 열기" : "지금 프롬프트 열기"}</Link>
+            <Link href={openHref} className="btn-primary text-[16px]">{isMembership ? "지금 라이브러리 열기" : "지금 프롬프트 열기"}</Link>
             {!isMembership && <Link href={`${openHref}#files`} className="btn-outline py-4">자료 다운로드</Link>}
           </div>
         </div>
@@ -75,7 +75,7 @@ export default async function Complete({ searchParams }: { searchParams: Promise
             ["상품", isMembership ? "MIRACLE MEMBERSHIP (월간)" : product?.title ?? "-"],
             ["결제금액", won(order.amount)],
           ].map(([k, v]) => (
-            <div key={k} className="flex justify-between py-3"><dt className="text-sub">{k}</dt><dd className="font-semibold text-navy">{v}</dd></div>
+            <div key={k} className="flex justify-between py-3"><dt className="text-sub">{k}</dt><dd className="font-semibold text-ink">{v}</dd></div>
           ))}
         </dl>
         <p className="mt-6 text-[13px] text-sub">다른 기기에서는 <Link href="/access" className="underline">이메일 인증</Link>으로 구매 자료를 다시 열 수 있습니다.</p>

@@ -19,7 +19,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <fieldset className="card space-y-5 !p-6">
       <legend className="sr-only">{title}</legend>
-      <h2 className="text-[16px] font-bold text-navy">{title}</h2>
+      <h2 className="text-[16px] font-semibold text-ink">{title}</h2>
       {children}
     </fieldset>
   );
@@ -103,17 +103,17 @@ export function ProductForm({ product, categories, others }: { product?: Product
           </Field>
           <Field label="정렬 순서"><input name="sort_order" defaultValue={p?.sort_order ?? 0} inputMode="numeric" className="input" /></Field>
         </div>
-        <label className="flex items-center justify-between gap-4 rounded-xl border border-line bg-ivory p-4">
+        <label className="flex items-center justify-between gap-4 rounded-xl border border-line bg-parchment p-4">
           <span>
-            <span className="block font-bold text-navy">멤버십 포함</span>
+            <span className="block font-semibold text-ink">멤버십 포함</span>
             <span className="text-[13px] text-sub">ON: 미라클 멤버십에서 이용 가능 · OFF: 단품 구매 전용 (프리미엄 상품)</span>
           </span>
-          <input type="checkbox" name="membership_included" defaultChecked={p?.membership_included ?? true} className="size-5 accent-[#152238]" />
+          <input type="checkbox" name="membership_included" defaultChecked={p?.membership_included ?? true} className="size-5 accent-[#1d1d1f]" />
         </label>
         <Field label="상품 상태 표시">
           <div className="flex flex-wrap gap-2">
             {BADGES.map((b) => (
-              <label key={b} className="flex cursor-pointer items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-semibold has-[:checked]:border-navy has-[:checked]:bg-navy has-[:checked]:text-white">
+              <label key={b} className="flex cursor-pointer items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-semibold has-[:checked]:border-ink has-[:checked]:bg-tile has-[:checked]:text-white">
                 <input type="checkbox" name="badges" value={b} defaultChecked={p?.badges.includes(b)} className="hidden" />{b}
               </label>
             ))}
@@ -170,7 +170,7 @@ export function ProductForm({ product, categories, others }: { product?: Product
         <Field label="SEO Description"><textarea name="seo_description" defaultValue={p?.seo_description ?? ""} rows={2} className="input" /></Field>
       </Section>
 
-      <div className="sticky bottom-0 z-10 -mx-5 flex items-center justify-end gap-3 border-t border-line bg-ivory/95 px-5 py-4 backdrop-blur md:-mx-10 md:px-10">
+      <div className="sticky bottom-0 z-10 -mx-5 flex items-center justify-end gap-3 border-t border-line bg-parchment/80 px-5 py-4 backdrop-blur md:-mx-10 md:px-10">
         {state.error && <span className="mr-auto text-[14px] text-red-700">{state.error}</span>}
         {state.ok && <span className="mr-auto text-[14px] text-emerald-700">✓ 저장되었습니다.</span>}
         {p && <a href={`/prompts/${p.slug}`} target="_blank" className="btn-outline btn-sm">미리보기 ↗</a>}

@@ -37,20 +37,20 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
   return (
     <section className="container-x py-12 md:py-16">
       <div className="eyebrow">CHECKOUT</div>
-      <h1 className="h2 mt-3 text-navy">결제하기</h1>
+      <h1 className="h2 mt-3 text-ink">결제하기</h1>
       {isMockPayment && (
-        <p className="mt-4 rounded-xl border border-gold/40 bg-gold-soft px-4 py-3 text-[13.5px] text-gold-2">
+        <p className="mt-4 rounded-[11px] bg-parchment px-4 py-3 text-[14px] text-ink-80">
           데모 모드: PayApp 환경변수가 설정되지 않아 모의 결제로 진행됩니다.
         </p>
       )}
       {!paymentsEnabled && (
-        <p className="mt-4 rounded-xl border border-line bg-white px-4 py-3 text-[14px] font-semibold text-navy">
+        <p className="mt-4 rounded-xl border border-line bg-white px-4 py-3 text-[14px] font-semibold text-ink">
           결제 준비 중입니다. 곧 결제를 오픈합니다.
         </p>
       )}
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_420px]">
         <div className="card order-2 lg:order-1">
-          <h2 className="text-[18px] font-bold text-navy">구매자 정보</h2>
+          <h2 className="text-[18px] font-semibold text-ink">구매자 정보</h2>
           <p className="mt-1 text-[13.5px] text-sub">회원가입 없이 구매할 수 있습니다.</p>
           <div className="mt-6">
             <CheckoutForm
@@ -62,20 +62,20 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
           </div>
         </div>
         <aside className="order-1 space-y-4 lg:order-2">
-          <div className={`rounded-[22px] p-6 md:p-8 ${isMembership ? "bg-navy text-white" : "card"}`}>
-            <div className={`text-[12px] font-bold tracking-[0.18em] ${isMembership ? "text-gold" : "text-sub"}`}>{isMembership ? "MEMBERSHIP" : "SINGLE"}</div>
-            <div className={`mt-2 text-[20px] font-bold ${isMembership ? "" : "text-navy"}`}>{title}</div>
-            <ul className={`mt-5 space-y-2 text-[14px] ${isMembership ? "text-white/75" : "text-sub"}`}>
+          <div className={`rounded-[18px] p-6 md:p-8 ${isMembership ? "bg-tile text-white" : "card"}`}>
+            <div className={`text-[14px] font-semibold ${isMembership ? "text-muted-dark" : "text-sub"}`}>{isMembership ? "MEMBERSHIP" : "SINGLE"}</div>
+            <div className={`mt-2 text-[20px] font-semibold ${isMembership ? "" : "text-ink"}`}>{title}</div>
+            <ul className={`mt-5 space-y-2 text-[14px] ${isMembership ? "text-muted-dark" : "text-sub"}`}>
               {lines.map((l) => <li key={l}>· {l}</li>)}
             </ul>
-            <div className={`mt-6 flex items-end justify-between border-t pt-5 ${isMembership ? "border-white/10" : "border-line"}`}>
+            <div className={`mt-6 flex items-end justify-between border-t pt-5 ${isMembership ? "border-white/15" : "border-line"}`}>
               <span className="text-[14px]">결제 금액</span>
-              <span className="text-[28px] font-extrabold">{isMembership ? "월 " : ""}{won(amount)}</span>
+              <span className="text-[28px] font-semibold">{isMembership ? "월 " : ""}{won(amount)}</span>
             </div>
           </div>
           {!isMembership && (
-            <Link href="/checkout?plan=membership" className="block rounded-2xl border border-gold/50 bg-gold-soft p-5 text-[14px] text-navy">
-              <b>월 50,000원</b>이면 이 프롬프트를 포함한 <b>모든 자료</b>를 이용할 수 있습니다. <span className="font-bold underline">멤버십으로 변경 →</span>
+            <Link href="/checkout?plan=membership" className="block rounded-2xl border border-accent/50 bg-parchment p-5 text-[14px] text-ink">
+              <b>월 50,000원</b>이면 이 프롬프트를 포함한 <b>모든 자료</b>를 이용할 수 있습니다. <span className="font-semibold underline">멤버십으로 변경 →</span>
             </Link>
           )}
           <LicenseNotice compact />

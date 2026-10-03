@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: { type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR" },
 };
 
-export const viewport: Viewport = { themeColor: "#152238", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#1d1d1f", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

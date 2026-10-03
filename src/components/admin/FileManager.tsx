@@ -36,7 +36,7 @@ export function FileUploader({ productId }: { productId: string }) {
   }
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-dashed border-line bg-ivory p-4 md:flex-row md:items-center">
+    <div className="flex flex-col gap-3 rounded-xl border border-dashed border-line bg-parchment p-4 md:flex-row md:items-center">
       <input type="file" onChange={(e) => { const f = e.target.files?.[0] ?? null; setFile(f); if (f) setType(guessType(f.name)); }} className="min-w-0 flex-1 text-[13px]" />
       <select value={type} onChange={(e) => setType(e.target.value)} className="input !w-auto !py-2">
         {TYPES.map((t) => <option key={t}>{t}</option>)}

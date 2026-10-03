@@ -19,21 +19,19 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
 
   return (
     <>
-      <section className="border-b border-line bg-white">
-        <div className="container-x py-14 md:py-20">
-          <div className="eyebrow">PROMPT STORE</div>
-          <h1 className="h2 mt-4 text-navy">민진홍의 마케팅 프롬프트</h1>
-          <p className="lead mt-4">프롬프트 1개 200,000원 · 미라클 멤버십 월 50,000원으로 전체 이용</p>
-        </div>
-        <div className="container-x">
-          <nav className="no-scrollbar -mb-px flex gap-1 overflow-x-auto">
+      <section className="bg-parchment">
+        <div className="container-x pt-12 pb-6 md:pt-16">
+          <h1 className="h1 text-ink">프롬프트 스토어.</h1>
+          <p className="lead mt-3">민진홍의 마케팅 프롬프트. 하나 200,000원, 멤버십은 월 50,000원으로 전체 이용.</p>
+          <nav className="no-scrollbar mt-8 flex gap-2 overflow-x-auto pb-1" aria-label="카테고리">
             {[{ slug: "", name: "전체" }, ...categories].map((c) => {
-              const on = (c.slug || undefined) === (active?.slug);
+              const on = (c.slug || undefined) === active?.slug;
               return (
                 <Link
                   key={c.slug || "all"}
                   href={c.slug ? `/prompts?category=${c.slug}` : "/prompts"}
-                  className={`shrink-0 border-b-2 px-4 py-4 text-[15px] font-semibold transition ${on ? "border-navy text-navy" : "border-transparent text-sub hover:text-navy"}`}
+                  aria-current={on ? "page" : undefined}
+                  className={`shrink-0 rounded-full bg-canvas px-4 py-3 text-[14px] text-ink ${on ? "border-2 border-accent-focus" : "border border-hairline"}`}
                 >
                   {c.name}
                 </Link>
@@ -41,26 +39,28 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
             })}
           </nav>
         </div>
+        <div className="container-x pb-16 md:pb-20">
+          <div className="mb-5 text-[14px] text-sub">{list.length}개의 콘텐츠</div>
+          {list.length ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {list.map((p) => (
+                <ProductCard key={p.id} product={p} categoryName={p.category_id ? catName.get(p.category_id) : undefined} />
+              ))}
+            </div>
+          ) : (
+            <div className="card text-center text-sub">이 카테고리의 프롬프트를 준비하고 있습니다.</div>
+          )}
+        </div>
       </section>
 
-      <section className="container-x py-12 md:py-16">
-        <div className="mb-6 text-[14px] text-sub">총 <b className="text-navy">{list.length}</b>개의 콘텐츠</div>
-        {list.length ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {list.map((p) => (
-              <ProductCard key={p.id} product={p} categoryName={p.category_id ? catName.get(p.category_id) : undefined} />
-            ))}
+      <section className="section bg-tile text-white">
+        <div className="container-x text-center">
+          <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
+          <h2 className="h2 mt-2 text-balance">하나의 프롬프트는 200,000원.<br />멤버십은 월 50,000원으로 모든 자료를.</h2>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/checkout?plan=membership" className="btn-primary">멤버십 시작하기</Link>
+            <Link href="/membership" className="btn border border-accent-dark text-accent-dark">더 알아보기</Link>
           </div>
-        ) : (
-          <div className="card text-center text-sub">이 카테고리의 프롬프트를 준비하고 있습니다.</div>
-        )}
-
-        <div className="mt-16 flex flex-col items-start justify-between gap-6 rounded-[22px] bg-navy p-8 text-white md:flex-row md:items-center md:p-10">
-          <div>
-            <div className="eyebrow">MIRACLE MEMBERSHIP</div>
-            <div className="mt-3 text-[22px] md:text-[26px] font-bold">하나의 프롬프트는 200,000원.<br className="md:hidden" /> 멤버십은 월 50,000원으로 모든 자료를.</div>
-          </div>
-          <Link href="/membership" className="btn-gold shrink-0">멤버십 알아보기</Link>
         </div>
       </section>
       <StickyCta />
