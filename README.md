@@ -149,6 +149,19 @@ supabase/migrations/0001_init.sql
 7. 결제: 단계 표시(상품 선택 → 정보 입력 → 결제 → 바로 사용), 단품 ↔ 멤버십 즉시 전환
 8. 확장: 결제 완료 후 단품 구매자에게 멤버십 전환 제안, 멤버에게 시작 안내
 
+## 파비콘 · SNS 링크 미리보기
+
+| 파일 | 용도 |
+|---|---|
+| `public/favicon.ico` · `favicon.svg` · `favicon-16x16.png` · `favicon-32x32.png` | 브라우저 탭 아이콘 |
+| `public/apple-touch-icon.png` (180) · `icon-192.png` · `icon-512.png` | iOS 홈 화면 · 안드로이드(웹 앱 매니페스트) |
+| `public/og.png` (1200×630) | 홈 · 스토어 · 멤버십 공유 카드 |
+| `public/og/marketing-master.png` · `public/og/ebook-publishing.png` | 상품별 공유 카드 |
+
+- 카카오톡 · 페이스북 · X · 슬랙은 `og:image`의 **절대 주소**를 읽습니다. 운영 도메인을 `NEXT_PUBLIC_SITE_URL`에 넣으세요. 없으면 Vercel 도메인을 자동으로 씁니다.
+- 새 상품의 공유 카드는 관리자 › 상품 편집 › **OG Image URL**에 넣습니다. 비워 두면 썸네일, 그다음 사이트 기본 카드가 쓰입니다.
+- 카카오톡은 미리보기를 캐시합니다. 이미지를 바꾼 뒤에는 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화하세요.
+
 ## 운영 체크리스트
 
 **Vercel 배포 즉시 필요**

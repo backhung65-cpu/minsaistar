@@ -10,7 +10,13 @@ import { StickyCta } from "@/components/StickyCta";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "MIRACLE MEMBERSHIP",
-  description: "하나의 프롬프트는 220,000원. 미라클 멤버십은 월 55,000원으로 모든 자료를 이용할 수 있습니다.",
+  description: "상품 하나는 220,000원. 미라클 멤버십은 월 55,000원으로 모든 상품과 신규 콘텐츠를 이용할 수 있습니다.",
+  openGraph: {
+    type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR", url: "/membership",
+    title: "MIRACLE MEMBERSHIP — 월 55,000원으로 전부 이용",
+    description: "마케팅 전략 마스터 프롬프트와 전자책 출판 지원 솔루션, 앞으로 추가될 콘텐츠까지.",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
+  },
 };
 
 export default async function MembershipPage() {

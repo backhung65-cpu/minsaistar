@@ -19,12 +19,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!p) return {};
   const title = p.seo_title || p.title;
   const description = p.seo_description || p.short_description;
-  const image = p.og_image || p.thumbnail || undefined;
+  // 상품별 미리보기 카드: 관리자 입력 OG 이미지 → 기본 상품 카드(/og/{slug}.png) → 썸네일 → 사이트 기본 카드
+  const builtIn = ["marketing-master", "ebook-publishing"].includes(p.slug) ? `/og/${p.slug}.png` : null;
+  const image = p.og_image || builtIn || p.thumbnail || "/og.png";
   return {
     title: { absolute: title.includes("MIRACLE") ? title : `${title} | MIRACLE PROMPT` },
     description,
     alternates: { canonical: `/prompts/${p.slug}` },
-    openGraph: { title, description, url: `/prompts/${p.slug}`, images: image ? [image] : undefined },
+    openGraph: {
+      type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR",
+      title, description, url: `/prompts/${p.slug}`,
+      images: [{ url: image, width: 1200, height: 630, alt: p.title }],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
 
@@ -52,7 +59,7 @@ export default async function ProductPage({ params }: Props) {
     "@type": "Product",
     name: product.title,
     description: product.short_description,
-    image: product.thumbnail || undefined,
+    image: product.og_image || (["marketing-master", "ebook-publishing"].includes(product.slug) ? `${siteUrl}/og/${product.slug}.png` : product.thumbnail || `${siteUrl}/og.png`),
     brand: { "@type": "Brand", name: "MIRACLE PROMPT" },
     offers: product.sale_price <= 0 ? undefined : { "@type": "Offer", price: product.sale_price, priceCurrency: "KRW", availability: "https://schema.org/InStock", url: `${siteUrl}/prompts/${product.slug}` },
   };

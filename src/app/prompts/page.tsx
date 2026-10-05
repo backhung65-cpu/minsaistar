@@ -7,7 +7,13 @@ import { StickyCta } from "@/components/StickyCta";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "PROMPT STORE",
-  description: "민진홍 소장의 AI 솔루션과 프롬프트 — 마케팅 · 출판 · 연구 · 숏폼 · 이미지 · 홍보 · 비즈니스",
+  description: "민진홍 소장의 마케팅 전략 마스터 프롬프트와 전자책 출판 지원 솔루션. 상품 하나 220,000원, 멤버십 월 55,000원.",
+  openGraph: {
+    type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR", url: "/prompts",
+    title: "PROMPT STORE — MIRACLE PROMPT",
+    description: "마케팅 전략 마스터 프롬프트 · 전자책 출판 지원 솔루션",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
+  },
 };
 
 export default async function Store({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
