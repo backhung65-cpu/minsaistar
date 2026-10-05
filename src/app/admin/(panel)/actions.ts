@@ -6,7 +6,7 @@ import { isAdmin } from "@/lib/session";
 import { adminCancelOrder } from "@/lib/payments";
 import {
   addProductFile, deleteProduct, deleteProductFileRow, getOrder, getProduct, getProductFile,
-  importGptSolutions, saveProduct, seedSampleProduct, type GptSolutionInput, type ProductInput,
+  saveProduct, seedSampleProduct, type ProductInput,
 } from "@/lib/repo";
 import { createUploadUrl, publicUrl, removeObject, sanitizeFileName } from "@/lib/storage";
 import type { Badge, ChangelogEntry, FaqItem, ProductStatus, ProductType } from "@/lib/types";
@@ -149,27 +149,3 @@ export async function cancelOrderAction(form: FormData) {
   revalidatePath("/admin/orders");
 }
 
-/* ───────── GPT 솔루션 가져오기 (AI 비서 100 solutions.json) ───────── */
-
-export type ImportState = { error?: string; message?: string };
-
-export async function importGptAction(_: ImportState, form: FormData): Promise<ImportState> {
-  await guard();
-  const file = form.get("file");
-  let text = String(form.get("json") ?? "").trim();
-  if (file instanceof File && file.size > 0) text = await file.text();
-  if (!text) return { error: "solutions.json 파일을 선택하거나 내용을 붙여 넣어 주세요." };
-  let data: unknown;
-  try {
-    data = JSON.parse(text);
-  } catch {
-    return { error: "JSON 형식이 올바르지 않습니다." };
-  }
-  const items = (Array.isArray(data) ? data : (data as { solutions?: unknown }).solutions) as GptSolutionInput[] | undefined;
-  if (!Array.isArray(items) || items.length === 0) return { error: "솔루션 목록을 찾을 수 없습니다." };
-  const r = await importGptSolutions(items);
-  revalidatePath("/", "layout");
-  return {
-    message: `신규 ${r.created}개 · 갱신 ${r.updated}개` + (r.skipped.length ? ` · 건너뜀 ${r.skipped.length}개 (${r.skipped.join(", ")})` : ""),
-  };
-}

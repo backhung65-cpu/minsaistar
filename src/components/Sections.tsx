@@ -42,8 +42,8 @@ const Check = ({ dark = false }: { dark?: boolean }) => (
 
 /* ───────── 가격 비교 (핵심 전환 영역) ───────── */
 export function PricingCompare({
-  singleHref = "/prompts", singleLabel = "단품 구매하기", singlePrice = SINGLE_PRICE, productTitle, tone = "parchment",
-}: { singleHref?: string; singleLabel?: string; singlePrice?: number; productTitle?: string; tone?: Tone }) {
+  singleHref = "/prompts", singleLabel = "단품 구매하기", singlePrice = SINGLE_PRICE, productTitle, tone = "parchment", bundleValue = 0,
+}: { singleHref?: string; singleLabel?: string; singlePrice?: number; productTitle?: string; tone?: Tone; bundleValue?: number }) {
   return (
     <Tile tone={tone} id="pricing">
       <div className="container-x">
@@ -76,9 +76,11 @@ export function PricingCompare({
               <span className="text-[17px] text-muted-dark">월</span>
               <span className="text-[40px] font-semibold leading-none tracking-[-0.02em]">{won(MEMBERSHIP_PRICE)}</span>
             </div>
-            <div className="mt-2 text-[14px] text-muted-dark">단품 가격의 1/4 수준 · 언제든 해지</div>
+            <div className="mt-2 text-[14px] text-muted-dark">
+              {bundleValue > singlePrice ? <>모든 상품 단품 합계 <s>{won(bundleValue)}</s> · 언제든 해지</> : "단품 가격의 1/4 수준 · 언제든 해지"}
+            </div>
             <ul className="mt-8 flex-1 space-y-3 text-[17px]">
-              {["AI 비서 GPT 솔루션 전체", "전체 프롬프트 · 자료 (ZIP · PDF · MD)", "솔루션별 설명 · 영상", "신규 등록 콘텐츠", "업데이트 콘텐츠"].map((t) => (
+              {["마케팅 전략 마스터 프롬프트", "전자책 출판 지원 솔루션 (GPT)", "자료 · 설명 영상 전체", "신규 등록 콘텐츠", "업데이트 콘텐츠"].map((t) => (
                 <li key={t} className="flex gap-3"><Check dark />{t}</li>
               ))}
             </ul>

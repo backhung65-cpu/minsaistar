@@ -22,9 +22,9 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
       <section className="bg-parchment">
         <div className="container-x pt-12 pb-6 md:pt-16">
           <h1 className="h1 text-ink">프롬프트 스토어.</h1>
-          <p className="lead mt-3">민진홍 소장의 AI 솔루션과 프롬프트. GPT 솔루션은 멤버십 전용, 프리미엄 프롬프트는 220,000원.</p>
+          <p className="lead mt-3">상품 하나 220,000원. 미라클 멤버십은 월 55,000원으로 전부 이용합니다.</p>
           <nav className="no-scrollbar mt-8 flex gap-2 overflow-x-auto pb-1" aria-label="카테고리">
-            {[{ slug: "", name: "전체" }, ...categories].map((c) => {
+            {[{ slug: "", name: "전체" }, ...categories.filter((c) => products.some((p) => p.category_id === (c as { id?: string }).id))].map((c) => {
               const on = (c.slug || undefined) === active?.slug;
               return (
                 <Link
@@ -56,7 +56,7 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
       <section className="section bg-tile text-white">
         <div className="container-x text-center">
           <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
-          <h2 className="h2 mt-2 text-balance">GPT 솔루션과 프롬프트 전체를<br />월 55,000원에.</h2>
+          <h2 className="h2 mt-2 text-balance">모든 상품을<br />월 55,000원에.</h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/checkout?plan=membership" className="btn-primary">멤버십 시작하기</Link>
             <Link href="/membership" className="btn border border-accent-dark text-accent-dark">더 알아보기</Link>

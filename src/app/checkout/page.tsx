@@ -1,44 +1,57 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { getProductBySlug } from "@/lib/repo";
+import { getProductBySlug, listProducts } from "@/lib/repo";
 import { isMockPayment, MEMBERSHIP_PRICE, paymentsEnabled } from "@/lib/config";
 import { getSession } from "@/lib/session";
 import { canAccess, getAccess } from "@/lib/access";
 import { won } from "@/lib/format";
 import { LicenseNotice } from "@/components/Sections";
+import { CheckoutSteps, PlanSwitcher } from "@/components/Funnel";
+import type { Product } from "@/lib/types";
 import { CheckoutForm } from "./CheckoutForm";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "결제하기", robots: { index: false } };
 
-export default async function Checkout({ searchParams }: { searchParams: Promise<{ product?: string; plan?: string }> }) {
-  const { product: slug, plan } = await searchParams;
+export default async function Checkout({ searchParams }: { searchParams: Promise<{ product?: string; plan?: string; from?: string }> }) {
+  const { product: slug, plan, from } = await searchParams;
   const isMembership = plan === "membership";
   const access = await getAccess(await getSession());
+
+  const all = await listProducts({ publishedOnly: true });
+  const bundleValue = all.filter((p) => p.membership_included).reduce((a, p) => a + p.sale_price, 0);
 
   let title: string;
   let amount: number;
   let lines: string[];
+  let product: Product | null = null;
   if (isMembership) {
     if (access.membershipActive) redirect("/library");
+    product = from ? await getProductBySlug(from) : null;
     title = "MIRACLE MEMBERSHIP";
     amount = MEMBERSHIP_PRICE;
-    lines = ["멤버십 포함 전체 프롬프트", "전체 ZIP · PDF · MD · TXT 자료", "템플릿 · 실전 예제", "신규 · 업데이트 콘텐츠", "매월 자동 결제 · 언제든 해지"];
+    lines = [
+      ...all.filter((p) => p.membership_included).map((p) => `${p.title}${p.product_type === "GPT" ? " (GPT)" : ""}`),
+      "자료 · 설명 영상 · 업데이트",
+      "앞으로 추가되는 신규 콘텐츠",
+      "매월 자동 결제 · 언제든 해지",
+    ];
   } else {
-    const product = slug ? await getProductBySlug(slug) : null;
-    if (!product || product.status !== "PUBLISHED") notFound();
+    product = slug ? await getProductBySlug(slug) : null;
+    if (!product || product.status !== "PUBLISHED" || product.sale_price <= 0) notFound();
     if (canAccess(access, product)) redirect(`/viewer/${product.slug}`);
-    if (product.product_type === "GPT") redirect("/checkout?plan=membership");
     title = product.title;
     amount = product.sale_price;
-    lines = ["프롬프트 전체 · 원클릭 복사", "사용 방법 · 입력 예제 · 결과 예제", "관련 PDF · MD · TXT · ZIP 자료", "해당 상품 업데이트"];
+    lines = product.product_type === "GPT"
+      ? ["GPT 솔루션 바로 실행", "솔루션 사용 설명 · 영상", "결과물: " + (product.output || "단계별 결과물"), "해당 상품 업데이트 · 평생 이용"]
+      : ["프롬프트 전체 · 원클릭 복사", "사용 방법 · 입력 예제 · 결과 예제", "관련 PDF · MD · TXT · ZIP 자료", "해당 상품 업데이트 · 평생 이용"];
   }
 
   return (
     <section className="container-x py-12 md:py-16">
-      <div className="eyebrow">CHECKOUT</div>
-      <h1 className="h2 mt-3 text-ink">결제하기</h1>
+      <CheckoutSteps current={2} />
+      <h1 className="h2 mt-6 text-ink">결제하기</h1>
       {isMockPayment && (
         <p className="mt-4 rounded-[11px] bg-parchment px-4 py-3 text-[14px] text-ink-80">
           데모 모드: PayApp 환경변수가 설정되지 않아 모의 결제로 진행됩니다.
@@ -63,6 +76,12 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
           </div>
         </div>
         <aside className="order-1 space-y-4 lg:order-2">
+          <PlanSwitcher product={product} isMembership={isMembership} bundleValue={bundleValue} />
+          {isMembership && product && (
+            <p className="rounded-[11px] bg-parchment px-4 py-3 text-[14px] text-ink-80">
+              보고 계시던 <b className="font-semibold text-ink">{product.title}</b>도 멤버십에 포함됩니다.
+            </p>
+          )}
           <div className={`rounded-[18px] p-6 md:p-8 ${isMembership ? "bg-tile text-white" : "card"}`}>
             <div className={`text-[14px] font-semibold ${isMembership ? "text-muted-dark" : "text-sub"}`}>{isMembership ? "MEMBERSHIP" : "SINGLE"}</div>
             <div className={`mt-2 text-[20px] font-semibold ${isMembership ? "" : "text-ink"}`}>{title}</div>
@@ -74,11 +93,6 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
               <span className="text-[28px] font-semibold">{isMembership ? "월 " : ""}{won(amount)}</span>
             </div>
           </div>
-          {!isMembership && (
-            <Link href="/checkout?plan=membership" className="block rounded-2xl border border-accent/50 bg-parchment p-5 text-[14px] text-ink">
-              <b>월 55,000원</b>이면 이 프롬프트를 포함한 <b>모든 자료</b>를 이용할 수 있습니다. <span className="font-semibold underline">멤버십으로 변경 →</span>
-            </Link>
-          )}
           <LicenseNotice compact />
         </aside>
       </div>

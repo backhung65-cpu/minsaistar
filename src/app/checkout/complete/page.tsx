@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getOrderByNumber, getProduct } from "@/lib/repo";
+import { getOrderByNumber, getProduct, listProducts } from "@/lib/repo";
 import { getPendingOrders, getSession } from "@/lib/session";
 import { fmtDate, won } from "@/lib/format";
 import { LicenseNotice } from "@/components/Sections";
+import { AfterPurchase, CheckoutSteps } from "@/components/Funnel";
 import { ClaimOrder } from "./ClaimOrder";
 
 export const dynamic = "force-dynamic";
@@ -49,11 +50,13 @@ export default async function Complete({ searchParams }: { searchParams: Promise
   }
 
   const product = order.product_id ? await getProduct(order.product_id) : null;
+  const others = (await listProducts({ publishedOnly: true })).filter((p) => p.membership_included);
   const isMembership = order.order_type === "MEMBERSHIP";
   const openHref = isMembership ? "/library" : `/viewer/${product?.slug}`;
 
   return (
     <section className="container-x max-w-2xl py-14 md:py-20">
+      <div className="mb-6 flex justify-center"><CheckoutSteps current={4} /></div>
       <div className="card text-center md:p-12">
         <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-accent text-[28px] text-white">✓</div>
         <h1 className="mt-6 text-[26px] md:text-[30px] font-semibold text-ink">결제가 완료되었습니다.</h1>
@@ -63,8 +66,8 @@ export default async function Complete({ searchParams }: { searchParams: Promise
           <div className="text-[14px] font-semibold text-sub">{isMembership ? "MIRACLE MEMBERSHIP" : "MIRACLE PROMPT"}</div>
           <div className="mt-2 text-[20px] font-semibold text-ink">{isMembership ? "민진홍의 마케팅 프롬프트 라이브러리" : product?.title}</div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link href={openHref} className="btn-primary text-[16px]">{isMembership ? "지금 라이브러리 열기" : "지금 프롬프트 열기"}</Link>
-            {!isMembership && <Link href={`${openHref}#files`} className="btn-outline py-4">자료 다운로드</Link>}
+            <Link href={openHref} className="btn-primary text-[16px]">{isMembership ? "지금 라이브러리 열기" : product?.product_type === "GPT" ? "지금 GPT 솔루션 열기" : "지금 프롬프트 열기"}</Link>
+            {!isMembership && product?.product_type !== "GPT" && <Link href={`${openHref}#files`} className="btn-outline">자료 다운로드</Link>}
           </div>
         </div>
 
@@ -80,6 +83,7 @@ export default async function Complete({ searchParams }: { searchParams: Promise
         </dl>
         <p className="mt-6 text-[13px] text-sub">다른 기기에서는 <Link href="/access" className="underline">이메일 인증</Link>으로 구매 자료를 다시 열 수 있습니다.</p>
       </div>
+      <div className="mt-6"><AfterPurchase isMembership={isMembership} purchased={product} others={others} /></div>
       <div className="mt-6"><LicenseNotice compact /></div>
     </section>
   );

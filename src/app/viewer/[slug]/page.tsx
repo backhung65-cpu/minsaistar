@@ -65,7 +65,7 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
                   <a href={product.guide_url} target="_blank" rel="noopener noreferrer" className="btn border border-accent-dark text-accent-dark">설명 · 영상 보기 ↗</a>
                 )}
               </div>
-              <p className="mt-6 text-[12px] text-muted-dark">GPT 실행에는 ChatGPT 로그인이 필요합니다. 설명·영상은 커뮤니티 회원 공간에서 열립니다. 링크는 회원 본인만 사용할 수 있습니다.</p>
+              <p className="mt-6 text-[12px] text-muted-dark">GPT 실행에는 ChatGPT 로그인이 필요합니다. 설명·영상은 커뮤니티 회원 공간에서 열립니다. 링크는 구매자 · 회원 본인만 사용할 수 있습니다.</p>
             </section>
           )}
           {hasPrompt && (

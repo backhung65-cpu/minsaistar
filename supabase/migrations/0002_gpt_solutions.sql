@@ -10,7 +10,7 @@ alter table products add constraint products_product_type_check
 alter table products alter column regular_price set default 220000;
 alter table products alter column sale_price    set default 220000;
 
--- 카테고리: 마케팅 + AI 비서 100 분야 6개
+-- 카테고리: 마케팅 · 출판·글쓰기 (이후 상품 추가 대비 분야 포함, 상품이 없는 카테고리는 화면에 표시되지 않음)
 insert into categories (slug, name, sort_order) values
   ('marketing', '마케팅', 1),
   ('publishing', '출판·글쓰기', 2),

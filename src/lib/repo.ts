@@ -3,9 +3,9 @@ import { randomUUID } from "node:crypto";
 import { db } from "@/lib/db/adapter";
 import { isDemo } from "@/lib/config";
 import { randomHex } from "@/lib/crypto";
-import { sampleFiles, sampleProduct } from "@/content/sample-product";
+import { ebookProduct, sampleFiles, sampleProduct } from "@/content/sample-product";
 import type {
-  Badge, Category, Entitlement, Membership, Order, OrderType, Product, ProductFile, User,
+  Category, Entitlement, Membership, Order, OrderType, Product, ProductFile, User,
 } from "@/lib/types";
 
 const now = () => new Date().toISOString();
@@ -35,8 +35,12 @@ async function ensureSeed() {
 }
 
 export async function seedSampleProduct() {
-  if (await db.get("products", { slug: sampleProduct.slug })) return;
   const cats = await db.list("categories");
+  if (!(await db.get("products", { slug: ebookProduct.slug }))) {
+    const pub = cats.find((c) => c.slug === "publishing") ?? null;
+    await saveProduct({ ...ebookProduct, category_id: pub?.id ?? null });
+  }
+  if (await db.get("products", { slug: sampleProduct.slug })) return;
   const cat = cats.find((c) => c.slug === "marketing") ?? null;
   const product = await saveProduct({ ...sampleProduct, category_id: cat?.id ?? null });
   const { writeLocalFile, createUploadUrl } = await import("@/lib/storage");
@@ -94,79 +98,6 @@ export async function saveProduct(input: ProductInput): Promise<Product> {
 
 export async function deleteProduct(id: string) {
   await db.update("products", id, { status: "ARCHIVED", updated_at: now() });
-}
-
-/* ───────────────────────── GPT 솔루션 가져오기 ───────────────────────── */
-
-export interface GptSolutionInput {
-  id: number;
-  title: string;
-  category: string;
-  badge?: string;
-  summary: string;
-  output?: string;
-  gpt?: string;
-  cafe?: string;
-}
-
-const isHttpUrl = (u: unknown): u is string => typeof u === "string" && /^https:\/\/[^\s]+$/.test(u);
-
-/**
- * 기존 'AI 비서 100' solutions.json 형식을 GPT 상품(멤버십 전용)으로 등록·갱신.
- * slug = gpt-{번호} 기준으로 같은 항목은 덮어쓴다. GPT 주소는 DB에만 저장된다.
- */
-export async function importGptSolutions(items: GptSolutionInput[]): Promise<{ created: number; updated: number; skipped: string[] }> {
-  await ensureSeed();
-  const cats = await listCategories();
-  const byName = new Map(cats.map((c) => [c.name, c.id]));
-  const result = { created: 0, updated: 0, skipped: [] as string[] };
-  const maxId = Math.max(0, ...items.map((i) => Number(i.id) || 0));
-
-  for (const it of items) {
-    const n = Number(it.id);
-    if (!n || !it.title || !it.summary) { result.skipped.push(`#${it.id ?? "?"} 필수값 누락`); continue; }
-    if (it.gpt && !isHttpUrl(it.gpt)) { result.skipped.push(`#${n} GPT 주소 형식 오류`); continue; }
-    const slug = `gpt-${n}`;
-    const existing = await db.get("products", { slug });
-    const badges: Badge[] = n === maxId ? ["NEW"] : [];
-    const input: ProductInput = {
-      id: existing?.id,
-      title: it.title,
-      slug,
-      category_id: byName.get(it.category) ?? null,
-      short_description: it.summary,
-      description: it.summary,
-      thumbnail: existing?.thumbnail ?? null,
-      regular_price: 0,
-      sale_price: 0,
-      product_type: "GPT",
-      prompt_content: "",
-      input_template: "",
-      usage_example: "",
-      result_example: "",
-      preview_content: "",
-      usage_guide: "",
-      gpt_url: it.gpt ?? null,
-      guide_url: isHttpUrl(it.cafe) ? it.cafe : null,
-      output: it.output ?? "",
-      problems: [],
-      use_cases: [],
-      faq: existing?.faq ?? [],
-      changelog: existing?.changelog ?? [],
-      badges,
-      package_product_ids: [],
-      membership_included: true,
-      status: existing?.status ?? "PUBLISHED",
-      version: existing?.version ?? "1.0",
-      seo_title: existing?.seo_title ?? null,
-      seo_description: existing?.seo_description ?? null,
-      og_image: existing?.og_image ?? null,
-      sort_order: 100 + n,
-    };
-    await saveProduct(input);
-    if (existing) result.updated++; else result.created++;
-  }
-  return result;
 }
 
 /* ───────────────────────── 파일 ───────────────────────── */

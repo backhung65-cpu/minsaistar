@@ -176,3 +176,53 @@ export const sampleFiles = [
     content: () => `MIRACLE PROMPT — 마케팅 전략 마스터 프롬프트 사용 설명서\n\n${sampleProduct.usage_guide}\n\n[입력 예제]\n${sampleProduct.usage_example}\n`,
   },
 ];
+
+/**
+ * 두 번째 상품: 전자책 출판 지원 솔루션 (AI 비서 100 · 1번 GPT)
+ * GPT 실행 주소(gpt_url)·설명 영상 주소(guide_url)는 저장소가 공개 상태라 코드에 넣지 않습니다.
+ * 관리자 › 상품 관리 › 이 상품 편집에서 입력하면 구매자·멤버의 뷰어에만 표시됩니다.
+ */
+export const ebookProduct: Omit<Product, "id" | "category_id" | "created_at" | "updated_at"> = {
+  title: "전자책 출판 지원 솔루션",
+  slug: "ebook-publishing",
+  short_description: "아이디어 발굴부터 기획, 집필, 홍보까지 12단계로 연결해 한 권의 전자책을 끝까지 완성하는 실행 시스템입니다.",
+  description:
+    "전자책을 쓰고 싶지만 무엇을 쓸지, 어떻게 끝까지 쓸지 막막한 분을 위한 GPT 솔루션입니다.\n\n" +
+    "GPT가 한 번에 하나씩 질문하고, 답을 바탕으로 주제와 타깃 독자를 정하고, 목차를 세우고, 장별 원고를 함께 쓰고, 출간 후 홍보 콘텐츠까지 이어서 만듭니다.\n\n" +
+    "흩어진 아이디어가 판매할 수 있는 한 권의 전자책이 될 때까지, 다음에 무엇을 해야 할지 GPT가 계속 안내합니다.",
+  thumbnail: null,
+  regular_price: 220000,
+  sale_price: 220000,
+  product_type: "GPT",
+  prompt_content: "",
+  input_template: "",
+  usage_example: "",
+  result_example: "",
+  preview_content: "",
+  usage_guide: "",
+  gpt_url: null,
+  guide_url: null,
+  output: "주제 · 타깃 독자 · 목차 · 장별 원고 · 홍보 콘텐츠",
+  problems: [
+    "쓰고 싶은 건 많은데 무엇을 주제로 해야 팔릴지 모르겠다",
+    "목차를 세우다가 멈추고, 원고는 몇 장에서 끝난다",
+    "다 쓰고 나서도 어떻게 알리고 팔아야 할지 모른다",
+  ],
+  use_cases: ["첫 전자책 출간", "강의 · 컨설팅 자료의 전자책화", "블로그 글 모음 출간", "퍼스널 브랜딩", "리드 마그넷 제작"],
+  faq: [
+    { q: "어떻게 이용하나요?", a: "결제 후 내 콘텐츠에서 [GPT 바로가기]를 누르면 ChatGPT에서 솔루션이 열립니다. GPT의 질문에 답하면서 단계를 진행합니다." },
+    { q: "ChatGPT 유료 계정이 필요한가요?", a: "GPT 사용에는 ChatGPT 로그인이 필요합니다. 사용량이 많으면 유료 플랜에서 더 원활하게 이용할 수 있습니다." },
+    { q: "설명 영상도 볼 수 있나요?", a: "네. 솔루션별 사용 설명과 영상 링크를 함께 제공합니다." },
+    { q: "단품과 멤버십 중 무엇이 좋나요?", a: "이 솔루션 하나만 필요하면 단품(220,000원)을, 마케팅 전략 마스터 프롬프트와 앞으로 추가될 콘텐츠까지 쓰려면 멤버십(월 55,000원)을 권합니다." },
+  ],
+  changelog: [{ version: "1.0", date: "2026.10.01", notes: ["MIRACLE PROMPT 출시"] }],
+  badges: ["NEW"],
+  package_product_ids: [],
+  membership_included: true,
+  status: "PUBLISHED",
+  version: "1.0",
+  seo_title: "전자책 출판 지원 솔루션 | MIRACLE PROMPT",
+  seo_description: "아이디어 발굴부터 기획, 집필, 홍보까지 12단계로 한 권의 전자책을 완성하는 민진홍 소장의 GPT 솔루션.",
+  og_image: null,
+  sort_order: 2,
+};

@@ -52,7 +52,7 @@ export default async function Library() {
           </div>
         </div>
       </section>
-      <LibraryBrowser items={items} categories={categories.map((c) => ({ slug: c.slug, name: c.name }))} />
+      <LibraryBrowser items={items} categories={categories.filter((c) => items.some((i) => i.category === c.slug)).map((c) => ({ slug: c.slug, name: c.name }))} />
     </>
   );
 }
