@@ -145,9 +145,18 @@ export function DifferenceSection({ tone = "dark" }: { tone?: Tone }) {
 export function ExpertSection({ tone = "light" }: { tone?: Tone }) {
   return (
     <Tile tone={tone}>
-      <div className="container-x grid items-center gap-12 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={expert.photo} alt={`${expert.name} ${expert.title}`} className="aspect-[4/5] w-full rounded-[18px] object-cover product-shadow" />
+      <div className="container-x grid items-center gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+        {/* 흰 배경 인물 사진: 흰 타일 위에 테두리 없이, 원본 해상도(200px)를 넘지 않게 표시 */}
+        <div className="flex justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={expert.photo}
+            alt={`${expert.name} ${expert.title}`}
+            width={200}
+            height={211}
+            className="h-auto w-[200px] max-w-full rounded-[18px] bg-canvas md:w-[260px]"
+          />
+        </div>
         <div>
           <div className="eyebrow">{expert.org}</div>
           <h2 className="h2 mt-2 text-ink">{expert.name} {expert.title}</h2>

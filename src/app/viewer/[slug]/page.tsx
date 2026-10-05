@@ -45,7 +45,7 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
         </div>
       </section>
 
-      <div className="container-x mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
+      <div className="container-x mt-10 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-8">
           {hasPrompt && (
             <>

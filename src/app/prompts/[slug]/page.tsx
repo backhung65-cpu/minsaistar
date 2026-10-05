@@ -158,7 +158,7 @@ export default async function ProductPage({ params }: Props) {
         <Tile tone="parchment">
           <div className="container-x">
             <SectionHead eyebrow="결과 예시" title="이 프롬프트로 만들어지는 결과." desc="실제 입력 예시로 생성한 결과의 일부입니다." />
-            <div className="mt-12 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
               {product.usage_example && (
                 <div className="card">
                   <div className="text-[14px] font-semibold text-sub">입력</div>

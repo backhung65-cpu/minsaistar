@@ -48,7 +48,7 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
           결제 준비 중입니다. 곧 결제를 오픈합니다.
         </p>
       )}
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_420px]">
+      <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_420px]">
         <div className="card order-2 lg:order-1">
           <h2 className="text-[18px] font-semibold text-ink">구매자 정보</h2>
           <p className="mt-1 text-[13.5px] text-sub">회원가입 없이 구매할 수 있습니다.</p>

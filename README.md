@@ -130,8 +130,21 @@ supabase/migrations/0001_init.sql
 
 ## 운영 체크리스트
 
-- [ ] `src/content/expert.ts`의 `[ ]` 표시 항목(저서·강의·경력 수치)을 실제 정보로 교체
-- [ ] `public/`에 프로필 사진을 넣고 `expert.photo` 경로 변경
-- [ ] `/terms`, `/privacy` 정책 문서를 사업자 정보에 맞게 수정
-- [ ] 푸터에 사업자 정보(상호, 대표자, 사업자등록번호, 통신판매업 신고번호) 추가
-- [ ] PayApp 실결제 1회 테스트 후 관리자에서 환불 처리 확인
+**Vercel 배포 즉시 필요**
+- [ ] 환경변수 `APP_SECRET`(16자 이상), `ADMIN_PASSWORD`, `NEXT_PUBLIC_SITE_URL`(배포 도메인)
+
+**결제 오픈 전**
+- [ ] Supabase 연결 (`NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) — 없으면 데이터가 유지되지 않음
+- [ ] PayApp **정기결제(rebill) 사용 승인** + 연동정보 `PAYAPP_USERID` / `PAYAPP_LINKKEY` / `PAYAPP_LINKVAL`
+      (단건 결제링크 `payapp.kr/L/...`는 주문과 연결되지 않아 자동 권한 부여·정기결제가 불가)
+- [ ] PayApp 실결제 1회(단품 200,000원) · 정기결제 1회(월 55,000원) 테스트 후 관리자에서 환불 처리 확인
+- [ ] 재접속 인증 메일 `RESEND_API_KEY`, `MAIL_FROM`
+
+**콘텐츠**
+- [x] 민진홍 소장 프로필 사진 (`public/expert.png`, 200×211 — 더 큰 원본을 받으면 교체 권장)
+- [ ] `src/content/expert.ts` 경력 · 저서 내용 소장님 확인 (웹 검색 출처 기반)
+- [ ] `/terms`, `/privacy` 정책 문서와 푸터 사업자 정보(상호, 대표자, 사업자등록번호, 통신판매업 신고번호)
+
+**검증 완료 (데모 모드, 운영 빌드)**
+- 결제 → 권한 → 뷰어 → 복사 → 다운로드, 멤버십 라이브러리, 관리자 등록 흐름 E2E 통과
+- 360 / 390 / 768 / 1024 / 1440px × 20개 페이지 가로 넘침 없음
