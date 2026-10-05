@@ -103,7 +103,7 @@ export default async function ProductPage({ params }: Props) {
                         <span className="flex items-center gap-2 text-[17px] font-semibold text-ink">미라클 멤버십 <span className="badge bg-accent text-white">추천</span></span>
                         <span className="block text-[14px] text-sub">이 프롬프트 포함 모든 자료 · 언제든 해지</span>
                       </span>
-                      <span className="shrink-0 text-[17px] text-ink">월 50,000원</span>
+                      <span className="shrink-0 text-[17px] text-ink">월 55,000원</span>
                     </Link>
                   )}
                 </div>
@@ -258,7 +258,7 @@ export default async function ProductPage({ params }: Props) {
               <Link href={`/viewer/${product.slug}`} className="btn-primary">지금 프롬프트 열기</Link>
             ) : (
               <>
-                {product.membership_included && <Link href="/checkout?plan=membership" className="btn-primary">멤버십으로 이용 · 월 50,000원</Link>}
+                {product.membership_included && <Link href="/checkout?plan=membership" className="btn-primary">멤버십으로 이용 · 월 55,000원</Link>}
                 <Link href={buyHref} className="btn border border-accent-dark text-accent-dark">단품 구매 · {won(product.sale_price)}</Link>
               </>
             )}

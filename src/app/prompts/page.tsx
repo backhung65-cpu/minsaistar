@@ -22,7 +22,7 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
       <section className="bg-parchment">
         <div className="container-x pt-12 pb-6 md:pt-16">
           <h1 className="h1 text-ink">프롬프트 스토어.</h1>
-          <p className="lead mt-3">민진홍의 마케팅 프롬프트. 하나 200,000원, 멤버십은 월 50,000원으로 전체 이용.</p>
+          <p className="lead mt-3">민진홍의 마케팅 프롬프트. 하나 200,000원, 멤버십은 월 55,000원으로 전체 이용.</p>
           <nav className="no-scrollbar mt-8 flex gap-2 overflow-x-auto pb-1" aria-label="카테고리">
             {[{ slug: "", name: "전체" }, ...categories].map((c) => {
               const on = (c.slug || undefined) === active?.slug;
@@ -56,7 +56,7 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
       <section className="section bg-tile text-white">
         <div className="container-x text-center">
           <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
-          <h2 className="h2 mt-2 text-balance">하나의 프롬프트는 200,000원.<br />멤버십은 월 50,000원으로 모든 자료를.</h2>
+          <h2 className="h2 mt-2 text-balance">하나의 프롬프트는 200,000원.<br />멤버십은 월 55,000원으로 모든 자료를.</h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/checkout?plan=membership" className="btn-primary">멤버십 시작하기</Link>
             <Link href="/membership" className="btn border border-accent-dark text-accent-dark">더 알아보기</Link>

@@ -4,7 +4,7 @@ import type { FaqItem } from "@/lib/types";
 import { won } from "@/lib/format";
 
 const SINGLE_PRICE = 200_000;
-const MEMBERSHIP_PRICE = 50_000;
+const MEMBERSHIP_PRICE = 55_000;
 
 /** 타일 배경: 색 전환 자체가 섹션 구분선 */
 export type Tone = "light" | "parchment" | "dark";
@@ -76,7 +76,7 @@ export function PricingCompare({
               <span className="text-[17px] text-muted-dark">월</span>
               <span className="text-[40px] font-semibold leading-none tracking-[-0.02em]">{won(MEMBERSHIP_PRICE)}</span>
             </div>
-            <div className="mt-2 text-[14px] text-muted-dark">단품 1개 가격의 1/4 · 언제든 해지</div>
+            <div className="mt-2 text-[14px] text-muted-dark">단품 가격의 약 1/4 · 언제든 해지</div>
             <ul className="mt-8 flex-1 space-y-3 text-[17px]">
               {["전체 프롬프트", "전체 자료 (ZIP · PDF · MD · TXT)", "템플릿 · 실전 예제", "신규 등록 콘텐츠", "업데이트 콘텐츠"].map((t) => (
                 <li key={t} className="flex gap-3"><Check dark />{t}</li>
@@ -308,7 +308,7 @@ export function FinalCta({ tone = "dark" }: { tone?: Tone }) {
     <Tile tone={tone}>
       <div className="container-x text-center">
         <h2 className={`h2 text-balance ${tone === "dark" ? "text-white" : "text-ink"}`}>민진홍의 마케팅 사고를<br />지금 바로 사용해 보세요.</h2>
-        <p className={`lead mt-4 ${tone === "dark" ? "!text-muted-dark" : ""}`}>프롬프트 하나 200,000원 · 멤버십 월 50,000원</p>
+        <p className={`lead mt-4 ${tone === "dark" ? "!text-muted-dark" : ""}`}>프롬프트 하나 200,000원 · 멤버십 월 55,000원</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/checkout?plan=membership" className="btn-primary">미라클 멤버십 시작하기</Link>
           <Link href="/prompts" className={tone === "dark" ? "btn border border-accent-dark text-accent-dark" : "btn-outline"}>프롬프트 살펴보기</Link>

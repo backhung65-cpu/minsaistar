@@ -2,7 +2,7 @@
 
 > 민진홍의 마케팅 사고를 프롬프트로 소유하세요.
 
-프롬프트 단품 판매(200,000원)와 **MIRACLE MEMBERSHIP**(월 50,000원) 콘텐츠 라이브러리를 함께 운영하는 지식 커머스 웹서비스입니다.
+프롬프트 단품 판매(200,000원)와 **MIRACLE MEMBERSHIP**(월 55,000원) 콘텐츠 라이브러리를 함께 운영하는 지식 커머스 웹서비스입니다.
 
 - **Frontend**: Next.js 15 (App Router) · Tailwind CSS v4 · Pretendard
 - **Database / Storage**: Supabase (Postgres + 비공개 Storage 버킷)

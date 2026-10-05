@@ -10,7 +10,7 @@ import { StickyCta } from "@/components/StickyCta";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "MIRACLE MEMBERSHIP",
-  description: "하나의 프롬프트는 200,000원. 미라클 멤버십은 월 50,000원으로 모든 자료를 이용할 수 있습니다.",
+  description: "하나의 프롬프트는 200,000원. 미라클 멤버십은 월 55,000원으로 모든 자료를 이용할 수 있습니다.",
 };
 
 export default async function MembershipPage() {
@@ -25,11 +25,11 @@ export default async function MembershipPage() {
           <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
           <h1 className="h1 mt-2 text-balance">민진홍의 마케팅 프롬프트<br />라이브러리 전체를 이용하세요.</h1>
           <p className="lead mx-auto mt-4 max-w-2xl !text-muted-dark">
-            하나의 프롬프트는 200,000원.<br />미라클 멤버십은 월 50,000원으로 모든 자료를 이용할 수 있습니다.
+            하나의 프롬프트는 200,000원.<br />미라클 멤버십은 월 55,000원으로 모든 자료를 이용할 수 있습니다.
           </p>
           <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-4 border-y border-white/15 py-6">
             <div><div className="text-[30px] md:text-[40px] font-semibold text-white">{included.length}</div><div className="text-[13px] text-muted-dark">이용 가능한 콘텐츠</div></div>
-            <div><div className="text-[30px] md:text-[40px] font-semibold">월 5만</div><div className="text-[13px] text-muted-dark">정기 결제 · 언제든 해지</div></div>
+            <div><div className="text-[30px] md:text-[40px] font-semibold">월 5.5만</div><div className="text-[13px] text-muted-dark">정기 결제 · 언제든 해지</div></div>
             <div><div className="text-[30px] md:text-[40px] font-semibold">∞</div><div className="text-[13px] text-muted-dark">신규 · 업데이트 콘텐츠</div></div>
           </div>
           <div className="mt-10">

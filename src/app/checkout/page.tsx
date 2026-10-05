@@ -75,7 +75,7 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
           </div>
           {!isMembership && (
             <Link href="/checkout?plan=membership" className="block rounded-2xl border border-accent/50 bg-parchment p-5 text-[14px] text-ink">
-              <b>월 50,000원</b>이면 이 프롬프트를 포함한 <b>모든 자료</b>를 이용할 수 있습니다. <span className="font-semibold underline">멤버십으로 변경 →</span>
+              <b>월 55,000원</b>이면 이 프롬프트를 포함한 <b>모든 자료</b>를 이용할 수 있습니다. <span className="font-semibold underline">멤버십으로 변경 →</span>
             </Link>
           )}
           <LicenseNotice compact />

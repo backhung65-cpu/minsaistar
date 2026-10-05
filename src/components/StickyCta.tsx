@@ -21,7 +21,7 @@ export function StickyCta({ price, href, label = "구매하기" }: { price?: str
           <>
             <div className="leading-tight">
               <div className="text-[12px] text-sub">MIRACLE MEMBERSHIP</div>
-              <div className="text-[17px] font-semibold text-ink">월 50,000원</div>
+              <div className="text-[17px] font-semibold text-ink">월 55,000원</div>
             </div>
             <Link href="/checkout?plan=membership" className="btn-primary">멤버십 시작</Link>
           </>

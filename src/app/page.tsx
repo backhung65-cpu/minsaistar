@@ -33,7 +33,7 @@ export default async function Home() {
             <Link href="/prompts" className="btn-outline">프롬프트 살펴보기</Link>
           </div>
           <p className="mt-5 text-[14px] text-sub">
-            단일 프롬프트 200,000원 · 미라클 멤버십 월 50,000원으로 모든 자료 이용
+            단일 프롬프트 200,000원 · 미라클 멤버십 월 55,000원으로 모든 자료 이용
           </p>
         </div>
         <div className="container-x mt-12 pb-16 md:mt-16 md:pb-20">
