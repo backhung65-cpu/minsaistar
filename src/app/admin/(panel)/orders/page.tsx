@@ -20,11 +20,11 @@ export default async function AdminOrders({ searchParams }: { searchParams: Prom
 
   return (
     <div>
-      <h1 className="text-[24px] font-extrabold text-navy">주문 관리</h1>
+      <h1 className="text-[24px] font-semibold text-ink">주문 관리</h1>
       <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center">
         <div className="flex flex-wrap gap-1.5">
           {FILTERS.map((s) => (
-            <Link key={s} href={`/admin/orders?status=${s}${q ? `&q=${encodeURIComponent(q)}` : ""}`} className={`btn-sm btn border ${status === s ? "border-navy bg-navy text-white" : "border-line bg-white text-navy"}`}>
+            <Link key={s} href={`/admin/orders?status=${s}${q ? `&q=${encodeURIComponent(q)}` : ""}`} className={`btn-sm btn border ${status === s ? "border-ink bg-ink text-white" : "border-line bg-white text-ink"}`}>
               {s === "ALL" ? "전체" : STATUS_LABEL[s]}
             </Link>
           ))}
@@ -36,7 +36,7 @@ export default async function AdminOrders({ searchParams }: { searchParams: Prom
       </div>
       <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
         <table className="w-full min-w-[900px] text-left text-[13px]">
-          <thead className="bg-ivory text-[12px] text-sub">
+          <thead className="bg-parchment text-[12px] text-sub">
             <tr><th className="px-4 py-3">주문일시</th><th>주문번호</th><th>구매자</th><th>상품</th><th>금액</th><th>PayApp</th><th>상태</th><th></th></tr>
           </thead>
           <tbody className="divide-y divide-line">
@@ -51,7 +51,7 @@ export default async function AdminOrders({ searchParams }: { searchParams: Prom
                   <td className="font-semibold">{won(o.amount)}</td>
                   <td className="font-mono text-[11.5px] text-sub">{o.payment_id ?? "-"}{o.rebill_id && <div>R:{o.rebill_id}</div>}</td>
                   <td>
-                    <span className={`badge ${o.payment_status === "PAID" ? "bg-emerald-50 text-emerald-700" : o.payment_status === "PENDING" ? "bg-gold-soft text-gold-2" : "bg-ivory-2 text-sub"}`}>{STATUS_LABEL[o.payment_status]}</span>
+                    <span className={`badge ${o.payment_status === "PAID" ? "bg-emerald-50 text-emerald-700" : o.payment_status === "PENDING" ? "bg-parchment text-accent" : "bg-parchment text-sub"}`}>{STATUS_LABEL[o.payment_status]}</span>
                     {o.paid_at && <div className="mt-1 text-[11.5px] text-sub">{fmtDate(o.paid_at, true)}</div>}
                   </td>
                   <td className="pr-4 text-right">

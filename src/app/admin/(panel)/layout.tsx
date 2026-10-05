@@ -18,10 +18,10 @@ const NAV = [
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   if (!(await isAdmin())) redirect("/admin/login");
   return (
-    <div className="min-h-screen bg-ivory md:grid md:grid-cols-[250px_1fr]">
-      <aside className="bg-navy p-5 text-white md:min-h-screen">
+    <div className="min-h-screen bg-parchment md:grid md:grid-cols-[250px_1fr]">
+      <aside className="bg-tile p-5 text-white md:min-h-screen">
         <Link href="/admin"><Logo light /></Link>
-        <div className="mt-1 text-[11px] font-bold tracking-[0.2em] text-white/40">ADMIN</div>
+        <div className="mt-1 text-[11px] font-semibold tracking-[0.2em] text-white/40">ADMIN</div>
         <nav className="mt-6 flex gap-1 overflow-x-auto md:flex-col">
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} className="shrink-0 rounded-lg px-3 py-2 text-[14px] text-white/80 hover:bg-white/10 hover:text-white">{n.label}</Link>

@@ -15,11 +15,11 @@ export default async function MockPay({ searchParams }: { searchParams: Promise<
   return (
     <section className="container-x max-w-lg py-16">
       <div className="card text-center">
-        <div className="text-[12px] font-bold tracking-[0.2em] text-sub">PAYAPP · 모의 결제 (DEMO)</div>
-        <div className="mt-4 text-[18px] font-bold text-navy">{product?.title ?? "MIRACLE MEMBERSHIP (월간)"}</div>
-        <div className="mt-2 text-[32px] font-extrabold text-navy">{won(order.amount)}</div>
+        <div className="text-[12px] font-semibold tracking-[0.2em] text-sub">PAYAPP · 모의 결제 (DEMO)</div>
+        <div className="mt-4 text-[18px] font-semibold text-ink">{product?.title ?? "MIRACLE MEMBERSHIP (월간)"}</div>
+        <div className="mt-2 text-[32px] font-semibold text-ink">{won(order.amount)}</div>
         <div className="mt-1 font-mono text-[13px] text-sub">{order.order_number}</div>
-        <p className="mt-6 rounded-xl bg-ivory p-4 text-[13px] leading-relaxed text-sub">
+        <p className="mt-6 rounded-xl bg-parchment p-4 text-[13px] leading-relaxed text-sub">
           실제 운영 환경에서는 PayApp 결제창으로 이동합니다. 아래 버튼은 PayApp 서버 결제 통보(feedback)를 모의로 실행하여
           서버 검증 → 주문 PAID → 구매권한 생성 흐름을 그대로 테스트합니다.
         </p>

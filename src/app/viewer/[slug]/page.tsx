@@ -24,7 +24,7 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
   const files = await listProductFiles(product.id);
   const hasPrompt = product.product_type !== "FILE" && Boolean(product.prompt_content);
   const full = [product.prompt_content, product.input_template].filter(Boolean).join("\n\n");
-  const copyCls = "btn-sm btn border border-white/20 text-white hover:bg-white/10";
+  const copyCls = "btn-sm btn border border-accent-dark text-accent-dark";
 
   return (
     <div className="pb-20">
@@ -32,10 +32,10 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
         <div className="container-x flex flex-col gap-4 py-8 md:flex-row md:items-end md:justify-between md:py-12">
           <div>
             <div className="eyebrow">MIRACLE PROMPT</div>
-            <h1 className="mt-3 text-[28px] md:text-[36px] font-extrabold tracking-tight text-navy">{product.title}</h1>
+            <h1 className="mt-3 text-[28px] md:text-[36px] font-semibold tracking-tight text-ink">{product.title}</h1>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-[13px]">
-              <span className="badge bg-emerald-50 text-emerald-700">{viaMembership ? "MEMBERSHIP 이용 중" : "구매 완료 콘텐츠"}</span>
-              <span className="badge bg-ivory-2 text-navy">VERSION {product.version}</span>
+              <span className="badge bg-parchment text-ink-80">{viaMembership ? "MEMBERSHIP 이용 중" : "구매 완료 콘텐츠"}</span>
+              <span className="badge bg-parchment text-ink">VERSION {product.version}</span>
             </div>
           </div>
           <div className="flex gap-2">
@@ -45,7 +45,7 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
         </div>
       </section>
 
-      <div className="container-x mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
+      <div className="container-x mt-10 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-8">
           {hasPrompt && (
             <>
@@ -57,8 +57,8 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
                   ["프롬프트가 요청하는 정보를 입력합니다.", "입력 템플릿을 활용하세요."],
                 ].map(([t, d], i) => (
                   <li key={t} className="rounded-2xl border border-line bg-white p-5">
-                    <div className="font-mono text-[12px] text-gold">STEP {String(i + 1).padStart(2, "0")}</div>
-                    <div className="mt-2 text-[15px] font-bold text-navy">{t}</div>
+                    <div className="text-[14px] font-semibold text-sub">Step {i + 1}</div>
+                    <div className="mt-2 text-[15px] font-semibold text-ink">{t}</div>
                     <div className="mt-1 text-[13px] text-sub">{d}</div>
                   </li>
                 ))}
@@ -67,7 +67,7 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
               {/* 프롬프트 본문 */}
               <div className="prompt-box overflow-hidden">
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-4 md:px-7">
-                  <span className="text-[12px] font-bold tracking-[0.22em] text-gold">{product.title.toUpperCase()}</span>
+                  <span className="text-[12px] font-semibold text-muted-dark">{product.title}</span>
                   <div className="flex flex-wrap gap-2 font-sans">
                     <CopyButton text={product.prompt_content} label="시스템 프롬프트" className={copyCls} doneLabel="✓ 복사됨" />
                     {product.input_template && <CopyButton text={product.input_template} label="입력 템플릿" className={copyCls} doneLabel="✓ 복사됨" />}
@@ -76,7 +76,7 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
                 </div>
                 <pre className="max-h-[70vh] overflow-auto whitespace-pre-wrap px-5 py-6 md:px-7">{product.prompt_content}</pre>
                 <div className="border-t border-white/10 px-5 py-5 text-center md:px-7 font-sans">
-                  <CopyButton text={full} label="전체 복사하기" doneLabel="✓ 프롬프트가 복사되었습니다." className="btn-gold w-full max-w-sm py-4 text-[16px]" />
+                  <CopyButton text={full} label="전체 복사하기" doneLabel="✓ 프롬프트가 복사되었습니다." className="btn-gold w-full max-w-sm text-[16px]" />
                 </div>
               </div>
 
@@ -95,13 +95,13 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
 
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
           <div id="files" className="card scroll-mt-24 !p-6">
-            <div className="text-[15px] font-bold text-navy">자료 다운로드</div>
+            <div className="text-[15px] font-semibold text-ink">자료 다운로드</div>
             {files.length ? (
               <ul className="mt-4 space-y-2">
                 {files.map((f) => (
                   <li key={f.id}>
-                    <a href={`/api/download/${f.id}`} className="flex items-center gap-3 rounded-xl border border-line px-4 py-3 text-[14px] hover:border-navy">
-                      <span className="badge bg-navy text-white">{f.file_type}</span>
+                    <a href={`/api/download/${f.id}`} className="flex items-center gap-3 rounded-xl border border-line px-4 py-3 text-[14px] hover:border-ink">
+                      <span className="badge bg-parchment text-ink-80">{f.file_type}</span>
                       <span className="min-w-0 flex-1 truncate">{f.file_name}</span>
                       <span className="shrink-0 text-[12px] text-sub">{fileSize(f.size_bytes)} ↓</span>
                     </a>
@@ -116,12 +116,12 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
 
           {product.changelog.length > 0 && (
             <div className="card !p-6">
-              <div className="text-[15px] font-bold text-navy">업데이트 이력</div>
+              <div className="text-[15px] font-semibold text-ink">업데이트 이력</div>
               <ol className="mt-4 space-y-4">
                 {product.changelog.map((c) => (
-                  <li key={c.version + c.date} className="border-l-2 border-gold pl-4">
+                  <li key={c.version + c.date} className="border-l-2 border-accent pl-4">
                     <div className="text-[13px] text-sub">{c.date}</div>
-                    <div className="font-bold text-navy">v{c.version}</div>
+                    <div className="font-semibold text-ink">v{c.version}</div>
                     <ul className="mt-1 text-[13.5px] text-sub">{c.notes.map((n) => <li key={n}>- {n}</li>)}</ul>
                   </li>
                 ))}
@@ -139,7 +139,7 @@ function Block({ title, copy, children }: { title: string; copy?: string; childr
   return (
     <section className="card">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-[17px] font-bold text-navy">{title}</h2>
+        <h2 className="text-[17px] font-semibold text-ink">{title}</h2>
         {copy && <CopyButton text={copy} label="복사" className="btn-outline btn-sm" doneLabel="✓ 복사됨" />}
       </div>
       <pre className="mt-4 whitespace-pre-wrap font-sans text-[15px] leading-[1.8] text-ink">{children}</pre>

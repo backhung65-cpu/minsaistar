@@ -13,7 +13,7 @@ export function ShareButtons({ url, title }: { url: string; title: string }) {
     if (navigator.share) await navigator.share({ title, url }).catch(() => {});
     else copy();
   }
-  const cls = "inline-flex size-10 items-center justify-center rounded-full border border-line bg-white text-[12px] font-bold text-navy hover:border-navy";
+  const cls = "inline-flex size-11 items-center justify-center rounded-full bg-chip/60 text-[12px] text-ink active:scale-95";
   return (
     <div className="flex items-center gap-2">
       <button type="button" onClick={copy} className={`${cls} w-auto px-4`}>{copied ? "✓ 복사됨" : "링크 복사"}</button>

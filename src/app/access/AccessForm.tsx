@@ -24,9 +24,9 @@ export function AccessForm({ next }: { next?: string }) {
     <form action={verAction} className="space-y-4">
       <input type="hidden" name="email" value={email} />
       {next && <input type="hidden" name="next" value={next} />}
-      <p className="text-[14px] text-sub"><b className="text-navy">{email}</b> 으로 발송된 6자리 코드를 입력해 주세요.</p>
-      {reqState.info && <p className="rounded-xl bg-ivory px-4 py-3 text-[13.5px] text-sub">{reqState.info}</p>}
-      {reqState.devCode && <p className="rounded-xl border border-gold/40 bg-gold-soft px-4 py-3 text-[14px] text-navy">인증코드: <b className="font-mono tracking-[0.3em]">{reqState.devCode}</b></p>}
+      <p className="text-[14px] text-sub"><b className="text-ink">{email}</b> 으로 발송된 6자리 코드를 입력해 주세요.</p>
+      {reqState.info && <p className="rounded-xl bg-parchment px-4 py-3 text-[13.5px] text-sub">{reqState.info}</p>}
+      {reqState.devCode && <p className="rounded-xl border border-accent/40 bg-parchment px-4 py-3 text-[14px] text-ink">인증코드: <b className="font-mono tracking-[0.3em]">{reqState.devCode}</b></p>}
       <input name="code" inputMode="numeric" maxLength={6} required autoFocus className="input text-center font-mono text-[22px] tracking-[0.5em]" placeholder="000000" />
       {verState.error && <p className="rounded-xl bg-red-50 px-4 py-3 text-[14px] text-red-700">{verState.error}</p>}
       <button disabled={verPending} className="btn-primary w-full py-4">{verPending ? "확인 중..." : "인증하고 구매 자료 열기"}</button>

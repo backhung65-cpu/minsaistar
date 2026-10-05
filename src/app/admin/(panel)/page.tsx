@@ -29,22 +29,22 @@ export default async function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-[24px] font-extrabold text-navy">대시보드</h1>
+      <h1 className="text-[24px] font-semibold text-ink">대시보드</h1>
       <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
         {stats.map(([k, v]) => (
           <div key={k} className="rounded-2xl border border-line bg-white p-5">
             <div className="text-[12.5px] text-sub">{k}</div>
-            <div className="mt-2 text-[22px] font-extrabold text-navy">{v}</div>
+            <div className="mt-2 text-[22px] font-semibold text-ink">{v}</div>
           </div>
         ))}
       </div>
       <div className="mt-10 flex items-center justify-between">
-        <h2 className="text-[17px] font-bold text-navy">최근 결제</h2>
-        <Link href="/admin/orders" className="text-[13px] font-semibold text-navy underline">전체 주문</Link>
+        <h2 className="text-[17px] font-semibold text-ink">최근 결제</h2>
+        <Link href="/admin/orders" className="text-[13px] font-semibold text-ink underline">전체 주문</Link>
       </div>
       <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
         <table className="w-full min-w-[640px] text-left text-[13.5px]">
-          <thead className="bg-ivory text-[12px] text-sub"><tr><th className="px-4 py-3">결제일시</th><th>주문번호</th><th>구매자</th><th>상품</th><th>금액</th><th>상태</th></tr></thead>
+          <thead className="bg-parchment text-[12px] text-sub"><tr><th className="px-4 py-3">결제일시</th><th>주문번호</th><th>구매자</th><th>상품</th><th>금액</th><th>상태</th></tr></thead>
           <tbody className="divide-y divide-line">
             {paid.slice(0, 10).map((o) => (
               <tr key={o.id}>

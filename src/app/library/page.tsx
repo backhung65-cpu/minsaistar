@@ -38,16 +38,16 @@ export default async function Library() {
 
   return (
     <>
-      <section className="bg-navy text-white">
+      <section className="bg-tile text-white">
         <div className="container-x py-12 md:py-16">
-          <div className="eyebrow">MIRACLE MEMBERSHIP</div>
-          <h1 className="mt-3 text-[28px] md:text-[40px] font-extrabold tracking-tight">민진홍의 마케팅 프롬프트 라이브러리</h1>
+          <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
+          <h1 className="mt-3 text-[28px] md:text-[40px] font-semibold tracking-tight">민진홍의 마케팅 프롬프트 라이브러리</h1>
           <div className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-4">
             <div>
-              <div className="text-[13px] text-white/60">현재 이용 가능한 콘텐츠</div>
-              <div className="text-[44px] font-extrabold leading-none text-gold">{items.length}</div>
+              <div className="text-[14px] text-muted-dark">현재 이용 가능한 콘텐츠</div>
+              <div className="text-[44px] font-semibold leading-none tracking-[-0.02em] text-white">{items.length}</div>
             </div>
-            <div className="text-[13.5px] text-white/60">멤버십 이용 기간 · {fmtDate(access.membership?.expired_at)}까지</div>
+            <div className="text-[14px] text-muted-dark">멤버십 이용 기간 · {fmtDate(access.membership?.expired_at)}까지</div>
           </div>
         </div>
       </section>

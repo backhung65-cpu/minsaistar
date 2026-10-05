@@ -4,37 +4,31 @@ import { won } from "@/lib/format";
 import { Badges } from "./Badges";
 import { ProductThumb } from "./ProductThumb";
 
+/** store-utility-card: 흰 배경, 헤어라인, 18px, 그림자 없음 */
 export function ProductCard({ product, categoryName }: { product: Product; categoryName?: string }) {
-  const badges = [...product.badges];
-  if (product.membership_included && !badges.includes("MEMBERSHIP")) badges.push("MEMBERSHIP");
   return (
-    <Link
-      href={`/prompts/${product.slug}`}
-      className="group flex flex-col overflow-hidden rounded-[22px] border border-line bg-white transition hover:-translate-y-0.5 hover:border-navy/30"
-    >
-      <ProductThumb product={product} categoryName={categoryName} />
+    <Link href={`/prompts/${product.slug}`} className="group flex flex-col overflow-hidden rounded-[18px] border border-hairline bg-canvas">
+      <div className="p-3 pb-0">
+        <ProductThumb product={product} categoryName={categoryName} className="rounded-[8px]" />
+      </div>
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[12px] font-bold tracking-[0.18em] text-sub">{categoryName?.toUpperCase() ?? "PROMPT"}</span>
-          <Badges badges={badges.filter((b) => b !== "MEMBERSHIP")} />
+          <span className="text-[12px] text-sub">{categoryName ?? "PROMPT"}</span>
+          <Badges badges={product.badges.filter((b) => b !== "MEMBERSHIP")} />
         </div>
-        <h3 className="mt-3 text-[19px] font-bold leading-snug text-navy">{product.title}</h3>
-        <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-sub line-clamp-2">{product.short_description}</p>
-        <div className="mt-5 flex items-end justify-between border-t border-line pt-4">
-          <div>
-            {product.badges.includes("FREE") ? (
-              <div className="text-[20px] font-extrabold text-navy">FREE</div>
-            ) : (
-              <>
-                {product.regular_price > product.sale_price && (
-                  <div className="text-[12px] text-sub line-through">{won(product.regular_price)}</div>
-                )}
-                <div className="text-[20px] font-extrabold text-navy">{won(product.sale_price)}</div>
-              </>
-            )}
-            {product.membership_included && <div className="mt-0.5 text-[12px] font-semibold text-gold-2">멤버십 포함</div>}
-          </div>
-          <span className="text-[13px] font-bold text-navy group-hover:underline">자세히 보기 →</span>
+        <h3 className="mt-2 text-[17px] font-semibold leading-[1.24] text-ink">{product.title}</h3>
+        <p className="mt-1 flex-1 text-[14px] leading-[1.43] text-sub line-clamp-2">{product.short_description}</p>
+        <div className="mt-5">
+          {product.badges.includes("FREE") ? (
+            <div className="text-[17px] text-ink">무료</div>
+          ) : (
+            <div className="text-[17px] text-ink">
+              {won(product.sale_price)}
+              {product.regular_price > product.sale_price && <span className="ml-2 text-[14px] text-sub line-through">{won(product.regular_price)}</span>}
+            </div>
+          )}
+          {product.membership_included && <div className="text-[14px] text-sub">또는 멤버십에 포함</div>}
+          <span className="mt-3 inline-block text-[17px] text-accent group-hover:underline">자세히 보기 ›</span>
         </div>
       </div>
     </Link>

@@ -17,7 +17,7 @@ export default async function EditProduct({ params, searchParams }: { params: Pr
     <div className="max-w-5xl">
       <Link href="/admin/products" className="text-[13px] text-sub">← 상품 관리</Link>
       <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-[24px] font-extrabold text-navy">{product.title}</h1>
+        <h1 className="text-[24px] font-semibold text-ink">{product.title}</h1>
         <form action={archiveProductAction}>
           <input type="hidden" name="id" value={product.id} />
           <button className="text-[13px] text-red-700 underline">보관(ARCHIVED) 처리</button>
@@ -26,12 +26,12 @@ export default async function EditProduct({ params, searchParams }: { params: Pr
       {created && <p className="mt-3 rounded-xl bg-emerald-50 px-4 py-3 text-[14px] text-emerald-700">✓ 상품이 등록되었습니다. 아래에서 자료 파일을 업로드하세요.</p>}
 
       <section className="card mt-6 space-y-4 !p-6">
-        <h2 className="text-[16px] font-bold text-navy">파일 (ZIP · PDF · MD · TXT)</h2>
+        <h2 className="text-[16px] font-semibold text-ink">파일 (ZIP · PDF · MD · TXT)</h2>
         <p className="text-[12.5px] text-sub">파일은 비공개 저장소에 저장되며, 구매권한이 확인된 사용자에게만 임시 다운로드 URL로 제공됩니다.</p>
         <ul className="divide-y divide-line rounded-xl border border-line">
           {files.map((f) => (
             <li key={f.id} className="flex items-center gap-3 px-4 py-3 text-[14px]">
-              <span className="badge bg-navy text-white">{f.file_type}</span>
+              <span className="badge bg-parchment text-ink-80">{f.file_type}</span>
               <span className="min-w-0 flex-1 truncate">{f.file_name}</span>
               <span className="text-[12px] text-sub">{fileSize(f.size_bytes)} · {fmtDate(f.created_at)}</span>
               <a href={`/api/download/${f.id}`} className="text-[12.5px] underline">받기</a>
