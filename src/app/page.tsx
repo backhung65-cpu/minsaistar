@@ -13,7 +13,8 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const [products, categories] = await Promise.all([listProducts({ publishedOnly: true }), listCategories()]);
   const catName = new Map(categories.map((c) => [c.id, c.name]));
-  const featured = products.find((p) => p.badges.includes("BEST")) ?? products[0];
+  const featured = products.find((p) => p.badges.includes("BEST")) ?? products.find((p) => p.product_type !== "GPT");
+  const gptCount = products.filter((p) => p.product_type === "GPT").length;
   const preview = featured?.preview_content || sampleProduct.preview_content;
 
   return (
@@ -33,7 +34,7 @@ export default async function Home() {
             <Link href="/prompts" className="btn-outline">프롬프트 살펴보기</Link>
           </div>
           <p className="mt-5 text-[14px] text-sub">
-            단일 프롬프트 200,000원 · 미라클 멤버십 월 55,000원으로 모든 자료 이용
+            {gptCount > 0 ? `GPT 솔루션 ${gptCount}개와 프롬프트 전체 · 미라클 멤버십 월 55,000원` : "프리미엄 프롬프트 220,000원 · 미라클 멤버십 월 55,000원으로 모든 자료 이용"}
           </p>
         </div>
         <div className="container-x mt-12 pb-16 md:mt-16 md:pb-20">
@@ -51,7 +52,7 @@ export default async function Home() {
       {/* 스토어 */}
       <Tile tone="light">
         <div className="container-x">
-          <SectionHead eyebrow="프롬프트 스토어" title="질문 하나가 아닙니다." desc="마케팅 전략을 만드는 사고 구조입니다." />
+          <SectionHead eyebrow="AI 솔루션 · 프롬프트" title="아이디어가 결과물이 되는 도구." desc="출판 · 연구 · 영상 · 이미지 · 홍보 · 비즈니스 · 마케팅까지." />
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {products.slice(0, 6).map((p) => (
               <ProductCard key={p.id} product={p} categoryName={p.category_id ? catName.get(p.category_id) : undefined} />

@@ -34,6 +34,7 @@ export async function startCheckout(_: CheckoutState, form: FormData): Promise<C
   } else {
     const product = await getProductBySlug(slug);
     if (!product || product.status !== "PUBLISHED") return { error: "판매 중인 상품이 아닙니다." };
+    if (product.product_type === "GPT") return { error: "GPT 솔루션은 미라클 멤버십으로 이용할 수 있습니다." };
     if (product.badges.includes("FREE") || product.sale_price <= 0) return { error: "무료 콘텐츠는 결제 없이 이용할 수 있습니다." };
     goodName = product.title;
     amount = product.sale_price;

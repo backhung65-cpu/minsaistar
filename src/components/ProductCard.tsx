@@ -19,7 +19,9 @@ export function ProductCard({ product, categoryName }: { product: Product; categ
         <h3 className="mt-2 text-[17px] font-semibold leading-[1.24] text-ink">{product.title}</h3>
         <p className="mt-1 flex-1 text-[14px] leading-[1.43] text-sub line-clamp-2">{product.short_description}</p>
         <div className="mt-5">
-          {product.badges.includes("FREE") ? (
+          {product.product_type === "GPT" ? (
+            <div className="text-[17px] text-ink">멤버십 전용</div>
+          ) : product.badges.includes("FREE") ? (
             <div className="text-[17px] text-ink">무료</div>
           ) : (
             <div className="text-[17px] text-ink">
@@ -27,7 +29,9 @@ export function ProductCard({ product, categoryName }: { product: Product; categ
               {product.regular_price > product.sale_price && <span className="ml-2 text-[14px] text-sub line-through">{won(product.regular_price)}</span>}
             </div>
           )}
-          {product.membership_included && <div className="text-[14px] text-sub">또는 멤버십에 포함</div>}
+          {product.product_type === "GPT" ? (
+            <div className="line-clamp-1 text-[14px] text-sub">{product.output || "GPT 솔루션"}</div>
+          ) : product.membership_included && <div className="text-[14px] text-sub">또는 멤버십에 포함</div>}
           <span className="mt-3 inline-block text-[17px] text-accent group-hover:underline">자세히 보기 ›</span>
         </div>
       </div>

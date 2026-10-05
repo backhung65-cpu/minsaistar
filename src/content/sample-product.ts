@@ -10,8 +10,8 @@ export const sampleProduct: Omit<Product, "id" | "category_id" | "created_at" | 
     "민진홍 소장이 컨설팅 현장에서 사용하는 전략 수립 순서 — 상황 분석, 고객 세분화, 핵심 문제 정의, 포지셔닝, 콘텐츠·채널 전략, 실행안, 검토 — 를 그대로 AI가 따라가도록 설계했습니다.\n\n" +
     "제품·서비스 정보만 입력하면 ChatGPT, Claude, Gemini가 단계별로 질문하고 분석하여, 바로 실행할 수 있는 마케팅 전략 문서를 만들어 냅니다.",
   thumbnail: null,
-  regular_price: 200000,
-  sale_price: 200000,
+  regular_price: 220000,
+  sale_price: 220000,
   product_type: "PROMPT_FILE",
   prompt_content: `[ROLE]
 당신은 20년 이상 중소기업·1인 기업·브랜드의 마케팅 전략을 설계해 온 수석 마케팅 컨설턴트입니다.
@@ -133,6 +133,9 @@ STEP 04. 포지셔닝
 STEP 02. ChatGPT / Claude / Gemini 새 대화창에 붙여 넣습니다.
 STEP 03. AI가 요청하면 [입력 템플릿]을 복사해 내 사업 정보를 채워 보냅니다.
 STEP 04. 단계별 결과를 확인하며 "STEP 05를 더 구체적으로" 처럼 추가 요청합니다.`,
+  gpt_url: null,
+  guide_url: null,
+  output: "시장 분석 · 타깃 고객 · 포지셔닝 · 4주 콘텐츠 캘린더 · 채널 전략 · 30·60·90일 실행안",
   problems: [
     "AI에게 무엇을, 어떤 순서로 물어야 할지 모른다",
     "매번 새로운 프롬프트를 만들고 결과가 들쭉날쭉하다",

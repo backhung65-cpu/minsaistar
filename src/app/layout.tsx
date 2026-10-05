@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | MIRACLE PROMPT",
   },
   description:
-    "현장에서 축적한 마케팅 전략과 실행 프로세스를 AI에서 바로 사용할 수 있는 프롬프트로 제공합니다. 단일 프롬프트 200,000원 또는 미라클 멤버십 월 55,000원.",
+    "민진홍 소장의 AI 비서 GPT 솔루션과 마케팅 프롬프트를 한곳에서. 미라클 멤버십 월 55,000원, 프리미엄 프롬프트 220,000원.",
   icons: { icon: "/favicon.svg" },
   openGraph: { type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR" },
 };

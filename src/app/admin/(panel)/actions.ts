@@ -6,7 +6,7 @@ import { isAdmin } from "@/lib/session";
 import { adminCancelOrder } from "@/lib/payments";
 import {
   addProductFile, deleteProduct, deleteProductFileRow, getOrder, getProduct, getProductFile,
-  saveProduct, seedSampleProduct, type ProductInput,
+  importGptSolutions, saveProduct, seedSampleProduct, type GptSolutionInput, type ProductInput,
 } from "@/lib/repo";
 import { createUploadUrl, publicUrl, removeObject, sanitizeFileName } from "@/lib/storage";
 import type { Badge, ChangelogEntry, FaqItem, ProductStatus, ProductType } from "@/lib/types";
@@ -40,6 +40,10 @@ export async function saveProductAction(_: SaveState, f: FormData): Promise<Save
   await guard();
   const id = str(f, "id") || undefined;
   const slug = str(f, "slug").toLowerCase();
+  for (const k of ["gpt_url", "guide_url"]) {
+    const v = str(f, k);
+    if (v && !/^https:\/\/\S+$/.test(v)) return { error: "링크는 https:// 로 시작해야 합니다." };
+  }
   if (!str(f, "title")) return { error: "상품명을 입력해 주세요." };
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return { error: "Slug는 영문 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다." };
 
@@ -60,6 +64,9 @@ export async function saveProductAction(_: SaveState, f: FormData): Promise<Save
     result_example: String(f.get("result_example") ?? ""),
     preview_content: String(f.get("preview_content") ?? ""),
     usage_guide: String(f.get("usage_guide") ?? ""),
+    gpt_url: str(f, "gpt_url") || null,
+    guide_url: str(f, "guide_url") || null,
+    output: str(f, "output"),
     problems: lines(str(f, "problems")),
     use_cases: lines(str(f, "use_cases")),
     faq: parseFaq(str(f, "faq")),
@@ -140,4 +147,29 @@ export async function cancelOrderAction(form: FormData) {
   const order = await getOrder(String(form.get("id")));
   if (order) await adminCancelOrder(order);
   revalidatePath("/admin/orders");
+}
+
+/* ───────── GPT 솔루션 가져오기 (AI 비서 100 solutions.json) ───────── */
+
+export type ImportState = { error?: string; message?: string };
+
+export async function importGptAction(_: ImportState, form: FormData): Promise<ImportState> {
+  await guard();
+  const file = form.get("file");
+  let text = String(form.get("json") ?? "").trim();
+  if (file instanceof File && file.size > 0) text = await file.text();
+  if (!text) return { error: "solutions.json 파일을 선택하거나 내용을 붙여 넣어 주세요." };
+  let data: unknown;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    return { error: "JSON 형식이 올바르지 않습니다." };
+  }
+  const items = (Array.isArray(data) ? data : (data as { solutions?: unknown }).solutions) as GptSolutionInput[] | undefined;
+  if (!Array.isArray(items) || items.length === 0) return { error: "솔루션 목록을 찾을 수 없습니다." };
+  const r = await importGptSolutions(items);
+  revalidatePath("/", "layout");
+  return {
+    message: `신규 ${r.created}개 · 갱신 ${r.updated}개` + (r.skipped.length ? ` · 건너뜀 ${r.skipped.length}개 (${r.skipped.join(", ")})` : ""),
+  };
 }

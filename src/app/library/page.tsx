@@ -27,10 +27,11 @@ export default async function Library() {
         id: p.id, slug: p.slug, title: p.title, short: p.short_description, version: p.version,
         category: p.category_id ? catById.get(p.category_id)?.slug ?? "" : "",
         categoryName: p.category_id ? catById.get(p.category_id)?.name ?? "" : "",
+        isGpt: p.product_type === "GPT",
         hasPrompt: p.product_type !== "FILE" && Boolean(p.prompt_content),
         hasTemplate: Boolean(p.input_template) || fileTypes.includes("TEMPLATE"),
         fileTypes,
-        isNew: p.badges.includes("NEW") || now - new Date(p.created_at).getTime() < RECENT,
+        isNew: p.badges.includes("NEW") || (p.product_type !== "GPT" && now - new Date(p.created_at).getTime() < RECENT),
         isUpdated: p.badges.includes("UPDATED") || (p.version !== "1.0" && now - new Date(p.updated_at).getTime() < RECENT),
         updatedAt: fmtDate(p.updated_at),
       };
@@ -41,7 +42,7 @@ export default async function Library() {
       <section className="bg-tile text-white">
         <div className="container-x py-12 md:py-16">
           <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
-          <h1 className="mt-3 text-[28px] md:text-[40px] font-semibold tracking-tight">민진홍의 마케팅 프롬프트 라이브러리</h1>
+          <h1 className="mt-3 text-[28px] md:text-[40px] font-semibold tracking-tight">민진홍 소장의 AI 솔루션 · 프롬프트 라이브러리</h1>
           <div className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-4">
             <div>
               <div className="text-[14px] text-muted-dark">현재 이용 가능한 콘텐츠</div>

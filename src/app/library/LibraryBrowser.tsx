@@ -4,12 +4,13 @@ import { useMemo, useState } from "react";
 
 export interface LibraryItem {
   id: string; slug: string; title: string; short: string; version: string;
-  category: string; categoryName: string; hasPrompt: boolean; hasTemplate: boolean;
+  category: string; categoryName: string; isGpt: boolean; hasPrompt: boolean; hasTemplate: boolean;
   fileTypes: string[]; isNew: boolean; isUpdated: boolean; updatedAt: string;
 }
 
 const TYPES = [
   { key: "all", label: "전체" },
+  { key: "gpt", label: "GPT" },
   { key: "prompt", label: "프롬프트" },
   { key: "ZIP", label: "ZIP" },
   { key: "PDF", label: "PDF" },
@@ -25,6 +26,7 @@ export function LibraryBrowser({ items, categories }: { items: LibraryItem[]; ca
     const k = q.trim().toLowerCase();
     return items.filter((i) => {
       if (cat && i.category !== cat) return false;
+      if (type === "gpt" && !i.isGpt) return false;
       if (type === "prompt" && !i.hasPrompt) return false;
       if (type === "template" && !i.hasTemplate) return false;
       if ((type === "ZIP" || type === "PDF") && !i.fileTypes.includes(type)) return false;
@@ -40,7 +42,7 @@ export function LibraryBrowser({ items, categories }: { items: LibraryItem[]; ca
     <div className="container-x py-10 md:py-14">
       <div className="flex flex-col gap-4 md:flex-row md:items-center">
         <div className="relative flex-1">
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="프롬프트 검색..." className="input pl-11" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="솔루션 · 프롬프트 검색..." className="input pl-11" />
           <svg className="absolute left-4 top-1/2 -translate-y-1/2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#737373" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
         </div>
         <div className="no-scrollbar flex gap-2 overflow-x-auto">
@@ -105,6 +107,7 @@ function Row({ item: i }: { item: LibraryItem }) {
         <div className="mt-0.5 truncate text-[14px] text-sub">{i.short}</div>
       </div>
       <div className="flex flex-wrap items-center gap-1.5">
+        {i.isGpt && <span className="badge bg-ink/5 text-ink">GPT</span>}
         {i.hasPrompt && <span className="badge bg-ink/5 text-ink">PROMPT</span>}
         {i.fileTypes.map((t) => <span key={t} className="badge bg-parchment text-ink">{t}</span>)}
       </div>

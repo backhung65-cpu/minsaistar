@@ -2,7 +2,7 @@
 
 > 민진홍의 마케팅 사고를 프롬프트로 소유하세요.
 
-프롬프트 단품 판매(200,000원)와 **MIRACLE MEMBERSHIP**(월 55,000원) 콘텐츠 라이브러리를 함께 운영하는 지식 커머스 웹서비스입니다.
+민진홍 소장의 **AI 비서 GPT 솔루션**(멤버십 전용)과 프리미엄 프롬프트 단품(220,000원, 카드 수수료 포함)을 **MIRACLE MEMBERSHIP**(월 55,000원)으로 제공하는 지식 커머스 웹서비스입니다.
 
 - **Frontend**: Next.js 15 (App Router) · Tailwind CSS v4 · Pretendard
 - **Database / Storage**: Supabase (Postgres + 비공개 Storage 버킷)
@@ -128,6 +128,17 @@ src/
 supabase/migrations/0001_init.sql
 ```
 
+## GPT 솔루션 가져오기 (AI 비서 100)
+
+기존 멤버십(`backhung65-cpu/minartmembership`)의 `content/solutions.json`을 그대로 사용합니다.
+
+1. `/admin` → 상품 관리 → **GPT 솔루션 가져오기**에서 `solutions.json` 파일을 업로드합니다.
+2. 번호(`id`)마다 `gpt-{번호}` 상품이 **멤버십 전용 GPT 상품**으로 등록됩니다. 같은 번호는 덮어쓰기 때문에, 목록이 바뀌면 다시 올리면 됩니다.
+3. GPT 주소와 카페 주소는 **DB에만** 저장됩니다. 비회원이 보는 스토어·상품 페이지·사이트맵·페이지 소스에는 나오지 않고, 이용 권한이 있는 회원의 뷰어에만 표시됩니다.
+
+> 이 저장소는 공개 상태이므로 GPT 주소를 코드나 JSON 파일로 커밋하지 마세요.
+> 기존 GitHub Pages 사이트는 `solutions.json`과 비밀번호가 공개 저장소에 그대로 있어서, 새 사이트를 오픈하면 비공개로 바꾸거나 내리는 것을 권장합니다.
+
 ## 운영 체크리스트
 
 **Vercel 배포 즉시 필요**
@@ -137,7 +148,8 @@ supabase/migrations/0001_init.sql
 - [ ] Supabase 연결 (`NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) — 없으면 데이터가 유지되지 않음
 - [ ] PayApp **정기결제(rebill) 사용 승인** + 연동정보 `PAYAPP_USERID` / `PAYAPP_LINKKEY` / `PAYAPP_LINKVAL`
       (단건 결제링크 `payapp.kr/L/...`는 주문과 연결되지 않아 자동 권한 부여·정기결제가 불가)
-- [ ] PayApp 실결제 1회(단품 200,000원) · 정기결제 1회(월 55,000원) 테스트 후 관리자에서 환불 처리 확인
+- [ ] 마이그레이션 `0002_gpt_solutions.sql` 실행 후 관리자에서 GPT 솔루션 가져오기
+- [ ] PayApp 실결제 1회(단품 220,000원) · 정기결제 1회(월 55,000원) 테스트 후 관리자에서 환불 처리 확인
 - [ ] 재접속 인증 메일 `RESEND_API_KEY`, `MAIL_FROM`
 
 **콘텐츠**

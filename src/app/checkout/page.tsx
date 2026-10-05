@@ -29,6 +29,7 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
     const product = slug ? await getProductBySlug(slug) : null;
     if (!product || product.status !== "PUBLISHED") notFound();
     if (canAccess(access, product)) redirect(`/viewer/${product.slug}`);
+    if (product.product_type === "GPT") redirect("/checkout?plan=membership");
     title = product.title;
     amount = product.sale_price;
     lines = ["프롬프트 전체 · 원클릭 복사", "사용 방법 · 입력 예제 · 결과 예제", "관련 PDF · MD · TXT · ZIP 자료", "해당 상품 업데이트"];
