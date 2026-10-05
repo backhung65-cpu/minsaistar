@@ -2,7 +2,7 @@
 
 > 민진홍의 마케팅 사고를 프롬프트로 소유하세요.
 
-프롬프트 단품 판매(200,000원)와 **MIRACLE MEMBERSHIP**(월 55,000원) 콘텐츠 라이브러리를 함께 운영하는 지식 커머스 웹서비스입니다.
+민진홍 소장의 **마케팅 전략 마스터 프롬프트**와 **전자책 출판 지원 솔루션(GPT)**을 단품(각 220,000원, 카드 수수료 포함) 또는 **MIRACLE MEMBERSHIP**(월 55,000원)으로 판매하는 지식 커머스 웹서비스입니다.
 
 - **Frontend**: Next.js 15 (App Router) · Tailwind CSS v4 · Pretendard
 - **Database / Storage**: Supabase (Postgres + 비공개 Storage 버킷)
@@ -128,6 +128,40 @@ src/
 supabase/migrations/0001_init.sql
 ```
 
+## 상품 구성과 구매 퍼널
+
+| 상품 | 유형 | 단품 | 멤버십 |
+|---|---|---|---|
+| 마케팅 전략 마스터 프롬프트 (`/prompts/marketing-master`) | 프롬프트 + 자료 | 220,000원 (카드 수수료 포함) | 포함 |
+| 전자책 출판 지원 솔루션 (`/prompts/ebook-publishing`) | GPT 솔루션 | 220,000원 (카드 수수료 포함) | 포함 |
+| MIRACLE MEMBERSHIP | 정기결제 | — | 월 55,000원 |
+
+**GPT 주소 입력:** 저장소가 공개 상태이므로 GPT 주소는 코드에 넣지 않았습니다.
+`/admin` → 상품 관리 → 전자책 출판 지원 솔루션 → **GPT 실행 주소 · 설명·영상 주소**를 입력하면 구매자와 멤버의 뷰어에만 표시됩니다.
+
+**구매 퍼널 (홈 → 결제 → 결제 후)**
+1. 주목: 결과를 약속하는 헤드라인, 첫 행동은 부담 없는 [무료로 먼저 써 보기]
+2. 공감: AI 결과가 평범한 이유 / 질문이 아니라 사고 구조
+3. 체험: **3분 마케팅 진단 무료 프롬프트** 복사 → 결과를 보고 유료 상품으로 연결
+4. 선택: 두 가지 실행 시스템 비교 (단품 · 멤버십 가격 병기)
+5. 확신: 같은 AI · 다른 결과(Before/After), 전문가 소개
+6. 결정: 가격 기준점 — 모든 상품 단품 합계 ~~440,000원~~ vs 멤버십 월 55,000원, 구매 전 FAQ
+7. 결제: 단계 표시(상품 선택 → 정보 입력 → 결제 → 바로 사용), 단품 ↔ 멤버십 즉시 전환
+8. 확장: 결제 완료 후 단품 구매자에게 멤버십 전환 제안, 멤버에게 시작 안내
+
+## 파비콘 · SNS 링크 미리보기
+
+| 파일 | 용도 |
+|---|---|
+| `public/favicon.ico` · `favicon.svg` · `favicon-16x16.png` · `favicon-32x32.png` | 브라우저 탭 아이콘 |
+| `public/apple-touch-icon.png` (180) · `icon-192.png` · `icon-512.png` | iOS 홈 화면 · 안드로이드(웹 앱 매니페스트) |
+| `public/og.png` (1200×630) | 홈 · 스토어 · 멤버십 공유 카드 |
+| `public/og/marketing-master.png` · `public/og/ebook-publishing.png` | 상품별 공유 카드 |
+
+- 카카오톡 · 페이스북 · X · 슬랙은 `og:image`의 **절대 주소**를 읽습니다. 운영 도메인을 `NEXT_PUBLIC_SITE_URL`에 넣으세요. 없으면 Vercel 도메인을 자동으로 씁니다.
+- 새 상품의 공유 카드는 관리자 › 상품 편집 › **OG Image URL**에 넣습니다. 비워 두면 썸네일, 그다음 사이트 기본 카드가 쓰입니다.
+- 카카오톡은 미리보기를 캐시합니다. 이미지를 바꾼 뒤에는 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화하세요.
+
 ## 운영 체크리스트
 
 **Vercel 배포 즉시 필요**
@@ -137,7 +171,8 @@ supabase/migrations/0001_init.sql
 - [ ] Supabase 연결 (`NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) — 없으면 데이터가 유지되지 않음
 - [ ] PayApp **정기결제(rebill) 사용 승인** + 연동정보 `PAYAPP_USERID` / `PAYAPP_LINKKEY` / `PAYAPP_LINKVAL`
       (단건 결제링크 `payapp.kr/L/...`는 주문과 연결되지 않아 자동 권한 부여·정기결제가 불가)
-- [ ] PayApp 실결제 1회(단품 200,000원) · 정기결제 1회(월 55,000원) 테스트 후 관리자에서 환불 처리 확인
+- [ ] 마이그레이션 `0002_gpt_solutions.sql` 실행, 관리자에서 전자책 솔루션 GPT 주소 입력
+- [ ] PayApp 실결제 1회(단품 220,000원) · 정기결제 1회(월 55,000원) 테스트 후 관리자에서 환불 처리 확인
 - [ ] 재접속 인증 메일 `RESEND_API_KEY`, `MAIL_FROM`
 
 **콘텐츠**

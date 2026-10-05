@@ -1,6 +1,6 @@
 import "server-only";
 
-export const SINGLE_PRICE = 200_000;
+export const SINGLE_PRICE = 220_000;
 export const MEMBERSHIP_PRICE = 55_000;
 export const MEMBERSHIP_PLAN = "MIRACLE_MONTHLY";
 export const MEMBERSHIP_NAME = "MIRACLE MEMBERSHIP";

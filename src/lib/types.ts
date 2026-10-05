@@ -1,4 +1,5 @@
-export type ProductType = "PROMPT" | "FILE" | "PROMPT_FILE" | "PACKAGE";
+/** GPT: 맞춤 GPT 솔루션 (멤버십 전용, 단품 판매 없음) */
+export type ProductType = "PROMPT" | "FILE" | "PROMPT_FILE" | "PACKAGE" | "GPT";
 export type ProductStatus = "DRAFT" | "PUBLISHED" | "HIDDEN" | "ARCHIVED";
 export type Badge = "NEW" | "BEST" | "UPDATED" | "PACKAGE" | "MEMBERSHIP" | "FREE";
 export type PaymentStatus = "PENDING" | "PAID" | "FAILED" | "CANCELLED" | "REFUNDED";
@@ -39,6 +40,12 @@ export interface Product {
   result_example: string;
   preview_content: string;
   usage_guide: string;
+  /** GPT 실행 주소 — 이용 권한이 있는 회원 화면에만 노출 */
+  gpt_url: string | null;
+  /** 설명·영상 주소 (네이버 카페 등) — 회원 화면에만 노출 */
+  guide_url: string | null;
+  /** 만들 수 있는 결과물 */
+  output: string;
   problems: string[];
   use_cases: string[];
   faq: FaqItem[];

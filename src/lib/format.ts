@@ -17,6 +17,7 @@ export const PRODUCT_TYPE_LABEL = {
   FILE: "FILE",
   PROMPT_FILE: "PROMPT + FILE",
   PACKAGE: "PACKAGE",
+  GPT: "GPT 솔루션",
 } as const;
 
 export const STATUS_LABEL: Record<string, string> = {

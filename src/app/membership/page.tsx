@@ -10,7 +10,13 @@ import { StickyCta } from "@/components/StickyCta";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "MIRACLE MEMBERSHIP",
-  description: "하나의 프롬프트는 200,000원. 미라클 멤버십은 월 55,000원으로 모든 자료를 이용할 수 있습니다.",
+  description: "상품 하나는 220,000원. 미라클 멤버십은 월 55,000원으로 모든 상품과 신규 콘텐츠를 이용할 수 있습니다.",
+  openGraph: {
+    type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR", url: "/membership",
+    title: "MIRACLE MEMBERSHIP — 월 55,000원으로 전부 이용",
+    description: "마케팅 전략 마스터 프롬프트와 전자책 출판 지원 솔루션, 앞으로 추가될 콘텐츠까지.",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
+  },
 };
 
 export default async function MembershipPage() {
@@ -23,9 +29,9 @@ export default async function MembershipPage() {
       <section className="bg-tile text-white">
         <div className="container-x py-16 md:py-24 text-center">
           <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
-          <h1 className="h1 mt-2 text-balance">민진홍의 마케팅 프롬프트<br />라이브러리 전체를 이용하세요.</h1>
+          <h1 className="h1 mt-2 text-balance">민진홍 소장의 프롬프트와 AI 솔루션,<br />한 번에 전부 이용하세요.</h1>
           <p className="lead mx-auto mt-4 max-w-2xl !text-muted-dark">
-            하나의 프롬프트는 200,000원.<br />미라클 멤버십은 월 55,000원으로 모든 자료를 이용할 수 있습니다.
+            상품 하나는 220,000원.<br />미라클 멤버십은 월 55,000원으로 전부 이용할 수 있습니다.
           </p>
           <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-4 border-y border-white/15 py-6">
             <div><div className="text-[30px] md:text-[40px] font-semibold text-white">{included.length}</div><div className="text-[13px] text-muted-dark">이용 가능한 콘텐츠</div></div>
@@ -50,9 +56,9 @@ export default async function MembershipPage() {
           <SectionHead eyebrow="INCLUDED" title="멤버십에 포함된 모든 것" />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ["전체 프롬프트", "멤버십 포함 프롬프트 전부 열람 · 복사"],
-              ["전체 자료", "ZIP · PDF · MD · TXT 다운로드"],
-              ["템플릿 · 실전 예제", "입력 템플릿과 결과 예제"],
+              ["마케팅 전략 마스터 프롬프트", "시장 분석부터 90일 실행안까지 · 복사 · 자료 다운로드"],
+              ["전자책 출판 지원 솔루션", "기획 · 집필 · 홍보 12단계 GPT · 설명 영상"],
+              ["사용 가이드 · 예제", "입력 템플릿 · 결과 예제 · 활용 방법"],
               ["신규 · 업데이트", "새로 등록되는 콘텐츠와 버전 업데이트"],
             ].map(([t, d], i) => (
               <div key={t} className="card">
@@ -69,7 +75,7 @@ export default async function MembershipPage() {
                 {included.map((p) => (
                   <li key={p.id} className="flex items-center justify-between gap-4 py-3.5">
                     <Link href={`/prompts/${p.slug}`} className="font-semibold text-ink hover:underline">{p.title}</Link>
-                    <span className="shrink-0 text-[13px] text-sub"><s>{p.sale_price.toLocaleString()}원</s> → 멤버십 포함</span>
+                    <span className="shrink-0 text-[13px] text-sub">{p.sale_price > 0 ? <><s>{p.sale_price.toLocaleString()}원</s> → 멤버십 포함</> : "멤버십 전용"}</span>
                   </li>
                 ))}
               </ul>

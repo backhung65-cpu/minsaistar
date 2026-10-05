@@ -19,12 +19,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!p) return {};
   const title = p.seo_title || p.title;
   const description = p.seo_description || p.short_description;
-  const image = p.og_image || p.thumbnail || undefined;
+  // 상품별 미리보기 카드: 관리자 입력 OG 이미지 → 기본 상품 카드(/og/{slug}.png) → 썸네일 → 사이트 기본 카드
+  const builtIn = ["marketing-master", "ebook-publishing"].includes(p.slug) ? `/og/${p.slug}.png` : null;
+  const image = p.og_image || builtIn || p.thumbnail || "/og.png";
   return {
     title: { absolute: title.includes("MIRACLE") ? title : `${title} | MIRACLE PROMPT` },
     description,
     alternates: { canonical: `/prompts/${p.slug}` },
-    openGraph: { title, description, url: `/prompts/${p.slug}`, images: image ? [image] : undefined },
+    openGraph: {
+      type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR",
+      title, description, url: `/prompts/${p.slug}`,
+      images: [{ url: image, width: 1200, height: 630, alt: p.title }],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
 
@@ -43,15 +50,18 @@ export default async function ProductPage({ params }: Props) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const packageItems = product.product_type === "PACKAGE" ? allProducts.filter((p) => product.package_product_ids.includes(p.id)) : [];
   const buyHref = `/checkout?product=${product.slug}`;
+  const isGpt = product.product_type === "GPT";
+  /** 가격이 없는 GPT 상품은 멤버십 전용 */
+  const membershipOnly = isGpt && product.sale_price <= 0;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.title,
     description: product.short_description,
-    image: product.thumbnail || undefined,
+    image: product.og_image || (["marketing-master", "ebook-publishing"].includes(product.slug) ? `${siteUrl}/og/${product.slug}.png` : product.thumbnail || `${siteUrl}/og.png`),
     brand: { "@type": "Brand", name: "MIRACLE PROMPT" },
-    offers: { "@type": "Offer", price: product.sale_price, priceCurrency: "KRW", availability: "https://schema.org/InStock", url: `${siteUrl}/prompts/${product.slug}` },
+    offers: product.sale_price <= 0 ? undefined : { "@type": "Offer", price: product.sale_price, priceCurrency: "KRW", availability: "https://schema.org/InStock", url: `${siteUrl}/prompts/${product.slug}` },
   };
 
   return (
@@ -76,12 +86,23 @@ export default async function ProductPage({ params }: Props) {
             <h1 className="mt-2 text-balance text-[34px] font-semibold leading-[1.1] tracking-[-0.02em] text-ink md:text-[40px]">{product.title}</h1>
             <p className="mt-3 text-[19px] leading-[1.4] text-ink-80">{product.short_description}</p>
             <div className="mt-3"><Badges badges={product.badges} /></div>
+            {product.output && (
+              <p className="mt-4 text-[14px] text-sub"><span className="font-semibold text-ink">만들 수 있는 결과물</span> · {product.output}</p>
+            )}
 
             {owned ? (
               <div className="mt-8 rounded-[18px] border border-hairline p-6">
                 <div className="text-[17px] font-semibold text-ink">이용 가능한 콘텐츠입니다.</div>
                 <p className="mt-1 text-[14px] text-sub">프롬프트를 열고 바로 복사하세요.</p>
                 <Link href={`/viewer/${product.slug}`} className="btn-primary mt-5 w-full">지금 프롬프트 열기</Link>
+              </div>
+            ) : membershipOnly ? (
+              <div className="mt-8 rounded-[18px] border-2 border-accent-focus p-6">
+                <div className="flex items-center gap-2 text-[17px] font-semibold text-ink">미라클 멤버십 전용 <span className="badge bg-accent text-white">GPT</span></div>
+                <p className="mt-1 text-[14px] text-sub">멤버십 회원은 이 GPT를 바로 실행하고, 사용 설명과 영상을 볼 수 있습니다. 다른 GPT 솔루션과 프롬프트도 모두 포함됩니다.</p>
+                <div className="mt-4 text-[17px] text-ink">월 55,000원</div>
+                <Link href="/checkout?plan=membership" className="btn-primary mt-4 w-full">멤버십으로 이용</Link>
+                <Link href="/access" className="mt-3 block text-center text-[14px] link">이미 회원이신가요? 구매자료 열기 ›</Link>
               </div>
             ) : (
               <div className="mt-8">
@@ -124,7 +145,7 @@ export default async function ProductPage({ params }: Props) {
       {/* 상품 소개 */}
       <Tile tone="parchment">
         <div className="container-x max-w-[820px] text-center">
-          <h2 className="h2 text-balance text-ink">질문 하나가 아닙니다.<br />마케팅 전략을 만드는 사고 구조입니다.</h2>
+          <h2 className="h2 text-balance text-ink">{isGpt ? <>질문에 답하면<br />결과물이 완성됩니다.</> : <>질문 하나가 아닙니다.<br />마케팅 전략을 만드는 사고 구조입니다.</>}</h2>
           <div className="mt-6 whitespace-pre-line text-left text-[17px] leading-[1.6] text-ink-80 md:text-center">{product.description}</div>
         </div>
       </Tile>
@@ -221,8 +242,29 @@ export default async function ProductPage({ params }: Props) {
         </Tile>
       )}
 
-      {/* 제공 자료 */}
-      <Deliverables tone="parchment" />
+      {/* 제공 자료 (GPT 솔루션은 이용 방법으로 대체) */}
+      {isGpt ? (
+        <Tile tone="parchment">
+          <div className="container-x">
+            <SectionHead eyebrow="이용 방법" title="설명을 보고, GPT를 실행하세요." />
+            <ol className="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-3">
+              {[
+                ["목적 선택", "카테고리와 검색으로 필요한 솔루션을 찾습니다."],
+                ["설명 · 영상 확인", "사용 방법과 결과물 예시를 먼저 확인합니다."],
+                ["GPT 실행", "GPT에서 질문에 답하며 결과물을 완성합니다."],
+              ].map(([t, d], i) => (
+                <li key={t} className="card">
+                  <div className="text-[14px] font-semibold text-sub">Step {i + 1}</div>
+                  <div className="mt-2 text-[17px] font-semibold text-ink">{t}</div>
+                  <div className="mt-1 text-[14px] text-sub">{d}</div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Tile>
+      ) : (
+        <Deliverables tone="parchment" />
+      )}
       {files.length > 0 && (
         <div className="bg-parchment pb-16">
           <div className="container-x max-w-4xl">
@@ -243,7 +285,7 @@ export default async function ProductPage({ params }: Props) {
       )}
 
       <ExpertSection tone="light" />
-      {product.membership_included && (
+      {product.membership_included && !membershipOnly && (
         <PricingCompare tone="parchment" singleHref={buyHref} singlePrice={product.sale_price} productTitle={product.title} />
       )}
       <Faq tone="light" items={product.faq.length ? product.faq : undefined} />
@@ -259,7 +301,7 @@ export default async function ProductPage({ params }: Props) {
             ) : (
               <>
                 {product.membership_included && <Link href="/checkout?plan=membership" className="btn-primary">멤버십으로 이용 · 월 55,000원</Link>}
-                <Link href={buyHref} className="btn border border-accent-dark text-accent-dark">단품 구매 · {won(product.sale_price)}</Link>
+                {!membershipOnly && <Link href={buyHref} className="btn border border-accent-dark text-accent-dark">단품 구매 · {won(product.sale_price)}</Link>}
               </>
             )}
           </div>
@@ -272,7 +314,7 @@ export default async function ProductPage({ params }: Props) {
           <Link href={`/viewer/${product.slug}`} className="btn-primary w-full">지금 프롬프트 열기</Link>
         </div>
       ) : (
-        <StickyCta price={won(product.sale_price)} href={buyHref} />
+        <StickyCta price={won(product.sale_price)} href={membershipOnly ? undefined : buyHref} />
       )}
     </>
   );

@@ -3,7 +3,7 @@ import { expert } from "@/content/expert";
 import type { FaqItem } from "@/lib/types";
 import { won } from "@/lib/format";
 
-const SINGLE_PRICE = 200_000;
+const SINGLE_PRICE = 220_000;
 const MEMBERSHIP_PRICE = 55_000;
 
 /** 타일 배경: 색 전환 자체가 섹션 구분선 */
@@ -42,8 +42,8 @@ const Check = ({ dark = false }: { dark?: boolean }) => (
 
 /* ───────── 가격 비교 (핵심 전환 영역) ───────── */
 export function PricingCompare({
-  singleHref = "/prompts", singleLabel = "단품 구매하기", singlePrice = SINGLE_PRICE, productTitle, tone = "parchment",
-}: { singleHref?: string; singleLabel?: string; singlePrice?: number; productTitle?: string; tone?: Tone }) {
+  singleHref = "/prompts", singleLabel = "단품 구매하기", singlePrice = SINGLE_PRICE, productTitle, tone = "parchment", bundleValue = 0,
+}: { singleHref?: string; singleLabel?: string; singlePrice?: number; productTitle?: string; tone?: Tone; bundleValue?: number }) {
   return (
     <Tile tone={tone} id="pricing">
       <div className="container-x">
@@ -57,7 +57,7 @@ export function PricingCompare({
             <div className="text-[14px] font-semibold text-sub">단품 구매</div>
             {productTitle && <div className="mt-1 text-[17px] font-semibold text-ink">{productTitle}</div>}
             <div className="mt-6 text-[40px] font-semibold leading-none tracking-[-0.02em] text-ink">{won(singlePrice)}</div>
-            <div className="mt-2 text-[14px] text-sub">1회 결제 · 평생 이용</div>
+            <div className="mt-2 text-[14px] text-sub">1회 결제 · 평생 이용 · 결제 수수료 포함</div>
             <ul className="mt-8 flex-1 space-y-3 text-[17px]">
               {["선택한 프롬프트 1개", "해당 상품 부가자료", "원클릭 프롬프트 복사", "자료 다운로드", "해당 상품 업데이트"].map((t) => (
                 <li key={t} className="flex gap-3"><Check />{t}</li>
@@ -76,9 +76,11 @@ export function PricingCompare({
               <span className="text-[17px] text-muted-dark">월</span>
               <span className="text-[40px] font-semibold leading-none tracking-[-0.02em]">{won(MEMBERSHIP_PRICE)}</span>
             </div>
-            <div className="mt-2 text-[14px] text-muted-dark">단품 가격의 약 1/4 · 언제든 해지</div>
+            <div className="mt-2 text-[14px] text-muted-dark">
+              {bundleValue > singlePrice ? <>모든 상품 단품 합계 <s>{won(bundleValue)}</s> · 언제든 해지</> : "단품 가격의 1/4 수준 · 언제든 해지"}
+            </div>
             <ul className="mt-8 flex-1 space-y-3 text-[17px]">
-              {["전체 프롬프트", "전체 자료 (ZIP · PDF · MD · TXT)", "템플릿 · 실전 예제", "신규 등록 콘텐츠", "업데이트 콘텐츠"].map((t) => (
+              {["마케팅 전략 마스터 프롬프트", "전자책 출판 지원 솔루션 (GPT)", "자료 · 설명 영상 전체", "신규 등록 콘텐츠", "업데이트 콘텐츠"].map((t) => (
                 <li key={t} className="flex gap-3"><Check dark />{t}</li>
               ))}
             </ul>
@@ -317,7 +319,7 @@ export function FinalCta({ tone = "dark" }: { tone?: Tone }) {
     <Tile tone={tone}>
       <div className="container-x text-center">
         <h2 className={`h2 text-balance ${tone === "dark" ? "text-white" : "text-ink"}`}>민진홍의 마케팅 사고를<br />지금 바로 사용해 보세요.</h2>
-        <p className={`lead mt-4 ${tone === "dark" ? "!text-muted-dark" : ""}`}>프롬프트 하나 200,000원 · 멤버십 월 55,000원</p>
+        <p className={`lead mt-4 ${tone === "dark" ? "!text-muted-dark" : ""}`}>프롬프트 하나 220,000원 · 멤버십 월 55,000원</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/checkout?plan=membership" className="btn-primary">미라클 멤버십 시작하기</Link>
           <Link href="/prompts" className={tone === "dark" ? "btn border border-accent-dark text-accent-dark" : "btn-outline"}>프롬프트 살펴보기</Link>

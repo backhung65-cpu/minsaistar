@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { db } from "@/lib/db/adapter";
 import { isDemo } from "@/lib/config";
 import { randomHex } from "@/lib/crypto";
-import { sampleFiles, sampleProduct } from "@/content/sample-product";
+import { ebookProduct, sampleFiles, sampleProduct } from "@/content/sample-product";
 import type {
   Category, Entitlement, Membership, Order, OrderType, Product, ProductFile, User,
 } from "@/lib/types";
@@ -12,12 +12,12 @@ const now = () => new Date().toISOString();
 
 export const DEFAULT_CATEGORIES: Omit<Category, "id">[] = [
   { slug: "marketing", name: "마케팅", sort_order: 1 },
-  { slug: "customer", name: "고객분석", sort_order: 2 },
-  { slug: "branding", name: "브랜딩", sort_order: 3 },
-  { slug: "content", name: "콘텐츠", sort_order: 4 },
-  { slug: "sns", name: "SNS", sort_order: 5 },
-  { slug: "ads", name: "광고", sort_order: 6 },
-  { slug: "strategy", name: "사업전략", sort_order: 7 },
+  { slug: "publishing", name: "출판·글쓰기", sort_order: 2 },
+  { slug: "research", name: "연구·학습", sort_order: 3 },
+  { slug: "shortform", name: "숏폼·영상", sort_order: 4 },
+  { slug: "image", name: "이미지·디자인", sort_order: 5 },
+  { slug: "promotion", name: "홍보·브랜딩", sort_order: 6 },
+  { slug: "business", name: "비즈니스·웹", sort_order: 7 },
 ];
 
 /* ───────────────────────── 초기 데이터 ───────────────────────── */
@@ -35,8 +35,12 @@ async function ensureSeed() {
 }
 
 export async function seedSampleProduct() {
-  if (await db.get("products", { slug: sampleProduct.slug })) return;
   const cats = await db.list("categories");
+  if (!(await db.get("products", { slug: ebookProduct.slug }))) {
+    const pub = cats.find((c) => c.slug === "publishing") ?? null;
+    await saveProduct({ ...ebookProduct, category_id: pub?.id ?? null });
+  }
+  if (await db.get("products", { slug: sampleProduct.slug })) return;
   const cat = cats.find((c) => c.slug === "marketing") ?? null;
   const product = await saveProduct({ ...sampleProduct, category_id: cat?.id ?? null });
   const { writeLocalFile, createUploadUrl } = await import("@/lib/storage");

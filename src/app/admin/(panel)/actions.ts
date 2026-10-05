@@ -40,6 +40,10 @@ export async function saveProductAction(_: SaveState, f: FormData): Promise<Save
   await guard();
   const id = str(f, "id") || undefined;
   const slug = str(f, "slug").toLowerCase();
+  for (const k of ["gpt_url", "guide_url"]) {
+    const v = str(f, k);
+    if (v && !/^https:\/\/\S+$/.test(v)) return { error: "링크는 https:// 로 시작해야 합니다." };
+  }
   if (!str(f, "title")) return { error: "상품명을 입력해 주세요." };
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return { error: "Slug는 영문 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다." };
 
@@ -60,6 +64,9 @@ export async function saveProductAction(_: SaveState, f: FormData): Promise<Save
     result_example: String(f.get("result_example") ?? ""),
     preview_content: String(f.get("preview_content") ?? ""),
     usage_guide: String(f.get("usage_guide") ?? ""),
+    gpt_url: str(f, "gpt_url") || null,
+    guide_url: str(f, "guide_url") || null,
+    output: str(f, "output"),
     problems: lines(str(f, "problems")),
     use_cases: lines(str(f, "use_cases")),
     faq: parseFaq(str(f, "faq")),
@@ -141,3 +148,4 @@ export async function cancelOrderAction(form: FormData) {
   if (order) await adminCancelOrder(order);
   revalidatePath("/admin/orders");
 }
+

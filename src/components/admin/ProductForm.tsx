@@ -71,10 +71,12 @@ export function ProductForm({ product, categories, others }: { product?: Product
               <option value="FILE">FILE — 파일 다운로드</option>
               <option value="PROMPT_FILE">PROMPT + FILE — 프롬프트 + ZIP/PDF</option>
               <option value="PACKAGE">PACKAGE — 여러 상품 묶음</option>
+              <option value="GPT">GPT 솔루션 — 멤버십 전용 (GPT 실행 + 설명·영상)</option>
             </select>
           </Field>
         </div>
         <Field label="한 줄 설명"><input name="short_description" defaultValue={p?.short_description} className="input" /></Field>
+        <Field label="만들 수 있는 결과물" hint="상세페이지와 라이브러리에 표시됩니다."><input name="output" defaultValue={p?.output ?? ""} className="input" /></Field>
         <Field label="상세 설명"><textarea name="description" defaultValue={p?.description} rows={6} className="input" /></Field>
         <Field label="썸네일" hint="비워 두면 책 표지 형태의 기본 썸네일이 생성됩니다.">
           <div className="flex flex-col gap-3 md:flex-row md:items-center">
@@ -91,8 +93,8 @@ export function ProductForm({ product, categories, others }: { product?: Product
 
       <Section title="가격 · 판매 설정">
         <div className="grid gap-5 md:grid-cols-4">
-          <Field label="정상가격"><input name="regular_price" defaultValue={p?.regular_price ?? 200000} inputMode="numeric" className="input" /></Field>
-          <Field label="판매가격"><input name="sale_price" defaultValue={p?.sale_price ?? 200000} inputMode="numeric" className="input" /></Field>
+          <Field label="정상가격"><input name="regular_price" defaultValue={p?.regular_price ?? 220000} inputMode="numeric" className="input" /></Field>
+          <Field label="판매가격"><input name="sale_price" defaultValue={p?.sale_price ?? 220000} inputMode="numeric" className="input" /></Field>
           <Field label="판매 상태">
             <select name="status" defaultValue={p?.status ?? "DRAFT"} className="input">
               <option value="DRAFT">DRAFT — 작성중</option>
@@ -132,7 +134,15 @@ export function ProductForm({ product, categories, others }: { product?: Product
         )}
       </Section>
 
-      {type !== "FILE" && (
+      {type === "GPT" && (
+        <Section title="GPT 솔루션">
+          <p className="text-[13px] text-sub">GPT 주소와 설명 링크는 이용 권한이 있는 회원 화면에만 표시됩니다. 단품 판매되지 않으며 멤버십으로만 이용합니다.</p>
+          <Field label="GPT 실행 주소"><input name="gpt_url" defaultValue={p?.gpt_url ?? ""} className="input font-mono text-[13px]" placeholder="https://chatgpt.com/g/..." /></Field>
+          <Field label="설명·영상 주소 (네이버 카페 등)"><input name="guide_url" defaultValue={p?.guide_url ?? ""} className="input font-mono text-[13px]" placeholder="https://cafe.naver.com/..." /></Field>
+        </Section>
+      )}
+
+      {type !== "FILE" && type !== "GPT" && (
         <Section title="프롬프트">
           <Field label="프롬프트 원문 (시스템 프롬프트)" hint="구매자만 열람 가능합니다."><textarea name="prompt_content" defaultValue={p?.prompt_content} rows={18} className={mono} /></Field>
           <Field label="프롬프트 미리보기" hint="판매 페이지에 노출됩니다. 후반부는 자동으로 Blur 처리됩니다."><textarea name="preview_content" defaultValue={p?.preview_content} rows={10} className={mono} /></Field>

@@ -22,7 +22,8 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
   if (!admin && !canAccess(access, product)) redirect(session ? `/prompts/${product.slug}` : `/access?next=/viewer/${product.slug}`);
 
   const files = await listProductFiles(product.id);
-  const hasPrompt = product.product_type !== "FILE" && Boolean(product.prompt_content);
+  const isGpt = product.product_type === "GPT";
+  const hasPrompt = product.product_type !== "FILE" && !isGpt && Boolean(product.prompt_content);
   const full = [product.prompt_content, product.input_template].filter(Boolean).join("\n\n");
   const copyCls = "btn-sm btn border border-accent-dark text-accent-dark";
 
@@ -47,6 +48,26 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
 
       <div className="container-x mt-10 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-8">
+          {isGpt && (
+            <section className="rounded-[18px] bg-tile p-6 text-white md:p-10">
+              <div className="text-[14px] font-semibold text-muted-dark">GPT 솔루션</div>
+              <p className="mt-3 text-[19px] leading-[1.45] md:text-[21px]">{product.short_description}</p>
+              {product.output && (
+                <p className="mt-4 text-[15px] text-muted-dark"><span className="font-semibold text-white">만들 수 있는 결과물</span> · {product.output}</p>
+              )}
+              <div className="mt-8 flex flex-wrap gap-3">
+                {product.gpt_url ? (
+                  <a href={product.gpt_url} target="_blank" rel="noopener noreferrer" className="btn-primary">GPT 바로가기 ↗</a>
+                ) : (
+                  <span className="text-[14px] text-muted-dark">GPT 주소가 아직 등록되지 않았습니다.</span>
+                )}
+                {product.guide_url && (
+                  <a href={product.guide_url} target="_blank" rel="noopener noreferrer" className="btn border border-accent-dark text-accent-dark">설명 · 영상 보기 ↗</a>
+                )}
+              </div>
+              <p className="mt-6 text-[12px] text-muted-dark">GPT 실행에는 ChatGPT 로그인이 필요합니다. 설명·영상은 커뮤니티 회원 공간에서 열립니다. 링크는 구매자 · 회원 본인만 사용할 수 있습니다.</p>
+            </section>
+          )}
           {hasPrompt && (
             <>
               {/* 사용 방법 */}
@@ -90,10 +111,11 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
               {product.usage_guide && <Block title="사용 방법">{product.usage_guide}</Block>}
             </>
           )}
-          {!hasPrompt && product.description && <Block title="콘텐츠 소개">{product.description}</Block>}
+          {!hasPrompt && !isGpt && product.description && <Block title="콘텐츠 소개">{product.description}</Block>}
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+          {(!isGpt || files.length > 0) && (
           <div id="files" className="card scroll-mt-24 !p-6">
             <div className="text-[15px] font-semibold text-ink">자료 다운로드</div>
             {files.length ? (
@@ -113,6 +135,7 @@ export default async function Viewer({ params }: { params: Promise<{ slug: strin
             )}
             <p className="mt-4 text-[12px] text-sub">다운로드 링크는 권한 확인 후 일시적으로 생성됩니다.</p>
           </div>
+          )}
 
           {product.changelog.length > 0 && (
             <div className="card !p-6">

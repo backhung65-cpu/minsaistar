@@ -7,7 +7,13 @@ import { StickyCta } from "@/components/StickyCta";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "PROMPT STORE",
-  description: "민진홍 소장의 마케팅 · 고객분석 · 브랜딩 · 콘텐츠 · SNS · 광고 · 사업전략 프롬프트",
+  description: "민진홍 소장의 마케팅 전략 마스터 프롬프트와 전자책 출판 지원 솔루션. 상품 하나 220,000원, 멤버십 월 55,000원.",
+  openGraph: {
+    type: "website", siteName: "MIRACLE PROMPT", locale: "ko_KR", url: "/prompts",
+    title: "PROMPT STORE — MIRACLE PROMPT",
+    description: "마케팅 전략 마스터 프롬프트 · 전자책 출판 지원 솔루션",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
+  },
 };
 
 export default async function Store({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
@@ -22,9 +28,9 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
       <section className="bg-parchment">
         <div className="container-x pt-12 pb-6 md:pt-16">
           <h1 className="h1 text-ink">프롬프트 스토어.</h1>
-          <p className="lead mt-3">민진홍의 마케팅 프롬프트. 하나 200,000원, 멤버십은 월 55,000원으로 전체 이용.</p>
+          <p className="lead mt-3">상품 하나 220,000원. 미라클 멤버십은 월 55,000원으로 전부 이용합니다.</p>
           <nav className="no-scrollbar mt-8 flex gap-2 overflow-x-auto pb-1" aria-label="카테고리">
-            {[{ slug: "", name: "전체" }, ...categories].map((c) => {
+            {[{ slug: "", name: "전체" }, ...categories.filter((c) => products.some((p) => p.category_id === (c as { id?: string }).id))].map((c) => {
               const on = (c.slug || undefined) === active?.slug;
               return (
                 <Link
@@ -56,7 +62,7 @@ export default async function Store({ searchParams }: { searchParams: Promise<{ 
       <section className="section bg-tile text-white">
         <div className="container-x text-center">
           <div className="eyebrow !text-muted-dark">MIRACLE MEMBERSHIP</div>
-          <h2 className="h2 mt-2 text-balance">하나의 프롬프트는 200,000원.<br />멤버십은 월 55,000원으로 모든 자료를.</h2>
+          <h2 className="h2 mt-2 text-balance">모든 상품을<br />월 55,000원에.</h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/checkout?plan=membership" className="btn-primary">멤버십 시작하기</Link>
             <Link href="/membership" className="btn border border-accent-dark text-accent-dark">더 알아보기</Link>

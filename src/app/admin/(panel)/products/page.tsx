@@ -6,13 +6,13 @@ import { seedSampleAction } from "../actions";
 export default async function AdminProducts() {
   const [products, categories] = await Promise.all([listProducts(), listCategories()]);
   const catName = new Map(categories.map((c) => [c.id, c.name]));
-  const hasSample = products.some((p) => p.slug === "marketing-master");
+  const hasSample = ["marketing-master", "ebook-publishing"].every((s) => products.some((p) => p.slug === s));
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-[24px] font-semibold text-ink">상품 관리</h1>
         <div className="flex gap-2">
-          {!hasSample && <form action={seedSampleAction}><button className="btn-outline btn-sm">샘플 상품 등록</button></form>}
+          {!hasSample && <form action={seedSampleAction}><button className="btn-outline btn-sm">기본 상품 2개 등록</button></form>}
           <Link href="/admin/products/new" className="btn-primary btn-sm">+ 새 상품 등록</Link>
         </div>
       </div>
