@@ -52,8 +52,7 @@
       if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; } else { a.setAttribute("aria-disabled", "true"); }
     });
   }
-  setLink("[data-cafe]", SITE.cafeUrl);
-  setLink("[data-membership]", SITE.membershipUrl || SITE.cafeUrl);
+  setLink("[data-membership]", SITE.membershipUrl);
   var yearEl = document.getElementById("year"); if (yearEl) yearEl.textContent = NOW.getUTCFullYear();
 
   /* ── 정렬: 판매 중 → 공개 예정 → 지난 스킬(최신순) ── */
@@ -163,19 +162,18 @@
     else { a.setAttribute("aria-disabled", "true"); }
     return a;
   }
-  function renderBuy(s, paid) {
+  function renderBuy(s, opened) {
     var st = status(s), buy = document.getElementById("d-buy");
-    var cafe = s.cafe || SITE.cafeUrl;
     buy.innerHTML = "";
     var hint = document.createElement("p"); hint.className = "d-hint";
     if (st === "open" || st === "always") {
-      if (paid) {
+      if (opened) {
+        /* 카페 주소는 사이트에 두지 않습니다. 결제가 완료되면 페이앱이 카페로 보내 줍니다. */
         var done = document.createElement("div"); done.className = "d-done";
-        done.innerHTML = "<b>결제를 마치셨나요?</b><span>네이버 카페로 이동해 스킬을 받아 가세요.</span>";
+        done.innerHTML = "<b>결제창이 열렸습니다</b><span>결제를 완료하면 네이버 카페로 자동 이동해 스킬을 받을 수 있습니다.</span>";
         buy.appendChild(done);
-        buy.appendChild(link("btn wide", "네이버 카페로 이동 →", cafe));
         var back = document.createElement("button");
-        back.type = "button"; back.className = "d-back"; back.textContent = "← 결제 화면으로 돌아가기";
+        back.type = "button"; back.className = "btn btn-ghost wide"; back.textContent = "결제창 다시 열기";
         back.addEventListener("click", function () { renderBuy(s, false); });
         buy.appendChild(back);
         return;
@@ -192,10 +190,10 @@
       if (a2) row.appendChild(a2);
       buy.appendChild(row);
       [a1, a2].forEach(function (a) { if (a && a.href) a.addEventListener("click", function () { setTimeout(function () { renderBuy(s, true); }, 400); }); });
-      hint.textContent = "결제가 끝나면 네이버 카페로 이동해 스킬을 받습니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
+      hint.textContent = "결제가 완료되면 네이버 카페로 이동합니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
       buy.appendChild(hint);
     } else if (st === "ended") {
-      buy.appendChild(link("btn btn-ghost wide", "네이버 카페에서 자세히 보기 →", cafe));
+      buy.appendChild(link("btn wide", monthLabel(s.month) + " 판매 종료", ""));
       hint.textContent = "판매가 종료된 스킬입니다. 이달의 새 스킬은 갤러리 맨 앞에 있습니다.";
       buy.appendChild(hint);
     } else {
@@ -205,7 +203,7 @@
     }
   }
 
-  /* ── 설명 창 → 카페로 이동 ── */
+  /* ── 설명 창 → 결제 ── */
   var dlg = document.getElementById("detail");
   function openSkill(s) {
     var st = status(s);
