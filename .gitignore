@@ -1,12 +1,6 @@
+dist
 node_modules
-.next
-out
-.env
-.env.local
-.env*.local
-.data
-*.tsbuildinfo
-next-env.d.ts
-.vercel
-.DS_Store
 *.zip
+.DS_Store
+.vercel
+skills-data.js
