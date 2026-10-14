@@ -96,6 +96,8 @@ node build.mjs     # dist/ 생성 (의존성 없음, Node 18 이상)
 
 `skills/`에 새 스킬을 올리고 커밋하면 자동으로 다시 배포됩니다.
 
+GitHub Pages(`https://backhung65-cpu.github.io/minsaistar/`)는 빌드 없이 저장소 파일을 그대로 보여 주므로, 루트의 `skills-data.js`를 함께 커밋합니다. GitHub 웹에서 스킬을 올려도 `.github/workflows/skills-data.yml`이 이 파일을 자동으로 갱신합니다.
+
 ## 폴더 구조
 
 ```
