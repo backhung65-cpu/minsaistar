@@ -164,25 +164,39 @@ details p { color: var(--sub); margin-top: 10px; }
 dialog { padding: 0; border: 0; border-radius: 24px; background: var(--card); color: var(--ink); width: min(980px, calc(100% - 32px)); max-height: calc(100dvh - 48px); box-shadow: 0 40px 120px rgba(0, 0, 0, .7); }
 dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(6px); }
 .d-in { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); max-height: calc(100dvh - 48px); }
-.d-img { background: #000; }
-.d-img img { width: 100%; height: 100%; object-fit: cover; max-height: calc(100dvh - 48px); }
+.d-img { background: var(--bg-2); display: flex; align-items: flex-start; }
+.d-img img { width: 100%; height: auto; object-fit: contain; object-position: top; max-height: calc(100dvh - 48px); }
 .d-body { padding: 36px 32px 28px; overflow-y: auto; display: flex; flex-direction: column; }
 .d-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; color: var(--dim); font-size: 13px; }
 .d-body h3 { font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin-top: 12px; }
 .d-summary { color: var(--sub); margin-top: 10px; font-size: 17px; }
-.d-text { margin-top: 20px; color: #d1d1d6; font-size: 15.5px; line-height: 1.75; white-space: pre-line; flex: 1; }
+.d-text { margin-top: 20px; color: #d1d1d6; font-size: 15.5px; line-height: 1.75; flex: 1; display: grid; gap: 12px; align-content: start; }
+.d-text p { white-space: pre-line; }
+.d-text h4 { margin-top: 8px; font-size: 13px; font-weight: 600; letter-spacing: .08em; color: var(--accent); }
+.d-text ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.d-text li { position: relative; padding: 12px 14px 12px 40px; background: var(--bg-2); border-radius: 12px; }
+.d-text li::before { content: "✓"; position: absolute; left: 15px; top: 12px; color: var(--accent); font-weight: 700; }
 .d-buy { position: sticky; bottom: -28px; margin: 28px -32px -28px; padding: 20px 32px 24px; background: var(--card); border-top: 1px solid rgba(255,255,255,.08); }
 .d-prices { display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap; margin-bottom: 14px; }
 .d-prices b { font-size: 22px; }
 .d-prices span { color: var(--sub); font-size: 14px; }
 .d-prices .mp { color: #6cb6ff; font-weight: 600; font-size: 15px; }
+.d-pay { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.d-pay:has(> :nth-child(2)) { grid-template-columns: 1fr 1fr; }
+.d-pay .btn { width: 100%; padding-inline: 12px; }
+.d-done { display: grid; gap: 4px; margin-bottom: 14px; }
+.d-done b { font-size: 20px; }
+.d-done span { color: var(--sub); font-size: 15px; }
+.d-back { display: block; margin: 12px auto 0; background: none; border: 0; color: var(--sub); font: inherit; font-size: 14px; cursor: pointer; }
+.d-back:hover { color: var(--ink); }
 .d-hint { color: var(--dim); font-size: 12.5px; margin-top: 10px; text-align: center; }
 .d-close { position: absolute; right: 14px; top: 14px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(0, 0, 0, .55); color: #fff; font-size: 16px; cursor: pointer; }
 @media (max-width: 760px) {
   dialog { width: 100%; max-width: 100%; max-height: 100dvh; height: 100dvh; border-radius: 0; margin: 0; }
   .d-in { grid-template-columns: minmax(0, 1fr); max-height: 100dvh; height: 100dvh; overflow-y: auto; }
-  .d-img img { max-height: 56vh; }
+  .d-img img { max-height: 56vh; object-fit: cover; }
   .d-body { overflow: visible; padding: 24px 20px 0; }
+  .d-pay:has(> :nth-child(2)) { grid-template-columns: 1fr; }
   .d-buy { position: sticky; bottom: 0; margin: 24px -20px 0; padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0)); }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }

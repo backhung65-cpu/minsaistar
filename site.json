@@ -3,6 +3,8 @@
   "brandSub": "민진홍 소장의 스킬 갤러리",
   "price": 110000,
   "memberPrice": 55000,
+  "payUrl": "",
+  "memberPayUrl": "",
   "cafeUrl": "https://cafe.naver.com/100ai",
   "membershipUrl": "https://cafe.naver.com/100ai",
   "siteUrl": "",

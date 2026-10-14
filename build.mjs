@@ -53,6 +53,10 @@ for (const img of images) {
   if (month && !/^\d{4}-\d{2}$/.test(month)) warn.push(`${base}: 공개월은 2026-10 형식으로 적어 주세요. (현재: ${month})`);
   const cafe = meta["카페"] || meta["링크"] || "";
   if (cafe && !/^https?:\/\//.test(cafe)) warn.push(`${base}: 카페 링크는 https:// 로 시작해야 합니다.`);
+  const pay = meta["결제"] || meta["결제링크"] || site.payUrl || "";
+  const memberPay = meta["회원결제"] || site.memberPayUrl || "";
+  for (const [k, v] of [["결제", pay], ["회원결제", memberPay]]) if (v && !/^https?:\/\//.test(v)) warn.push(`${base}: ${k} 링크는 https:// 로 시작해야 합니다.`);
+  if (!pay) warn.push(`${base}: 결제 링크(결제:)가 비어 있어 "결제 준비 중"으로 표시됩니다.`);
 
   skills.push({
     id: base,
@@ -64,6 +68,8 @@ for (const img of images) {
     tags: (meta["태그"] || "").split(/[,·]/).map((t) => t.trim()).filter(Boolean),
     price: num(meta["일반가"], site.price),
     memberPrice: num(meta["회원가"], site.memberPrice),
+    pay,
+    memberPay,
     cafe: cafe || site.cafeUrl,
     image: `skills/${encodeURIComponent(img)}`,
     body,
@@ -78,7 +84,7 @@ skills.sort((a, b) => a.no - b.no || a.id.localeCompare(b.id));
 /* dist 생성 */
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(path.join(DIST, "skills"), { recursive: true });
-for (const f of ["index.html", "styles.css", "app.js", "robots.txt"]) {
+for (const f of ["index.html", "thanks.html", "styles.css", "app.js", "robots.txt"]) {
   if (fs.existsSync(path.join(ROOT, f))) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f));
 }
 fs.cpSync(path.join(ROOT, "assets"), path.join(DIST, "assets"), { recursive: true });

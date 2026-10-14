@@ -140,6 +140,71 @@
     });
   });
 
+  /* 본문: "## 소제목", "- 목록" 줄을 구분해 표시 (HTML은 그대로 글자로 표시) */
+  function renderBody(box, text) {
+    box.innerHTML = "";
+    var list = null, para = [];
+    function flushPara() { if (para.length) { var p = document.createElement("p"); p.textContent = para.join("\n"); box.appendChild(p); para = []; } }
+    text.split("\n").forEach(function (line) {
+      var t = line.trim();
+      if (/^#{1,3}\s+/.test(t)) { flushPara(); list = null; var h = document.createElement("h4"); h.textContent = t.replace(/^#{1,3}\s+/, ""); box.appendChild(h); }
+      else if (/^[-•·]\s+/.test(t)) { flushPara(); if (!list) { list = document.createElement("ul"); box.appendChild(list); } var li = document.createElement("li"); li.textContent = t.replace(/^[-•·]\s+/, ""); list.appendChild(li); }
+      else if (!t) { flushPara(); list = null; }
+      else { list = null; para.push(t); }
+    });
+    flushPara();
+  }
+
+  /* 결제 → (결제 완료) → 네이버 카페 */
+  function link(cls, text, href) {
+    var a = document.createElement("a");
+    a.className = cls; a.textContent = text;
+    if (href) { a.href = href; a.target = "_blank"; a.rel = "noopener"; }
+    else { a.setAttribute("aria-disabled", "true"); }
+    return a;
+  }
+  function renderBuy(s, paid) {
+    var st = status(s), buy = document.getElementById("d-buy");
+    var cafe = s.cafe || SITE.cafeUrl;
+    buy.innerHTML = "";
+    var hint = document.createElement("p"); hint.className = "d-hint";
+    if (st === "open" || st === "always") {
+      if (paid) {
+        var done = document.createElement("div"); done.className = "d-done";
+        done.innerHTML = "<b>결제를 마치셨나요?</b><span>네이버 카페로 이동해 스킬을 받아 가세요.</span>";
+        buy.appendChild(done);
+        buy.appendChild(link("btn wide", "네이버 카페로 이동 →", cafe));
+        var back = document.createElement("button");
+        back.type = "button"; back.className = "d-back"; back.textContent = "← 결제 화면으로 돌아가기";
+        back.addEventListener("click", function () { renderBuy(s, false); });
+        buy.appendChild(back);
+        return;
+      }
+      var pr = document.createElement("div"); pr.className = "d-prices";
+      pr.innerHTML = "<b></b><span class='mp'></span><span>한 번 받으면 평생 소장</span>";
+      pr.querySelector("b").textContent = won(s.price);
+      pr.querySelector(".mp").textContent = "멤버십 회원 " + won(s.memberPrice);
+      buy.appendChild(pr);
+      var row = document.createElement("div"); row.className = "d-pay";
+      var a1 = link("btn", s.pay ? won(s.price) + " 결제하기" : "결제 준비 중", s.pay);
+      row.appendChild(a1);
+      var a2 = s.memberPay ? link("btn btn-ghost", "회원가 " + won(s.memberPrice) + " 결제", s.memberPay) : null;
+      if (a2) row.appendChild(a2);
+      buy.appendChild(row);
+      [a1, a2].forEach(function (a) { if (a && a.href) a.addEventListener("click", function () { setTimeout(function () { renderBuy(s, true); }, 400); }); });
+      hint.textContent = "결제가 끝나면 네이버 카페로 이동해 스킬을 받습니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
+      buy.appendChild(hint);
+    } else if (st === "ended") {
+      buy.appendChild(link("btn btn-ghost wide", "네이버 카페에서 자세히 보기 →", cafe));
+      hint.textContent = "판매가 종료된 스킬입니다. 이달의 새 스킬은 갤러리 맨 앞에 있습니다.";
+      buy.appendChild(hint);
+    } else {
+      buy.appendChild(link("btn wide", monthLabel(s.month) + " 1일 공개 예정", ""));
+      hint.textContent = "공개되면 이곳에서 바로 결제할 수 있습니다.";
+      buy.appendChild(hint);
+    }
+  }
+
   /* ── 설명 창 → 카페로 이동 ── */
   var dlg = document.getElementById("detail");
   function openSkill(s) {
@@ -153,38 +218,16 @@
     (s.tags || []).forEach(function (t) { var e = document.createElement("span"); e.textContent = "#" + t; meta.appendChild(e); });
     document.getElementById("d-title").textContent = s.title;
     document.getElementById("d-summary").textContent = s.summary || "";
-    document.getElementById("d-text").textContent = s.body || "";
-
-    var buy = document.getElementById("d-buy");
-    buy.innerHTML = "";
-    var a = document.createElement("a");
-    a.className = "btn wide";
-    a.href = s.cafe || SITE.cafeUrl || "#";
-    a.target = "_blank"; a.rel = "noopener";
-    var hint = document.createElement("p"); hint.className = "d-hint";
-    if (st === "open" || st === "always") {
-      var pr = document.createElement("div"); pr.className = "d-prices";
-      pr.innerHTML = "<b></b><span class='mp'></span><span>한 번 받으면 평생 소장</span>";
-      pr.querySelector("b").textContent = won(s.price);
-      pr.querySelector(".mp").textContent = "멤버십 회원 " + won(s.memberPrice);
-      buy.appendChild(pr);
-      a.textContent = "카페에서 받기 →";
-      hint.textContent = "결제와 다운로드는 카페에서 진행됩니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
-    } else if (st === "ended") {
-      a.className = "btn btn-ghost wide";
-      a.textContent = "카페에서 자세히 보기 →";
-      hint.textContent = "판매가 종료된 스킬입니다. 이달의 새 스킬은 갤러리 맨 앞에 있습니다.";
-    } else {
-      a.removeAttribute("href"); a.setAttribute("aria-disabled", "true");
-      a.textContent = monthLabel(s.month) + " 1일 공개 예정";
-      hint.textContent = "공개되면 이곳에서 카페로 이동할 수 있습니다.";
-    }
-    buy.appendChild(a); buy.appendChild(hint);
+    renderBody(document.getElementById("d-text"), s.body || "");
+    renderBuy(s);
 
     if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
     dlg.querySelector(".d-body").scrollTop = 0;
     if (location.hash !== "#skill-" + s.id) history.replaceState(null, "", "#skill-" + encodeURIComponent(s.id));
   }
+  document.querySelectorAll("[data-open-featured]").forEach(function (b) {
+    b.addEventListener("click", function (e) { if (featured) { e.preventDefault(); openSkill(featured); } });
+  });
   function closeSkill() {
     if (dlg.open) dlg.close();
   }
