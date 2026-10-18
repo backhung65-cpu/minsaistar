@@ -4,8 +4,8 @@ window.SITE = {
   "brandSub": "민진홍 소장의 스킬 갤러리",
   "price": 110000,
   "memberPrice": 55000,
-  "payUrl": "",
-  "memberPayUrl": "",
+  "payUrl": "https://www.payapp.kr/L/z4gFq1",
+  "memberPayUrl": "https://www.payapp.kr/L/z4d80F",
   "membershipUrl": "https://www.payapp.kr/L/z4d80F",
   "siteUrl": "",
   "headline": "한 번 받으면 평생 소장하는\n민진홍 소장의 스킬",
@@ -27,8 +27,8 @@ window.SKILLS = [
     ],
     "price": 110000,
     "memberPrice": 55000,
-    "pay": "",
-    "memberPay": "",
+    "pay": "https://www.payapp.kr/L/z4gFq1",
+    "memberPay": "https://www.payapp.kr/L/z4d80F",
     "image": "skills/001.png",
     "body": "## 상품 설명\n실제 고객 후기와 사례를 바탕으로 네이버 검색에 적합한 블로그 글을 작성하는 AI 스킬입니다. 핵심 키워드와 고객 경험을 분석해 검색 의도에 맞는 제목, 목차, 본문, FAQ를 구성합니다.\n\n단계별 질문으로 필요한 정보를 수집하고, 제목과 목차 승인 후 본문 작성부터 품질 평가와 보완까지 진행합니다. 블로그 글에 활용할 이미지·영상 생성 프롬프트도 함께 제공하며, 실제 사례의 사실관계를 유지하면서 독자에게 유용한 정보를 전달할 수 있도록 돕습니다.\n\n## 주요 기능\n- 실제 고객 후기와 핵심 키워드를 활용한 SEO 블로그 글 작성\n- 제목·목차 승인 후 본문 작성 및 품질 평가·자동 보완\n- 블로그 콘텐츠에 맞는 이미지·영상 생성 프롬프트 제공"
   }
