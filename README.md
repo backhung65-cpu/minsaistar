@@ -82,7 +82,7 @@ node build.mjs     # dist/ 생성 (의존성 없음, Node 18 이상)
 | brand / brandSub | 로고 옆 이름, 첫 화면의 작은 제목 |
 | headline / subline / limitedLine | 첫 화면 문구 (`\n`으로 줄바꿈) |
 | price / memberPrice | 기본 일반가 / 회원가 |
-| inquiryUrl | "구매 문의하기"·"멤버십 문의하기" 버튼 주소. 비워 두면 버튼은 보이지만 눌러도 이동하지 않습니다. |
+| inquiryUrl | 구매 문의 페이지(inquiry.html)의 "문의하기" 버튼 주소. 비워 두면 "문의 창구 준비 중"으로 표시됩니다. |
 | payUrl / memberPayUrl | 스킬 글 파일에 결제 링크가 없을 때 쓰는 기본 결제 링크 (비우면 문의 방식) |
 | siteUrl | 실제 도메인 (예: `https://example.com`). 입력하면 SNS 미리보기 이미지 주소가 절대 주소로 바뀝니다. |
 
@@ -102,6 +102,7 @@ GitHub Pages(`https://backhung65-cpu.github.io/minsaistar/`)는 빌드 없이 �
 
 ```
 index.html  styles.css  app.js   ← 화면
+inquiry.html                      ← 구매 문의 페이지 (문의 버튼이 모두 이 페이지로 이동)
 build.mjs                         ← skills/ → dist/ 빌드
 site.json                         ← 사이트 문구·가격·링크
 skills/                           ← 스킬 이미지 + 설명
