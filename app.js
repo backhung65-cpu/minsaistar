@@ -49,10 +49,12 @@
   });
   function setLink(sel, url) {
     document.querySelectorAll(sel).forEach(function (a) {
-      if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; } else { a.setAttribute("aria-disabled", "true"); }
+      if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
+      else if (a.hasAttribute("data-inquiry")) { a.removeAttribute("href"); a.classList.add("is-static"); } /* 문의 링크는 나중에 site.json에 추가 */
+      else { a.setAttribute("aria-disabled", "true"); }
     });
   }
-  setLink("[data-membership]", SITE.membershipUrl);
+  setLink("[data-inquiry]", SITE.inquiryUrl);
   var yearEl = document.getElementById("year"); if (yearEl) yearEl.textContent = NOW.getUTCFullYear();
 
   /* ── 정렬: 판매 중 → 공개 예정 → 지난 스킬(최신순) ── */
@@ -162,6 +164,11 @@
     else { a.setAttribute("aria-disabled", "true"); }
     return a;
   }
+  function inquiryButton(text) {
+    if (SITE.inquiryUrl) return link("btn", text + " →", SITE.inquiryUrl);
+    var b = document.createElement("span"); b.className = "btn is-static"; b.textContent = text;
+    return b;
+  }
   function renderBuy(s, opened) {
     var st = status(s), buy = document.getElementById("d-buy");
     buy.innerHTML = "";
@@ -184,7 +191,15 @@
       pr.querySelector(".mp").textContent = "멤버십 회원 " + won(s.memberPrice);
       buy.appendChild(pr);
       var row = document.createElement("div"); row.className = "d-pay";
-      var a1 = link("btn", s.pay ? won(s.price) + " 결제하기" : "결제 준비 중", s.pay);
+      if (!s.pay) {
+        /* 결제 링크가 없으면 가격과 문의만 안내합니다. */
+        row.appendChild(inquiryButton("구매 문의하기"));
+        buy.appendChild(row);
+        hint.textContent = "구매는 문의로 안내해 드립니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
+        buy.appendChild(hint);
+        return;
+      }
+      var a1 = link("btn", won(s.price) + " 결제하기", s.pay);
       row.appendChild(a1);
       var a2 = s.memberPay ? link("btn btn-ghost", "회원가 " + won(s.memberPrice) + " 결제", s.memberPay) : null;
       if (a2) row.appendChild(a2);
