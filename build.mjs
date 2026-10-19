@@ -55,7 +55,6 @@ for (const img of images) {
   const pay = meta["결제"] || meta["결제링크"] || site.payUrl || "";
   const memberPay = meta["회원결제"] || site.memberPayUrl || "";
   for (const [k, v] of [["결제", pay], ["회원결제", memberPay]]) if (v && !/^https?:\/\//.test(v)) warn.push(`${base}: ${k} 링크는 https:// 로 시작해야 합니다.`);
-  if (!pay) warn.push(`${base}: 결제 링크(결제:)가 비어 있어 "결제 준비 중"으로 표시됩니다.`);
 
   skills.push({
     id: base,
