@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>구매 문의 — MIRACLE SKILLS</title>
+<meta name="description" content="민진홍 소장의 스킬 구매 문의. 일반 110,000원 · 멤버십 회원 55,000원.">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .iq { padding-block: 56px 96px; }
+  .iq-head { display: grid; gap: 10px; margin-bottom: 36px; }
+  .iq-head h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.15; letter-spacing: -0.03em; }
+  .iq-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 32px; align-items: start; }
+  .iq-skill { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 20px; align-items: start; background: var(--card); border-radius: 20px; padding: 20px; }
+  .iq-skill img { width: 140px; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 12px; max-width: 100%; }
+  .iq-skill h2 { font-size: 20px; line-height: 1.3; margin-top: 6px; }
+  .iq-skill p { color: var(--sub); font-size: 15px; margin-top: 8px; }
+  .iq-skill .no { color: var(--dim); font-size: 13px; letter-spacing: .08em; }
+  .iq-box { background: var(--card); border-radius: 20px; padding: 28px; display: grid; gap: 20px; }
+  .iq-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .iq-price { border-radius: 14px; padding: 16px; background: var(--bg-2); display: grid; gap: 4px; }
+  .iq-price.member { box-shadow: inset 0 0 0 1px var(--accent); }
+  .iq-price span { color: var(--sub); font-size: 14px; }
+  .iq-price b { font-size: 24px; font-variant-numeric: tabular-nums; }
+  .iq-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: s; }
+  .iq-steps li { counter-increment: s; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; color: var(--sub); font-size: 15px; }
+  .iq-steps li::before { content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--bg-2); color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+  .iq-steps b { color: var(--ink); font-weight: 600; }
+  .iq-note { color: var(--dim); font-size: 13px; text-align: center; }
+  .iq-others { margin-top: 48px; display: grid; gap: 14px; }
+  .iq-others h3 { font-size: 15px; color: var(--sub); font-weight: 600; }
+  .iq-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .iq-chips a { color: var(--ink); text-decoration: none; font-size: 14px; padding: 8px 14px; border-radius: 999px; box-shadow: inset 0 0 0 1px #3a3a3f; }
+  .iq-chips a[aria-current="true"] { background: var(--ink); color: var(--bg); box-shadow: none; }
+  .iq-chips a:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+  @media (max-width: 860px) {
+    .iq-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 420px) {
+    .iq-skill { grid-template-columns: 96px minmax(0, 1fr); }
+    .iq-skill img { width: 96px; }
+    .iq-prices { grid-template-columns: 1fr; }
+    .iq-box { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="./" class="brand" aria-label="갤러리로"><img src="assets/favicon.svg" alt="" width="22" height="22"><span data-site="brand">MIRACLE SKILLS</span></a>
+    <a class="btn btn-sm btn-ghost" href="./#gallery">← 스킬 갤러리</a>
+  </div>
+</header>
+
+<main class="wrap iq">
+  <div class="iq-head">
+    <p class="eyebrow">구매 문의</p>
+    <h1>스킬 구매 문의</h1>
+    <p class="sub">문의를 남겨 주시면 결제 방법을 안내해 드립니다. 결제가 확인되면 네이버 카페에서 스킬을 받으실 수 있습니다.</p>
+  </div>
+
+  <div class="iq-grid">
+    <section class="iq-skill" id="iq-skill" aria-label="문의할 스킬">
+      <img id="iq-img" alt="">
+      <div>
+        <p class="no" id="iq-no">MIRACLE SKILLS</p>
+        <h2 id="iq-title">민진홍 소장의 스킬</h2>
+        <p id="iq-summary">한 번 받으면 평생 소장하는 스킬입니다. 아래에서 문의할 스킬을 고를 수 있습니다.</p>
+      </div>
+    </section>
+
+    <section class="iq-box" aria-label="가격과 문의">
+      <div class="iq-prices">
+        <div class="iq-price"><span>일반</span><b id="iq-price">110,000원</b></div>
+        <div class="iq-price member"><span>멤버십 회원</span><b id="iq-member">55,000원</b></div>
+      </div>
+      <ol class="iq-steps">
+        <li><span><b>문의하기</b> — 아래 버튼으로 원하는 스킬과 일반·회원 여부를 알려 주세요.</span></li>
+        <li><span><b>결제 안내</b> — 확인 후 결제 방법을 안내해 드립니다.</span></li>
+        <li><span><b>네이버 카페에서 받기</b> — 결제가 확인되면 카페에서 내려받아 평생 소장합니다.</span></li>
+      </ol>
+      <div id="iq-cta"></div>
+      <p class="iq-note" id="iq-note">한 번 받은 스킬은 기간 제한 없이 사용할 수 있습니다.</p>
+    </section>
+  </div>
+
+  <div class="iq-others">
+    <h3>다른 스킬 문의하기</h3>
+    <nav class="iq-chips" id="iq-chips" aria-label="스킬 선택"></nav>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p><b data-site="brand">MIRACLE SKILLS</b> · 미라클마케팅 연구소 · 민진홍 소장</p>
+    <p class="muted">구매한 스킬은 구매자 본인의 업무·사업에만 사용할 수 있습니다. 무단 공유·재판매를 금지합니다.</p>
+  </div>
+</footer>
+
+<script src="skills-data.js"></script>
+<script>
+(function () {
+  "use strict";
+  var SITE = window.SITE || {}, SKILLS = window.SKILLS || [];
+  function won(n) { return Number(n).toLocaleString("ko-KR") + "원"; }
+  function pad3(n) { return String(n).padStart(3, "0"); }
+  var params = new URLSearchParams(location.search);
+  var id = params.get("skill");
+  var s = SKILLS.filter(function (x) { return x.id === id; })[0];
+
+  document.querySelectorAll("[data-site]").forEach(function (el) { var v = SITE[el.getAttribute("data-site")]; if (v) el.textContent = v; });
+
+  var img = document.getElementById("iq-img");
+  if (s) {
+    img.src = s.image; img.alt = s.title;
+    document.getElementById("iq-no").textContent = "SKILL " + pad3(s.no || 0);
+    document.getElementById("iq-title").textContent = s.title;
+    document.getElementById("iq-summary").textContent = s.summary || "";
+    document.getElementById("iq-price").textContent = won(s.price);
+    document.getElementById("iq-member").textContent = won(s.memberPrice);
+    document.title = s.title + " 구매 문의 — MIRACLE SKILLS";
+  } else {
+    img.src = "assets/expert.png"; img.alt = "민진홍 소장";
+    if (SITE.price) document.getElementById("iq-price").textContent = won(SITE.price);
+    if (SITE.memberPrice) document.getElementById("iq-member").textContent = won(SITE.memberPrice);
+  }
+
+  /* 문의 링크(site.json의 inquiryUrl)가 생기면 이 버튼이 그 주소로 연결됩니다. */
+  var cta = document.getElementById("iq-cta");
+  if (SITE.inquiryUrl) {
+    var a = document.createElement("a");
+    a.className = "btn wide"; a.href = SITE.inquiryUrl; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "문의하기 →";
+    cta.appendChild(a);
+  } else {
+    var b = document.createElement("span");
+    b.className = "btn wide is-static"; b.textContent = "문의 창구 준비 중";
+    cta.appendChild(b);
+    document.getElementById("iq-note").textContent = "문의 창구를 곧 열어 드립니다. 조금만 기다려 주세요.";
+  }
+
+  var chips = document.getElementById("iq-chips");
+  SKILLS.forEach(function (x) {
+    var c = document.createElement("a");
+    c.href = "inquiry.html?skill=" + encodeURIComponent(x.id);
+    c.textContent = x.title;
+    if (s && x.id === s.id) c.setAttribute("aria-current", "true");
+    chips.appendChild(c);
+  });
+})();
+</script>
+</body>
+</html>

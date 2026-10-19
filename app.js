@@ -47,14 +47,8 @@
   document.querySelectorAll("[data-price]").forEach(function (el) {
     var v = SITE[el.getAttribute("data-price")]; if (v) el.textContent = Number(v).toLocaleString("ko-KR");
   });
-  function setLink(sel, url) {
-    document.querySelectorAll(sel).forEach(function (a) {
-      if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
-      else if (a.hasAttribute("data-inquiry")) { a.removeAttribute("href"); a.classList.add("is-static"); } /* 문의 링크는 나중에 site.json에 추가 */
-      else { a.setAttribute("aria-disabled", "true"); }
-    });
-  }
-  setLink("[data-inquiry]", SITE.inquiryUrl);
+  /* 문의 버튼은 사이트 안의 구매 문의 페이지로 이동합니다. */
+  document.querySelectorAll("[data-inquiry]").forEach(function (a) { a.href = "inquiry.html"; });
   var yearEl = document.getElementById("year"); if (yearEl) yearEl.textContent = NOW.getUTCFullYear();
 
   /* ── 정렬: 판매 중 → 공개 예정 → 지난 스킬(최신순) ── */
@@ -164,10 +158,11 @@
     else { a.setAttribute("aria-disabled", "true"); }
     return a;
   }
-  function inquiryButton(text) {
-    if (SITE.inquiryUrl) return link("btn", text + " →", SITE.inquiryUrl);
-    var b = document.createElement("span"); b.className = "btn is-static"; b.textContent = text;
-    return b;
+  function inquiryButton(text, s) {
+    var a = document.createElement("a");
+    a.className = "btn"; a.textContent = text + " →";
+    a.href = "inquiry.html?skill=" + encodeURIComponent(s.id);
+    return a;
   }
   function renderBuy(s, opened) {
     var st = status(s), buy = document.getElementById("d-buy");
@@ -193,7 +188,7 @@
       var row = document.createElement("div"); row.className = "d-pay";
       if (!s.pay) {
         /* 결제 링크가 없으면 가격과 문의만 안내합니다. */
-        row.appendChild(inquiryButton("구매 문의하기"));
+        row.appendChild(inquiryButton("구매 문의하기", s));
         buy.appendChild(row);
         hint.textContent = "구매는 문의로 안내해 드립니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
         buy.appendChild(hint);

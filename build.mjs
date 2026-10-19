@@ -81,7 +81,7 @@ skills.sort((a, b) => a.no - b.no || a.id.localeCompare(b.id));
 /* dist 생성 */
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(path.join(DIST, "skills"), { recursive: true });
-for (const f of ["index.html", "styles.css", "app.js", "robots.txt"]) {
+for (const f of ["index.html", "inquiry.html", "styles.css", "app.js", "robots.txt"]) {
   if (fs.existsSync(path.join(ROOT, f))) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f));
 }
 fs.cpSync(path.join(ROOT, "assets"), path.join(DIST, "assets"), { recursive: true });
