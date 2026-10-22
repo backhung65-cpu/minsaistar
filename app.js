@@ -27,10 +27,11 @@
   }
   function canBuy(s) { var st = status(s); return st === "open" || st === "always"; }
   function badge(s) {
-    var st = status(s), el = document.createElement("span");
+    var st = status(s);
+    if (st === "always") return document.createDocumentFragment(); /* 상시판매는 표시하지 않음 */
+    var el = document.createElement("span");
     el.className = "badge " + st;
     el.textContent = st === "open" ? monthLabel(s.month) + " 한정 · D-" + daysLeft(s.month)
-      : st === "always" ? "판매 중"
       : st === "ended" ? monthLabel(s.month) + " 판매 종료"
       : monthLabel(s.month) + " 공개 예정";
     return el;
@@ -119,6 +120,9 @@
   SKILLS.forEach(function (s) { grid.appendChild(tile(s)); });
   if (!SKILLS.some(function (s) { return status(s) === "soon"; })) grid.insertBefore(nextTile(), grid.children[SKILLS.filter(canBuy).length] || null);
 
+  /* 판매 종료된 스킬이 없으면 필터가 의미 없으므로 숨깁니다. */
+  var filters = document.querySelector(".filters");
+  if (filters && !SKILLS.some(function (s) { return status(s) === "ended"; })) filters.hidden = true;
   document.querySelectorAll(".chip").forEach(function (chip) {
     chip.addEventListener("click", function () {
       var f = chip.getAttribute("data-filter");
