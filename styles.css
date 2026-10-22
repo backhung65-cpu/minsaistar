@@ -1,5 +1,6 @@
 /* MIRACLE SKILLS — 갤러리 디자인
    어두운 전시장 벽 위에 작품(스킬 이미지)을 거는 구성. 강조색은 파랑 하나만 사용. */
+[hidden] { display: none !important; }
 :root {
   --bg: #0b0b0c;
   --bg-2: #121214;
