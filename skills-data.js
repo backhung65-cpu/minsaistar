@@ -16,10 +16,10 @@ window.SKILLS = [
   {
     "id": "001",
     "no": 1,
-    "title": "SNS 멀티플랫폼 (X, 인스타그램, 스레드, 페이스북) 콘텐츠 제작",
+    "title": "No1. SNS 멀티플랫폼 (X, 인스타그램, 스레드, 페이스북) 콘텐츠 제작",
     "summary": "하나의 자료를 SNS 4개 플랫폼에 맞게 재구성하고, 추천 게시물과 이미지 프롬프트를 준비합니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "SNS",
       "인스타그램",
@@ -35,10 +35,10 @@ window.SKILLS = [
   {
     "id": "002",
     "no": 2,
-    "title": "네이버 블로그 C-Rank·경험형 글쓰기",
+    "title": "No2. 네이버 블로그 C-Rank·경험형 글쓰기",
     "summary": "검색 의도에 맞는 네이버 블로그 글과 이미지·영상 제작 프롬프트를 함께 설계하는 글쓰기 스킬입니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "네이버블로그",
       "C-Rank",
@@ -54,10 +54,10 @@ window.SKILLS = [
   {
     "id": "003",
     "no": 3,
-    "title": "네이버 블로그 C-Rank 고객 후기형 글쓰기",
+    "title": "No3. 네이버 블로그 C-Rank 고객 후기형 글쓰기",
     "summary": "실제 고객 후기를 바탕으로 신뢰할 수 있는 네이버 블로그 글과 이미지·영상 프롬프트를 설계합니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "네이버블로그",
       "C-Rank",
@@ -73,10 +73,10 @@ window.SKILLS = [
   {
     "id": "004",
     "no": 4,
-    "title": "네이버 블로그 C-Rank 웹툰형 글쓰기",
+    "title": "No4. 네이버 블로그 C-Rank 웹툰형 글쓰기",
     "summary": "검색 의도에 맞춘 블로그 글과 캐릭터가 이어지는 웹툰·영상 제작 프롬프트를 함께 설계합니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "네이버블로그",
       "웹툰",
@@ -92,10 +92,10 @@ window.SKILLS = [
   {
     "id": "005",
     "no": 5,
-    "title": "네이버 블로그 C-Rank 정보형 글쓰기",
+    "title": "No5. 네이버 블로그 C-Rank 정보형 글쓰기",
     "summary": "검색 의도에 맞는 정보형 블로그 글과 이미지·영상 제작 프롬프트를 함께 설계하는 스킬입니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "네이버블로그",
       "C-Rank",
@@ -111,10 +111,10 @@ window.SKILLS = [
   {
     "id": "006",
     "no": 6,
-    "title": "네이버 블로그 C-Rank 플래너",
+    "title": "No6. 네이버 블로그 C-Rank 플래너",
     "summary": "사업과 고객의 고민을 바탕으로 블로그 수익화 방향부터 장기 로드맵과 월별 SEO 발행 계획까지 설계합니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "네이버블로그",
       "C-Rank",
@@ -130,10 +130,10 @@ window.SKILLS = [
   {
     "id": "007",
     "no": 7,
-    "title": "전자책 출판 지원 솔루션",
+    "title": "No7. 전자책 출판 지원 솔루션",
     "summary": "책 주제 발굴부터 목차와 본문 작성, 소개문과 홍보 콘텐츠까지 12단계로 안내하는 출판 지원 스킬입니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "전자책",
       "출판",
@@ -149,10 +149,10 @@ window.SKILLS = [
   {
     "id": "008",
     "no": 8,
-    "title": "기존 원고 기반 전자책 제작",
+    "title": "No8. 기존 원고 기반 전자책 제작",
     "summary": "기존 블로그 글과 원고를 전자책 목차와 본문으로 재구성하고, 제목 확정과 출간 준비까지 돕습니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "전자책",
       "원고",
@@ -168,10 +168,10 @@ window.SKILLS = [
   {
     "id": "009",
     "no": 9,
-    "title": "처음부터 전자책 제작 1",
+    "title": "No9. 처음부터 전자책 제작 1",
     "summary": "주제 선정부터 목차와 본문 집필, 제목 확정까지 단계별 질문과 확인으로 전자책 제작을 돕습니다.",
     "month": "2026-10",
-    "always": false,
+    "always": true,
     "tags": [
       "전자책",
       "집필",
