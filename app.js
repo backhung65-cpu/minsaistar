@@ -83,7 +83,7 @@
       feature.appendChild(more);
     }
     var cs = document.getElementById("closing-sub");
-    if (cs && featured.month) cs.textContent = monthLabel(featured.month) + " " + lastDay(featured.month) + "일까지 · 남은 기간 " + daysLeft(featured.month) + "일";
+    if (cs && status(featured) === "open") cs.textContent = monthLabel(featured.month) + " " + lastDay(featured.month) + "일까지 · 남은 기간 " + daysLeft(featured.month) + "일";
   } else {
     feature.classList.add("placeholder");
     feature.innerHTML = "<div><p class='eyebrow'>이달의 스킬</p><p style='margin-top:10px'>이달의 스킬을 준비하고 있습니다.<br>곧 공개됩니다.</p></div>";
@@ -98,11 +98,10 @@
     b.type = "button";
     b.className = "tile" + (status(s) === "ended" ? " is-ended" : "");
     b.setAttribute("aria-label", s.title + " 설명 보기");
-    b.innerHTML = '<div class="frame"><img loading="lazy" alt=""></div><div class="cap"><p class="no"></p><p class="t"></p><p class="p"></p></div>';
+    b.innerHTML = '<div class="frame"><img loading="lazy" alt=""></div><div class="cap"><p class="t"></p><p class="p"></p></div>';
     b.querySelector("img").src = s.image;
     b.querySelector("img").alt = s.title;
     b.querySelector(".frame").appendChild(badge(s));
-    b.querySelector(".no").textContent = "No." + (s.no || 0);
     b.querySelector(".t").textContent = s.title;
     b.querySelector(".p").textContent = canBuy(s) ? won(s.price) + " · 회원 " + won(s.memberPrice) : (s.summary || "");
     b.addEventListener("click", function () { openSkill(s); });
@@ -118,7 +117,7 @@
     return li;
   }
   SKILLS.forEach(function (s) { grid.appendChild(tile(s)); });
-  if (!SKILLS.some(function (s) { return status(s) === "soon"; })) grid.insertBefore(nextTile(), grid.children[current.length] || null);
+  if (!SKILLS.some(function (s) { return status(s) === "soon"; })) grid.insertBefore(nextTile(), grid.children[SKILLS.filter(canBuy).length] || null);
 
   document.querySelectorAll(".chip").forEach(function (chip) {
     chip.addEventListener("click", function () {
@@ -220,7 +219,6 @@
     document.getElementById("d-img").alt = s.title;
     var meta = document.getElementById("d-meta");
     meta.innerHTML = "";
-    var no = document.createElement("span"); no.textContent = "No." + (s.no || 0); meta.appendChild(no);
     meta.appendChild(badge(s));
     (s.tags || []).forEach(function (t) { var e = document.createElement("span"); e.textContent = "#" + t; meta.appendChild(e); });
     document.getElementById("d-title").textContent = s.title;

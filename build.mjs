@@ -59,7 +59,8 @@ for (const img of images) {
   skills.push({
     id: base,
     no,
-    title: meta["제목"] || base.replace(/^\d+[-_ ]*/, "").replace(/[-_]+/g, " ") || base,
+    /* 제목 앞에 번호를 붙입니다: "No1. 제목" */
+    title: (no ? `No${no}. ` : "") + (meta["제목"] || base.replace(/^\d+[-_ ]*/, "").replace(/[-_]+/g, " ") || base),
     summary: meta["요약"] || "",
     month,
     always: /^(예|yes|y|true|상시)$/i.test(meta["상시판매"] || ""),

@@ -117,7 +117,6 @@
   var img = document.getElementById("iq-img");
   if (s) {
     img.src = s.image; img.alt = s.title;
-    document.getElementById("iq-no").textContent = "No." + (s.no || 0);
     document.getElementById("iq-title").textContent = s.title;
     document.getElementById("iq-summary").textContent = s.summary || "";
     document.getElementById("iq-price").textContent = won(s.price);
@@ -147,7 +146,7 @@
   SKILLS.forEach(function (x) {
     var c = document.createElement("a");
     c.href = "inquiry.html?skill=" + encodeURIComponent(x.id);
-    c.textContent = "No." + x.no + " " + x.title;
+    c.textContent = x.title;
     if (s && x.id === s.id) c.setAttribute("aria-current", "true");
     chips.appendChild(c);
   });
