@@ -8,6 +8,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 
 const ROOT = path.dirname(new URL(import.meta.url).pathname);
 const SKILLS = path.join(ROOT, "skills");
@@ -94,6 +95,19 @@ window.SKILLS = ${JSON.stringify(skills, null, 2)};
 `;
 fs.writeFileSync(path.join(DIST, "skills-data.js"), data);
 fs.writeFileSync(path.join(ROOT, "skills-data.js"), data); // 원본 폴더에서 index.html을 바로 열어 볼 때 사용
+
+/* 캐시 방지: 화면 파일 내용이 바뀌면 ?v= 값이 바뀌어 브라우저가 옛 파일을 쓰지 않습니다.
+   GitHub Pages는 저장소 파일을 그대로 쓰므로 원본 HTML에도 같은 값을 넣습니다. */
+const ver = crypto.createHash("sha1").update(["app.js", "styles.css"].map((f) => fs.readFileSync(path.join(ROOT, f))).join("") + data).digest("hex").slice(0, 8);
+for (const f of ["index.html", "inquiry.html"]) {
+  for (const dir of [ROOT, DIST]) {
+    const p = path.join(dir, f);
+    if (!fs.existsSync(p)) continue;
+    const before = fs.readFileSync(p, "utf8");
+    const after = before.replace(/(src|href)="(skills-data\.js|app\.js|styles\.css)(\?v=[\w]+)?"/g, `$1="$2?v=${ver}"`);
+    if (after !== before) fs.writeFileSync(p, after);
+  }
+}
 
 /* 공유 미리보기용 절대 주소 (site.json의 siteUrl 또는 Vercel 주소) */
 const siteUrl = (site.siteUrl || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "")).replace(/\/$/, "");

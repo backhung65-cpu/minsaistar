@@ -4,7 +4,7 @@ name: 스킬 목록 갱신
 on:
   push:
     branches: [main]
-    paths: ["skills/**", "site.json", "build.mjs"]
+    paths: ["skills/**", "site.json", "build.mjs", "app.js", "styles.css"]
   workflow_dispatch:
 permissions:
   contents: write
@@ -19,9 +19,9 @@ jobs:
       - run: node build.mjs
       - name: 변경 사항 커밋
         run: |
-          if git diff --quiet -- skills-data.js; then echo "변경 없음"; exit 0; fi
+          if git diff --quiet -- skills-data.js index.html inquiry.html; then echo "변경 없음"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add skills-data.js
+          git add skills-data.js index.html inquiry.html
           git commit -m "스킬 목록 자동 갱신"
           git push
