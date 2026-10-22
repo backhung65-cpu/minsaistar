@@ -108,7 +108,6 @@
   "use strict";
   var SITE = window.SITE || {}, SKILLS = window.SKILLS || [];
   function won(n) { return Number(n).toLocaleString("ko-KR") + "원"; }
-  function pad3(n) { return String(n).padStart(3, "0"); }
   var params = new URLSearchParams(location.search);
   var id = params.get("skill");
   var s = SKILLS.filter(function (x) { return x.id === id; })[0];
@@ -118,7 +117,7 @@
   var img = document.getElementById("iq-img");
   if (s) {
     img.src = s.image; img.alt = s.title;
-    document.getElementById("iq-no").textContent = "SKILL " + pad3(s.no || 0);
+    document.getElementById("iq-no").textContent = "No." + (s.no || 0);
     document.getElementById("iq-title").textContent = s.title;
     document.getElementById("iq-summary").textContent = s.summary || "";
     document.getElementById("iq-price").textContent = won(s.price);
@@ -148,7 +147,7 @@
   SKILLS.forEach(function (x) {
     var c = document.createElement("a");
     c.href = "inquiry.html?skill=" + encodeURIComponent(x.id);
-    c.textContent = x.title;
+    c.textContent = "No." + x.no + " " + x.title;
     if (s && x.id === s.id) c.setAttribute("aria-current", "true");
     chips.appendChild(c);
   });

@@ -17,7 +17,6 @@
     return Math.max(0, Math.ceil((end - NOW.getTime()) / 86400000));
   }
   function won(n) { return Number(n).toLocaleString("ko-KR") + "원"; }
-  function pad3(n) { return String(n).padStart(3, "0"); }
 
   /* 상태: open(이달 판매 중) · always(상시) · ended(판매 종료) · soon(공개 예정) */
   function status(s) {
@@ -103,7 +102,7 @@
     b.querySelector("img").src = s.image;
     b.querySelector("img").alt = s.title;
     b.querySelector(".frame").appendChild(badge(s));
-    b.querySelector(".no").textContent = "SKILL " + pad3(s.no || 0);
+    b.querySelector(".no").textContent = "No." + (s.no || 0);
     b.querySelector(".t").textContent = s.title;
     b.querySelector(".p").textContent = canBuy(s) ? won(s.price) + " · 회원 " + won(s.memberPrice) : (s.summary || "");
     b.addEventListener("click", function () { openSkill(s); });
@@ -221,7 +220,7 @@
     document.getElementById("d-img").alt = s.title;
     var meta = document.getElementById("d-meta");
     meta.innerHTML = "";
-    var no = document.createElement("span"); no.textContent = "SKILL " + pad3(s.no || 0); meta.appendChild(no);
+    var no = document.createElement("span"); no.textContent = "No." + (s.no || 0); meta.appendChild(no);
     meta.appendChild(badge(s));
     (s.tags || []).forEach(function (t) { var e = document.createElement("span"); e.textContent = "#" + t; meta.appendChild(e); });
     document.getElementById("d-title").textContent = s.title;
