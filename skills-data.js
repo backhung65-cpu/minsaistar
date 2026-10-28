@@ -4,13 +4,13 @@ window.SITE = {
   "brandSub": "민진홍 소장의 스킬 갤러리",
   "price": 110000,
   "memberPrice": 55000,
-  "inquiryUrl": "",
+  "inquiryUrl": "https://forms.gle/thxRW93KqihB2XcD6",
   "payUrl": "",
   "memberPayUrl": "",
   "siteUrl": "",
   "headline": "한 번 받으면 평생 소장하는\n민진홍 소장의 스킬",
   "subline": "어디에서도 볼 수 없는, 1000개 이상의 지침을 만들며 터득한 노하우를 가져갈 기회.",
-  "limitedLine": "매달 한 달만 받을 수 있는 특별한 기회와 혜택을 경험해 보세요."
+  "limitedLine": "필요한 스킬을 고르고 신청서를 남겨 주시면 개별로 안내해 드립니다."
 };
 window.SKILLS = [
   {
