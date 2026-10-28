@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>구매 문의 — MIRACLE SKILLS</title>
-<meta name="description" content="민진홍 소장의 스킬 구매 문의. 일반 110,000원 · 멤버십 회원 55,000원.">
+<title>구매 신청 — MIRACLE SKILLS</title>
+<meta name="description" content="민진홍 소장의 스킬 구매 신청. 일반 110,000원 · 멤버십 회원 55,000원.">
 <meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="styles.css?v=7e688749">
+<link rel="stylesheet" href="styles.css?v=2ba934f6">
 <style>
   .iq { padding-block: 56px 96px; }
   .iq-head { display: grid; gap: 10px; margin-bottom: 36px; }
@@ -59,29 +59,29 @@
 
 <main class="wrap iq">
   <div class="iq-head">
-    <p class="eyebrow">구매 문의</p>
-    <h1>스킬 구매 문의</h1>
-    <p class="sub">문의를 남겨 주시면 구매와 이용 방법을 개별로 안내해 드립니다. 이 사이트는 스킬 소개 페이지로, 스킬 자체는 제공하지 않습니다.</p>
+    <p class="eyebrow">구매 신청</p>
+    <h1>스킬 구매 신청</h1>
+    <p class="sub">신청서를 남겨 주시면 구매와 이용 방법을 개별로 안내해 드립니다. 이 사이트는 스킬 소개 페이지로, 스킬 자체는 제공하지 않습니다.</p>
   </div>
 
   <div class="iq-grid">
-    <section class="iq-skill" id="iq-skill" aria-label="문의할 스킬">
+    <section class="iq-skill" id="iq-skill" aria-label="신청할 스킬">
       <img id="iq-img" alt="">
       <div>
         <p class="no" id="iq-no">MIRACLE SKILLS</p>
         <h2 id="iq-title">민진홍 소장의 스킬</h2>
-        <p id="iq-summary">한 번 받으면 평생 소장하는 스킬입니다. 아래에서 문의할 스킬을 고를 수 있습니다.</p>
+        <p id="iq-summary">한 번 받으면 평생 소장하는 스킬입니다. 아래에서 신청할 스킬을 고를 수 있습니다.</p>
       </div>
     </section>
 
-    <section class="iq-box" aria-label="가격과 문의">
+    <section class="iq-box" aria-label="가격과 신청">
       <div class="iq-prices">
         <div class="iq-price"><span>일반</span><b id="iq-price">110,000원</b></div>
         <div class="iq-price member"><span>멤버십 회원</span><b id="iq-member">55,000원</b></div>
       </div>
       <ol class="iq-steps">
-        <li><span><b>문의하기</b> — 아래 버튼으로 원하는 스킬과 일반·회원 여부를 알려 주세요.</span></li>
-        <li><span><b>개별 안내</b> — 문의를 확인한 뒤 구매와 이용 방법을 안내해 드립니다.</span></li>
+        <li><span><b>신청서 작성</b> — 아래 버튼으로 신청서를 열어 원하는 스킬과 일반·회원 여부를 적어 주세요.</span></li>
+        <li><span><b>개별 안내</b> — 신청서를 확인한 뒤 구매와 이용 방법을 안내해 드립니다.</span></li>
       </ol>
       <div id="iq-cta"></div>
       <p class="iq-note" id="iq-note">한 번 구매한 스킬은 기간 제한 없이 사용할 수 있습니다.</p>
@@ -89,7 +89,7 @@
   </div>
 
   <div class="iq-others">
-    <h3>다른 스킬 문의하기</h3>
+    <h3>다른 스킬 신청하기</h3>
     <nav class="iq-chips" id="iq-chips" aria-label="스킬 선택"></nav>
   </div>
 </main>
@@ -101,7 +101,7 @@
   </div>
 </footer>
 
-<script src="skills-data.js?v=7e688749"></script>
+<script src="skills-data.js?v=2ba934f6"></script>
 <script>
 (function () {
   "use strict";
@@ -120,25 +120,25 @@
     document.getElementById("iq-summary").textContent = s.summary || "";
     document.getElementById("iq-price").textContent = won(s.price);
     document.getElementById("iq-member").textContent = won(s.memberPrice);
-    document.title = s.title + " 구매 문의 — MIRACLE SKILLS";
+    document.title = s.title + " 구매 신청 — MIRACLE SKILLS";
   } else {
     img.src = "assets/expert.png"; img.alt = "민진홍 소장";
     if (SITE.price) document.getElementById("iq-price").textContent = won(SITE.price);
     if (SITE.memberPrice) document.getElementById("iq-member").textContent = won(SITE.memberPrice);
   }
 
-  /* 문의 링크(site.json의 inquiryUrl)가 생기면 이 버튼이 그 주소로 연결됩니다. */
+  /* 신청서 주소는 site.json의 inquiryUrl에서 가져옵니다. */
   var cta = document.getElementById("iq-cta");
   if (SITE.inquiryUrl) {
     var a = document.createElement("a");
     a.className = "btn wide"; a.href = SITE.inquiryUrl; a.target = "_blank"; a.rel = "noopener";
-    a.textContent = "문의하기 →";
+    a.textContent = "신청서 작성하기 →";
     cta.appendChild(a);
   } else {
     var b = document.createElement("span");
-    b.className = "btn wide is-static"; b.textContent = "문의 창구 준비 중";
+    b.className = "btn wide is-static"; b.textContent = "신청서 준비 중";
     cta.appendChild(b);
-    document.getElementById("iq-note").textContent = "문의 창구를 곧 열어 드립니다. 조금만 기다려 주세요.";
+    document.getElementById("iq-note").textContent = "신청서를 곧 열어 드립니다. 조금만 기다려 주세요.";
   }
 
   var chips = document.getElementById("iq-chips");

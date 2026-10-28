@@ -47,7 +47,7 @@
   document.querySelectorAll("[data-price]").forEach(function (el) {
     var v = SITE[el.getAttribute("data-price")]; if (v) el.textContent = Number(v).toLocaleString("ko-KR");
   });
-  /* 문의 버튼은 사이트 안의 구매 문의 페이지로 이동합니다. */
+  /* 신청 버튼은 사이트 안의 구매 신청 페이지로 이동합니다. */
   document.querySelectorAll("[data-inquiry]").forEach(function (a) { a.href = "inquiry.html"; });
   var yearEl = document.getElementById("year"); if (yearEl) yearEl.textContent = NOW.getUTCFullYear();
 
@@ -67,7 +67,7 @@
     var fb = document.createElement("button");
     fb.type = "button";
     fb.setAttribute("aria-label", featured.title + " 설명 보기");
-    fb.innerHTML = '<img class="f-img" alt=""><div class="f-body"><div class="f-top"><span class="eyebrow">이달의 스킬</span></div><h3></h3><p class="f-sum"></p><div class="f-price"><b></b><span></span></div></div>';
+    fb.innerHTML = '<img class="f-img" alt=""><div class="f-body"><div class="f-top"><span class="eyebrow">대표 스킬</span></div><h3></h3><p class="f-sum"></p><div class="f-price"><b></b><span></span></div></div>';
     fb.querySelector("img").src = featured.image;
     fb.querySelector("img").alt = featured.title;
     fb.querySelector(".f-top").appendChild(badge(featured));
@@ -87,7 +87,7 @@
     if (cs && status(featured) === "open") cs.textContent = monthLabel(featured.month) + " " + lastDay(featured.month) + "일까지 · 남은 기간 " + daysLeft(featured.month) + "일";
   } else {
     feature.classList.add("placeholder");
-    feature.innerHTML = "<div><p class='eyebrow'>이달의 스킬</p><p style='margin-top:10px'>이달의 스킬을 준비하고 있습니다.<br>곧 공개됩니다.</p></div>";
+    feature.innerHTML = "<div><p class='eyebrow'>대표 스킬</p><p style='margin-top:10px'>스킬을 준비하고 있습니다.<br>곧 공개됩니다.</p></div>";
   }
 
   /* ── 갤러리 ── */
@@ -114,7 +114,7 @@
     var d = new Date(Date.UTC(NOW.getUTCFullYear(), NOW.getUTCMonth() + 1, 1));
     var li = document.createElement("li");
     li.dataset.status = "soon";
-    li.innerHTML = '<div class="tile soon"><div class="frame"><div><p class="eyebrow">NEXT</p><p style="margin-top:8px;font-weight:600">' + (d.getUTCMonth() + 1) + '월 새 스킬 공개</p><p class="muted" style="margin-top:6px">매달 새로운 스킬이 걸립니다</p></div></div></div>';
+    li.innerHTML = '<div class="tile soon"><div class="frame"><div><p class="eyebrow">NEXT</p><p style="margin-top:8px;font-weight:600">새 스킬 준비 중</p><p class="muted" style="margin-top:6px">새로운 스킬이 계속 추가됩니다</p></div></div></div>';
     return li;
   }
   SKILLS.forEach(function (s) { grid.appendChild(tile(s)); });
@@ -190,9 +190,9 @@
       var row = document.createElement("div"); row.className = "d-pay";
       if (!s.pay) {
         /* 결제 링크가 없으면 가격과 문의만 안내합니다. */
-        row.appendChild(inquiryButton("구매 문의하기", s));
+        row.appendChild(inquiryButton("구매 신청하기", s));
         buy.appendChild(row);
-        hint.textContent = "구매는 문의로 안내해 드립니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
+        hint.textContent = "신청서를 남겨 주시면 개별로 안내해 드립니다" + (st === "open" ? " · " + monthLabel(s.month) + " " + lastDay(s.month) + "일까지 판매" : "");
         buy.appendChild(hint);
         return;
       }
